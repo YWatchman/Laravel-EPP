@@ -65,6 +65,7 @@ class Domain extends Connection
      * @param Contact $tech Technical contact
      * @param Contact $billing Billing contact
      * @param array $nameservers Preferred nameservers
+     * @return bool|\YWatchman\LaravelEPP\Models\Domain
      * @throws eppException
      */
     public function createDomain(string $name, Contact $registrant, Contact $admin, Contact $tech, Contact $billing, array $nameservers)
@@ -86,9 +87,10 @@ class Domain extends Connection
         if ($res = $this->epp->request($request)) {
             $d = new \YWatchman\LaravelEPP\Models\Domain();
             $d->name = $res->getDomainName();
-            //...
-        }
 
+            return $d;
+        }
+        return false;
     }
 
 }
