@@ -22,7 +22,7 @@ class Epp
 
     public static function getDomainInfo($domain)
     {
-        return (new Domain)->getAvailability([$domain]);
+        return (new Domain)->getAvailability($domain);
     }
 
 

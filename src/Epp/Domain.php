@@ -11,6 +11,7 @@ use Metaregistrar\EPP\eppCreateDomainResponse;
 use Metaregistrar\EPP\eppDomain;
 use Metaregistrar\EPP\eppException;
 use Metaregistrar\EPP\eppHost;
+use Metaregistrar\EPP\eppInfoDomainRequest;
 use YWatchman\LaravelEPP\Models\Domain\Contact;
 
 class Domain extends Connection
@@ -34,10 +35,11 @@ class Domain extends Connection
      * @return array|bool
      * @throws eppException
      */
-    public function getAvailability(array $domains)
+    public function getAvailability($domain)
     {
+        $eppDomain = new eppDomain($domain);
         // Construct domain request for EPP
-        $request = new eppCheckDomainRequest($domains);
+        $request = new eppCheckDomainRequest($eppDomain);
 
         // Fire request to EPP Service and save response
         /* @var $res eppCheckDomainResponse|null */
