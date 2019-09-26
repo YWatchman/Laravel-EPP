@@ -2,6 +2,8 @@
 
 namespace YWatchman\LaravelEPP\Epp;
 
+use Exception;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Metaregistrar\EPP\eppCheckDomainRequest;
 use Metaregistrar\EPP\eppCheckDomainResponse;
@@ -11,6 +13,7 @@ use Metaregistrar\EPP\eppConnection;
 use Metaregistrar\EPP\eppContactHandle;
 use Metaregistrar\EPP\eppCreateDomainRequest;
 use Metaregistrar\EPP\eppCreateDomainResponse;
+use Metaregistrar\EPP\eppCreateHostRequest;
 use Metaregistrar\EPP\eppDomain;
 use Metaregistrar\EPP\eppException;
 use Metaregistrar\EPP\eppHost;
@@ -66,6 +69,11 @@ class Domain extends Connection
         return false;
     }
 
+    /**
+     * @param array|string $nameservers
+     * @return bool
+     * @throws eppException
+     */
     public function checkNameservers($nameservers)
     {
         $checks = [];
@@ -85,29 +93,50 @@ class Domain extends Connection
                         $allchecksok = false;
                     }
                 }
+                if(env('APP_DEBUG', false)) {
+                    print_r($errors);
+                }
                 return $allchecksok;
             }
+        } else {
+            throw new Exception("\$nameserver not an array");
         }
         return false;
     }
 
-    public function createNameserver($nameserver)
+    public function createNameservers($nameservers)
     {
-        // Todo: create nameserver
+        $errors = [];
+        if(is_string($nameservers)) {
+            $nameservers = [$nameservers];
+        }
+        foreach ($nameservers as $nameserver) {
+            $eppHost = new eppCreateHostRequest(new eppHost($nameserver));
+            if($res = $this->epp->request($eppHost)) {
+                $errors[] = "$nameserver couldn't be created";
+            }
+        }
+        return count($errors) == 0;
     }
 
     /**
      * @param string $name Domain name
-     * @param Contact $registrant Registrant contact
-     * @param Contact $admin Admin contact
-     * @param Contact $tech Technical contact
-     * @param Contact $billing Billing contact
+     * @param string|null $registrant Registrant contact
+     * @param string|null $admin Admin contact
+     * @param string|null $tech Technical contact
+     * @param string|null $billing Billing contact
      * @param array $nameservers Preferred nameservers
      * @return bool|\YWatchman\LaravelEPP\Models\Domain
      * @throws eppException
      */
     public function createDomain(?string $name, ?string $registrant, ?string $admin, ?string $tech, ?string $billing, array $nameservers)
     {
+        if(!$this->checkNameservers($nameservers)) {
+//            try {
+            if(!$this->createNameservers($nameservers)) {
+                return false;
+            }
+        }
         $domain = new eppDomain($name);
         $domain->setRegistrant($registrant);
         $domain->addContact(new eppContactHandle($admin, eppContactHandle::CONTACT_TYPE_ADMIN));

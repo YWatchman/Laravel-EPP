@@ -18,7 +18,7 @@ class Connection
     {
         $this->connection = eppConnection::create(
             env('EPP_SETTINGS_FILE', config('laravel-epp.settingsFile')),
-            env('APP_DEBUG', false)
+            env('EPP_DEBUG', false)
         );
     }
 
