@@ -28,7 +28,7 @@ class Connection
      */
     public function getConnection()
     {
-        if($this->connection->login()) return $this->connection;
+        if($this->connection->login(true)) return $this->connection;
         return false;
     }
 

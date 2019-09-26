@@ -31,7 +31,7 @@ class Domain extends Connection
     /**
      * Get availability of multiple domains
      *
-     * @param array $domains
+     * @param string $domain
      * @return array|bool
      * @throws eppException
      */
