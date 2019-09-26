@@ -2,8 +2,11 @@
 
 namespace YWatchman\LaravelEPP\Epp;
 
+use Illuminate\Support\Str;
 use Metaregistrar\EPP\eppCheckDomainRequest;
 use Metaregistrar\EPP\eppCheckDomainResponse;
+use Metaregistrar\EPP\eppCheckHostRequest;
+use Metaregistrar\EPP\eppCheckHostResponse;
 use Metaregistrar\EPP\eppConnection;
 use Metaregistrar\EPP\eppContactHandle;
 use Metaregistrar\EPP\eppCreateDomainRequest;
@@ -63,6 +66,36 @@ class Domain extends Connection
         return false;
     }
 
+    public function checkNameservers($nameservers)
+    {
+        $checks = [];
+        if(is_array($nameservers)) {
+            foreach($nameservers as $nameserver) {
+                $checkNames[] = new eppHost($nameserver);
+            }
+            $check = new eppCheckHostRequest($checkNames);
+            /** @var eppCheckHostResponse $response */
+            if($response = $this->epp->request($check)) {
+                $checks = $response->getCheckedHosts();
+                $allchecksok = true;
+                $errors = [];
+                foreach($checks as $server => $check) {
+                    if($check) {
+                        $errors[] = "$server does not exist..." . PHP_EOL;
+                        $allchecksok = false;
+                    }
+                }
+                return $allchecksok;
+            }
+        }
+        return false;
+    }
+
+    public function createNameserver($nameserver)
+    {
+        // Todo: create nameserver
+    }
+
     /**
      * @param string $name Domain name
      * @param Contact $registrant Registrant contact
@@ -73,14 +106,17 @@ class Domain extends Connection
      * @return bool|\YWatchman\LaravelEPP\Models\Domain
      * @throws eppException
      */
-    public function createDomain(string $name, Contact $registrant, Contact $admin, Contact $tech, Contact $billing, array $nameservers)
+    public function createDomain(?string $name, ?string $registrant, ?string $admin, ?string $tech, ?string $billing, array $nameservers)
     {
-        $domain = new eppDomain($name, $registrant->contactId);
-        $domain->setRegistrant(new eppContactHandle($registrant));
+        $domain = new eppDomain($name);
+        $domain->setRegistrant($registrant);
         $domain->addContact(new eppContactHandle($admin, eppContactHandle::CONTACT_TYPE_ADMIN));
         $domain->addContact(new eppContactHandle($tech, eppContactHandle::CONTACT_TYPE_TECH));
-        $domain->addContact(new eppContactHandle($billing, eppContactHandle::CONTACT_TYPE_BILLING));
-        $domain->setAuthorisationCode('cyb3rfus10n');
+        if (1 != 1) {
+            // SIDN only supports Admin and tech contact
+            $domain->addContact(new eppContactHandle($billing, eppContactHandle::CONTACT_TYPE_BILLING));
+        }
+        $domain->setAuthorisationCode(Str::random(8));
         if (is_array($nameservers)) {
             foreach ($nameservers as $nameserver) {
                 $domain->addHost(new eppHost($nameserver)); // Todo: add compatibility for glue records

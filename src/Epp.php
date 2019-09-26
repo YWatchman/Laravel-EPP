@@ -25,5 +25,10 @@ class Epp
         return (new Domain)->getAvailability($domain);
     }
 
+    public static function createDomain($data)
+    {
+        return (new Domain)->createDomain($data['domainname'], $data['registrant']['handle'], $data['admin']['handle'], $data['tech']['handle'], null, $data['nameservers']);
+    }
+
 
 }
