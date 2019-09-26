@@ -31,13 +31,16 @@ class Domain extends Connection
     /**
      * Get availability of multiple domains
      *
-     * @param string $domain
+     * @param array|string $domain
      * @return array|bool
      * @throws eppException
      */
     public function getAvailability($domain)
     {
-        $eppDomain = new eppDomain($domain);
+        $eppDomain = $domain;
+        if(!is_array($domain)) {
+            $eppDomain = new eppDomain($domain);
+        }
         // Construct domain request for EPP
         $request = new eppCheckDomainRequest($eppDomain);
 
