@@ -1,7 +1,7 @@
 {
   "name": "ywatchman/laravel-epp",
   "minimum-stability": "dev",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Laravel package to work with EPP (SIDN)",
   "type": "library",
   "prefer-stable": true,
