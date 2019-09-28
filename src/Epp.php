@@ -26,9 +26,14 @@ class Epp
         return (new Domain)->getAvailability($domain);
     }
 
-    public static function createDomain($data)
+    public static function createDomain($name, $registrant, $admin, $tech, $nameservers, $billing = null)
     {
-        return (new Domain)->createDomain($data['domainname'], $data['registrant']['handle'], $data['admin']['handle'], $data['tech']['handle'], null, $data['nameservers']);
+        return (new Domain)->createDomain($name, $registrant, $admin, $tech, $billing, $nameservers);
+    }
+
+    public static function deleteDomain($domain)
+    {
+        return (new Domain)->deleteDomain($domain);
     }
 
     public static function checkContact($handle)

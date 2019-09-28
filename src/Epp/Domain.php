@@ -14,6 +14,7 @@ use Metaregistrar\EPP\eppCreateDomainRequest;
 use Metaregistrar\EPP\eppCreateDomainResponse;
 use Metaregistrar\EPP\eppCreateHostRequest;
 use Metaregistrar\EPP\eppCreateHostResponse;
+use Metaregistrar\EPP\eppDeleteDomainRequest;
 use Metaregistrar\EPP\eppDomain;
 use Metaregistrar\EPP\eppException;
 use Metaregistrar\EPP\eppHost;
@@ -69,15 +70,15 @@ class Domain extends Connection
 
     /**
      * @param string $name Domain name
-     * @param string|null $registrant Registrant contact
-     * @param string|null $admin Admin contact
-     * @param string|null $tech Technical contact
+     * @param string $registrant Registrant contact
+     * @param string $admin Admin contact
+     * @param string $tech Technical contact
      * @param string|null $billing Billing contact
      * @param array $nameservers Preferred nameservers
      * @return bool|\YWatchman\LaravelEPP\Models\Domain
      * @throws eppException
      */
-    public function createDomain(?string $name, ?string $registrant, ?string $admin, ?string $tech, ?string $billing, array $nameservers)
+    public function createDomain(string $name, string $registrant, string $admin, string $tech, ?string $billing, array $nameservers)
     {
         if (!(new Nameserver)->checkNameservers($nameservers)) {
             if (!(new Nameserver)->createNameservers($nameservers)) {
@@ -108,6 +109,17 @@ class Domain extends Connection
             return $d;
         }
         return false;
+    }
+
+    public function deleteDomain($domain)
+    {
+        try {
+            $eppDomain = new eppDeleteDomainRequest(new eppDomain($domain));
+            $this->epp->request($eppDomain);
+            return true;
+        } catch (eppException $e) {
+            return false;
+        }
     }
 
 }
