@@ -15,13 +15,9 @@ use Metaregistrar\EPP\eppHost;
 class Nameserver extends Connection
 {
 
-    /** @var bool|eppConnection|mixed $epp Constructed eppConnection */
-    private $epp;
-
     public function __construct()
     {
         parent::__construct();
-        $this->epp = $this->getConnection();
     }
 
     /**

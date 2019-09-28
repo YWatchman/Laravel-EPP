@@ -9,6 +9,8 @@ class Connection
 
     /** @var $connection \Metaregistrar\EPP\eppConnection */
     protected $connection;
+    /** @var bool|eppConnection|mixed $epp Constructed eppConnection */
+    protected $epp;
 
     /**
      * Connection constructor.
@@ -20,6 +22,7 @@ class Connection
             env('EPP_SETTINGS_FILE', config('laravel-epp.settingsFile')),
             env('EPP_DEBUG', false)
         );
+        $this->epp = $this->getConnection();
     }
 
     /**

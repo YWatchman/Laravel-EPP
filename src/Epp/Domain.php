@@ -21,13 +21,11 @@ class Domain extends Connection
 
     const DOMAIN_FREE = 1;
     const DOMAIN_TAKEN = 0;
-    /** @var bool|eppConnection|mixed $epp Constructed eppConnection */
-    private $epp;
+
 
     public function __construct()
     {
         parent::__construct();
-        $this->epp = $this->getConnection();
     }
 
     /**

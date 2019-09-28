@@ -3,7 +3,6 @@
 namespace YWatchman\LaravelEPP\Epp;
 
 use Metaregistrar\EPP\eppCheckContactRequest;
-use Metaregistrar\EPP\eppCheckContactResponse;
 use Metaregistrar\EPP\eppConnection;
 use Metaregistrar\EPP\eppContact;
 use Metaregistrar\EPP\eppContactHandle;
@@ -18,13 +17,9 @@ use Metaregistrar\EPP\sidnEppCreateContactRequest;
 class Contact extends Connection
 {
 
-    /** @var bool|eppConnection|mixed $epp Constructed eppConnection */
-    private $epp;
-
     public function __construct()
     {
         parent::__construct();
-        $this->epp = $this->getConnection();
     }
 
     /**
