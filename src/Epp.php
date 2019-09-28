@@ -4,6 +4,7 @@ namespace YWatchman\LaravelEPP;
 
 use Illuminate\Foundation\Application;
 use YWatchman\LaravelEPP\Epp\Contact;
+use YWatchman\LaravelEPP\Epp\Dnssec;
 use YWatchman\LaravelEPP\Epp\Domain;
 use YWatchman\LaravelEPP\Epp\Nameserver;
 
@@ -70,6 +71,11 @@ class Epp
     public static function deleteContact($handle)
     {
         return (new Contact)->deleteContact($handle);
+    }
+
+    public function createDnssec($domain, $signingkey, $algorithm, $publickey)
+    {
+        return (new Dnssec)->createKey($domain, $signingkey, $algorithm, $publickey);
     }
 
 
