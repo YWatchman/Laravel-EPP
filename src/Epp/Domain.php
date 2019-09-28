@@ -2,18 +2,13 @@
 
 namespace YWatchman\LaravelEPP\Epp;
 
-use Exception;
 use Illuminate\Support\Str;
 use Metaregistrar\EPP\eppCheckDomainRequest;
 use Metaregistrar\EPP\eppCheckDomainResponse;
-use Metaregistrar\EPP\eppCheckHostRequest;
-use Metaregistrar\EPP\eppCheckHostResponse;
 use Metaregistrar\EPP\eppConnection;
 use Metaregistrar\EPP\eppContactHandle;
 use Metaregistrar\EPP\eppCreateDomainRequest;
 use Metaregistrar\EPP\eppCreateDomainResponse;
-use Metaregistrar\EPP\eppCreateHostRequest;
-use Metaregistrar\EPP\eppCreateHostResponse;
 use Metaregistrar\EPP\eppDeleteDomainRequest;
 use Metaregistrar\EPP\eppDomain;
 use Metaregistrar\EPP\eppException;
