@@ -27,7 +27,6 @@ class Contact extends Connection
      */
     public function checkContact($handle)
     {
-//        $eppHandle = new eppCheckContactRequest(new eppContactHandle($handle));
         $eppHandle = new eppCheckContactRequest(new eppContactHandle($handle));
         /** @var eppCheckContactResponse $res */
         try {
