@@ -5,7 +5,9 @@ namespace YWatchman\LaravelEPP;
 use Illuminate\Foundation\Application;
 use YWatchman\LaravelEPP\Epp\Contact;
 use YWatchman\LaravelEPP\Epp\Domain;
+use YWatchman\LaravelEPP\Epp\Nameserver;
 
+// Todo: catch exceptions on all YWatchman\LaravelEPP\Epp classes
 class Epp
 {
 
@@ -34,6 +36,21 @@ class Epp
     public static function deleteDomain($domain)
     {
         return (new Domain)->deleteDomain($domain);
+    }
+
+    public static function checkNameserver($nameserver)
+    {
+        return (new Nameserver)->checkNameservers($nameserver);
+    }
+
+    public static function createNameserver($nameservers)
+    {
+        return (new Nameserver)->createNameservers($nameservers);
+    }
+
+    public static function deleteNameserver($nameserver)
+    {
+        return (new Nameserver)->deleteNameserver($nameserver);
     }
 
     public static function checkContact($handle)

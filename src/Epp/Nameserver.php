@@ -8,6 +8,7 @@ use Metaregistrar\EPP\eppCheckHostResponse;
 use Metaregistrar\EPP\eppConnection;
 use Metaregistrar\EPP\eppCreateHostRequest;
 use Metaregistrar\EPP\eppCreateHostResponse;
+use Metaregistrar\EPP\eppDeleteHostRequest;
 use Metaregistrar\EPP\eppException;
 use Metaregistrar\EPP\eppHost;
 
@@ -81,6 +82,17 @@ class Nameserver extends Connection
             }
         }
         return count($errors) == 0;
+    }
+
+    public function deleteNameserver($nameserver)
+    {
+        try {
+            $eppHost = new eppDeleteHostRequest(new eppHost($nameserver));
+            $this->epp->request($eppHost);
+            return true;
+        } catch (eppException $e) {
+            return false;
+        }
     }
 
 }
