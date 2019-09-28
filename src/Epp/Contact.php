@@ -12,6 +12,7 @@ use Metaregistrar\EPP\eppCreateContactRequest;
 use Metaregistrar\EPP\eppCreateContactResponse;
 use Metaregistrar\EPP\eppDeleteContactRequest;
 use Metaregistrar\EPP\eppException;
+use Metaregistrar\EPP\eppUpdateContactRequest;
 use Metaregistrar\EPP\sidnEppCreateContactRequest;
 
 class Contact extends Connection
@@ -75,6 +76,24 @@ class Contact extends Connection
         }
     }
 
+    public function updateContact($handle, $name, $email, $phone, $city, $countryCode, $street, $province, $zip, $org = null)
+    {
+        $update = new eppContact(new eppContactPostalInfo($name, $city, $countryCode, $org, $street, $province, $zip, eppContact::TYPE_LOC), $email, $phone);
+        try {
+            $eppContact = new eppUpdateContactRequest($handle, null, null, $update);
+            $this->epp->request($eppContact);
+            return true;
+        } catch (eppException $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Delete contact
+     *
+     * @param $handle
+     * @return bool
+     */
     public function deleteContact($handle)
     {
         try {

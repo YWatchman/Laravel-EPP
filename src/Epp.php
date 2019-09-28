@@ -36,6 +36,11 @@ class Epp
         return (new Contact)->checkContact($handle);
     }
 
+    public static function updateContact($handle, $name, $email, $phone, $city, $countryCode, $street, $province, $zip, $org = null)
+    {
+        return (new Contact)->updateContact($handle, $name, $email, $phone, $city, $countryCode, $street, $province, $zip, $org);
+    }
+
     public static function createContact($name, $email, $phone, $city, $countryCode, $street, $province, $zip, $org = null, $registrar = 'sidn')
     {
         return (new Contact)->createContact($name, $email, $phone, $city, $countryCode, $street, $province, $zip, $org, $registrar);
