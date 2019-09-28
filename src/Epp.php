@@ -7,7 +7,6 @@ use YWatchman\LaravelEPP\Epp\Contact;
 use YWatchman\LaravelEPP\Epp\Domain;
 use YWatchman\LaravelEPP\Epp\Nameserver;
 
-// Todo: catch exceptions on all YWatchman\LaravelEPP\Epp classes
 class Epp
 {
 

@@ -25,9 +25,8 @@ class Nameserver extends Connection
     }
 
     /**
-     * @param array|string $nameservers
+     * @param array $nameservers
      * @return bool
-     * @throws eppException
      */
     public function checkNameservers($nameservers)
     {
@@ -36,25 +35,27 @@ class Nameserver extends Connection
             foreach ($nameservers as $nameserver) {
                 $checkNames[] = new eppHost($nameserver);
             }
-            $check = new eppCheckHostRequest($checkNames);
             /** @var eppCheckHostResponse $response */
-            if ($response = $this->epp->request($check)) {
-                $checks = $response->getCheckedHosts();
-                $allchecksok = true;
-                $errors = [];
-                foreach ($checks as $server => $check) {
-                    if ($check) {
-                        $errors[] = "$server does not exist..." . PHP_EOL;
-                        $allchecksok = false;
+            try {
+                $check = new eppCheckHostRequest($checkNames);
+                if ($response = $this->epp->request($check)) {
+                    $checks = $response->getCheckedHosts();
+                    $allchecksok = true;
+                    $errors = [];
+                    foreach ($checks as $server => $check) {
+                        if ($check) {
+                            $errors[] = "$server does not exist..." . PHP_EOL;
+                            $allchecksok = false;
+                        }
                     }
+                    if (env('APP_DEBUG', false)) {
+                        print_r($errors);
+                    }
+                    return $allchecksok;
                 }
-                if (env('APP_DEBUG', false)) {
-                    print_r($errors);
-                }
-                return $allchecksok;
+            } catch (eppException $e) {
+                $allchecksok = false;
             }
-        } else {
-            throw new Exception("\$nameserver not an array");
         }
         return false;
     }
@@ -64,7 +65,6 @@ class Nameserver extends Connection
      *
      * @param $nameservers
      * @return bool
-     * @throws eppException
      */
     public function createNameservers($nameservers)
     {
@@ -73,11 +73,15 @@ class Nameserver extends Connection
             $nameservers = [$nameservers];
         }
         foreach ($nameservers as $nameserver) {
-            $eppHost = new eppCreateHostRequest(new eppHost($nameserver));
-            /** @var eppCreateHostResponse $res */
-            if ($res = $this->epp->request($eppHost)) {
-                // success
-            } else {
+            try {
+                $eppHost = new eppCreateHostRequest(new eppHost($nameserver));
+                /** @var eppCreateHostResponse $res */
+                if ($res = $this->epp->request($eppHost)) {
+                    // success
+                } else {
+                    $errors[] = "$nameserver couldn't be created";
+                }
+            } catch (eppException $e) {
                 $errors[] = "$nameserver couldn't be created";
             }
         }

@@ -30,13 +30,11 @@ class Contact extends Connection
     /**
      * @param $handle
      * @return bool
-     * @throws \Metaregistrar\EPP\eppException
      */
     public function checkContact($handle)
     {
-        $eppHandle = new eppCheckContactRequest(new eppContactHandle($handle));
-        /** @var eppCheckContactResponse $res */
         try {
+            $eppHandle = new eppCheckContactRequest(new eppContactHandle($handle));
             $this->epp->request($eppHandle);
             return true;
         } catch (eppException $e) {

@@ -33,34 +33,41 @@ class Domain extends Connection
      *
      * @param array|string $domain
      * @return array|bool
-     * @throws eppException
      */
     public function getAvailability($domain)
     {
         $eppDomain = $domain;
         if (!is_array($domain)) {
-            $eppDomain = new eppDomain($domain);
+            try {
+                $eppDomain = new eppDomain($domain);
+            } catch (eppException $e) {
+                return false;
+            }
         }
         // Construct domain request for EPP
         $request = new eppCheckDomainRequest($eppDomain);
 
         // Fire request to EPP Service and save response
-        /* @var $res eppCheckDomainResponse|null */
-        if ($res = $this->epp->request($request)) {
-            $checked = $res->getCheckedDomains();
-            $info = [];
-            // Loop over checked domains
-            foreach ($checked as $check) {
-                // set domain status to free if available
-                if ($check['available']) {
-                    $info[$check['domainname']] = self::DOMAIN_FREE;
-                } else {
-                    $info[$check['domainname']] = self::DOMAIN_TAKEN;
+        /* @var $res eppCheckDomainResponse */
+        try {
+            if ($res = $this->epp->request($request)) {
+                $checked = $res->getCheckedDomains();
+                $info = [];
+                // Loop over checked domains
+                foreach ($checked as $check) {
+                    // set domain status to free if available
+                    if ($check['available']) {
+                        $info[$check['domainname']] = self::DOMAIN_FREE;
+                    } else {
+                        $info[$check['domainname']] = self::DOMAIN_TAKEN;
+                    }
                 }
+                return $info;
             }
-            return $info;
+            return false;
+        } catch (eppException $e) {
+            return false;
         }
-        return false;
     }
 
     /**
@@ -71,7 +78,6 @@ class Domain extends Connection
      * @param string|null $billing Billing contact
      * @param array $nameservers Preferred nameservers
      * @return bool|\YWatchman\LaravelEPP\Models\Domain
-     * @throws eppException
      */
     public function createDomain(string $name, string $registrant, string $admin, string $tech, ?string $billing, array $nameservers)
     {
@@ -80,30 +86,34 @@ class Domain extends Connection
                 return false;
             }
         }
-        $domain = new eppDomain($name);
-        $domain->setRegistrant($registrant);
-        $domain->addContact(new eppContactHandle($admin, eppContactHandle::CONTACT_TYPE_ADMIN));
-        $domain->addContact(new eppContactHandle($tech, eppContactHandle::CONTACT_TYPE_TECH));
-        if (1 != 1) {
-            // SIDN only supports Admin and tech contact
-            $domain->addContact(new eppContactHandle($billing, eppContactHandle::CONTACT_TYPE_BILLING));
-        }
-        $domain->setAuthorisationCode(Str::random(8));
-        if (is_array($nameservers)) {
-            foreach ($nameservers as $nameserver) {
-                $domain->addHost(new eppHost($nameserver)); // Todo: add compatibility for glue records
+        try {
+            $domain = new eppDomain($name);
+            $domain->setRegistrant($registrant);
+            $domain->addContact(new eppContactHandle($admin, eppContactHandle::CONTACT_TYPE_ADMIN));
+            $domain->addContact(new eppContactHandle($tech, eppContactHandle::CONTACT_TYPE_TECH));
+            if (1 != 1) {
+                // SIDN only supports Admin and tech contact
+                $domain->addContact(new eppContactHandle($billing, eppContactHandle::CONTACT_TYPE_BILLING));
             }
-        }
+            $domain->setAuthorisationCode(Str::random(8));
+            if (is_array($nameservers)) {
+                foreach ($nameservers as $nameserver) {
+                    $domain->addHost(new eppHost($nameserver)); // Todo: add compatibility for glue records
+                }
+            }
 
-        $request = new eppCreateDomainRequest($domain);
-        /** @var $res eppCreateDomainResponse epp create domain response */
-        if ($res = $this->epp->request($request)) {
-            $d = new \YWatchman\LaravelEPP\Models\Domain();
-            $d->name = $res->getDomainName();
+            $request = new eppCreateDomainRequest($domain);
+            /** @var $res eppCreateDomainResponse epp create domain response */
+            if ($res = $this->epp->request($request)) {
+                $d = new \YWatchman\LaravelEPP\Models\Domain();
+                $d->name = $res->getDomainName();
 
-            return $d;
+                return $d;
+            }
+            return false;
+        } catch (eppException $e) {
+            return false;
         }
-        return false;
     }
 
     public function deleteDomain($domain)
