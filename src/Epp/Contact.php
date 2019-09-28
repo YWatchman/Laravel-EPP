@@ -10,6 +10,7 @@ use Metaregistrar\EPP\eppContactHandle;
 use Metaregistrar\EPP\eppContactPostalInfo;
 use Metaregistrar\EPP\eppCreateContactRequest;
 use Metaregistrar\EPP\eppCreateContactResponse;
+use Metaregistrar\EPP\eppDeleteContactRequest;
 use Metaregistrar\EPP\eppException;
 use Metaregistrar\EPP\sidnEppCreateContactRequest;
 
@@ -69,6 +70,17 @@ class Contact extends Connection
             /** @var eppCreateContactResponse $contact */
             $contact = $this->epp->request($eppContact);
             return $contact->getContactHandle();
+        } catch (eppException $e) {
+            return false;
+        }
+    }
+
+    public function deleteContact($handle)
+    {
+        try {
+            $eppHandle = new eppDeleteContactRequest(new eppContactHandle($handle));
+            $this->epp->request($eppHandle);
+            return true;
         } catch (eppException $e) {
             return false;
         }
