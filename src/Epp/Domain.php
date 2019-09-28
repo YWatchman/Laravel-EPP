@@ -13,6 +13,8 @@ use Metaregistrar\EPP\eppDeleteDomainRequest;
 use Metaregistrar\EPP\eppDomain;
 use Metaregistrar\EPP\eppException;
 use Metaregistrar\EPP\eppHost;
+use Metaregistrar\EPP\sidnEppInfoDomainRequest;
+use Metaregistrar\EPP\sidnEppInfoDomainResponse;
 
 class Domain extends Connection
 {
@@ -122,6 +124,20 @@ class Domain extends Connection
             $eppDomain = new eppDeleteDomainRequest(new eppDomain($domain));
             $this->epp->request($eppDomain);
             return true;
+        } catch (eppException $e) {
+            return false;
+        }
+    }
+
+    public function getDomainInfo($domain)
+    {
+        try {
+            $eppDomain = new sidnEppInfoDomainRequest(new eppDomain($domain));
+            /** @var sidnEppInfoDomainResponse $res */
+            if($res = $this->epp->request($eppDomain)) {
+                return $res;
+            }
+            return false;
         } catch (eppException $e) {
             return false;
         }

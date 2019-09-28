@@ -23,7 +23,7 @@ class Epp
         $this->app = $app;
     }
 
-    public static function getDomainInfo($domain)
+    public static function getDomainAvailability($domain)
     {
         return (new Domain)->getAvailability($domain);
     }
@@ -73,9 +73,19 @@ class Epp
         return (new Contact)->deleteContact($handle);
     }
 
-    public function createDnssec($domain, $signingkey, $algorithm, $publickey)
+    public static function createDnssec($domain, $signingkey, $algorithm, $publickey)
     {
         return (new Dnssec)->createKey($domain, $signingkey, $algorithm, $publickey);
+    }
+
+    public static function getDomainInfo($domain)
+    {
+        return (new Domain)->getDomainInfo($domain);
+    }
+
+    public function deleteDnssec($domain)
+    {
+        return (new Domain)->deleteDomain($domain);
     }
 
 
