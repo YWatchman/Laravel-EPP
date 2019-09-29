@@ -16,12 +16,8 @@ class Epp
 
     /**
      * Epp constructor.
-     * @param Application $app
      */
-    public function __construct($app)
-    {
-        $this->app = $app;
-    }
+    public function __construct(){}
 
     public static function getDomainAvailability($domain)
     {
