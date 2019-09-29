@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Domain extends Model
 {
-
     /** @var $name string Domain name */
     public $name;
 
@@ -24,5 +23,4 @@ class Domain extends Model
 
     /** @var $nameservers array Nameservers in array */
     public $nameservers;
-
 }

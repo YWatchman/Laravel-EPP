@@ -6,7 +6,6 @@ use Metaregistrar\EPP\eppConnection;
 
 class Connection
 {
-
     /** @var $connection \Metaregistrar\EPP\eppConnection */
     protected $connection;
     /** @var bool|eppConnection|mixed $epp Constructed eppConnection */
@@ -14,6 +13,7 @@ class Connection
 
     /**
      * Connection constructor.
+     *
      * @throws \Metaregistrar\EPP\eppException
      */
     public function __construct()
@@ -26,13 +26,16 @@ class Connection
     }
 
     /**
-     * Get logged in connection
+     * Get logged in connection.
+     *
      * @return bool|eppConnection|mixed
      */
     public function getConnection()
     {
-        if($this->connection->login(true)) return $this->connection;
+        if ($this->connection->login(true)) {
+            return $this->connection;
+        }
+
         return false;
     }
-
 }

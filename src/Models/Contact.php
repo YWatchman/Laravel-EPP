@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Contact extends Model
 {
-
     /** @var $id integer Registrant id */
     public $id;
 
@@ -36,7 +35,4 @@ class Contact extends Model
 
     /** @var string Country ISO 3166-1 2 char */
     public $country;
-
-
-
 }
