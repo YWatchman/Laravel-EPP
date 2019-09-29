@@ -1,4 +1,6 @@
 # Laravel EPP
+[![Latest Stable Version](https://poser.pugx.org/ywatchman/laravel-epp/v/stable)](https://packagist.org/packages/ywatchman/laravel-epp)
+[![Total Downloads](https://poser.pugx.org/ywatchman/laravel-epp/downloads)](https://packagist.org/packages/ywatchman/laravel-epp)
 
 ### Installing with auto-discovery enabled
 ```bash

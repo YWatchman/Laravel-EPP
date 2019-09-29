@@ -24,7 +24,7 @@
       "Epp": "YWatchman\\LaravelEPP\\Epp"
     }
   },
-  "license": "proprietary",
+  "license": "MIT",
   "authors": [
     {
       "name": "Yvan E. Watchman",
