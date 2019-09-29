@@ -5,6 +5,7 @@
 ### Installing with auto-discovery enabled
 ```bash
 composer require ywatchman/laravel-epp
+php artisan vendor:publish --provider="YWatchman\LaravelEPP\ServiceProvider"
 ```
 
 ### .env
