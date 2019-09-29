@@ -14,7 +14,7 @@
     "extra": {
         "laravel": {
             "aliases": {
-                "Epp": "YWatchman\\LaravelEPP\\Epp"
+                "Epp": "YWatchman\\LaravelEPP\\Facade"
             },
             "providers": [
                 "YWatchman\\LaravelEPP\\ServiceProvider"
