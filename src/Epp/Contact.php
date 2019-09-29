@@ -3,7 +3,6 @@
 namespace YWatchman\LaravelEPP\Epp;
 
 use Metaregistrar\EPP\eppCheckContactRequest;
-use Metaregistrar\EPP\eppConnection;
 use Metaregistrar\EPP\eppContact;
 use Metaregistrar\EPP\eppContactHandle;
 use Metaregistrar\EPP\eppContactPostalInfo;
@@ -16,7 +15,6 @@ use Metaregistrar\EPP\sidnEppCreateContactRequest;
 
 class Contact extends Connection
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -24,6 +22,7 @@ class Contact extends Connection
 
     /**
      * @param $handle
+     *
      * @return bool
      */
     public function checkContact($handle)
@@ -31,6 +30,7 @@ class Contact extends Connection
         try {
             $eppHandle = new eppCheckContactRequest(new eppContactHandle($handle));
             $this->epp->request($eppHandle);
+
             return true;
         } catch (eppException $e) {
             return false;
@@ -38,7 +38,7 @@ class Contact extends Connection
     }
 
     /**
-     * Create contact
+     * Create contact.
      *
      * @param $name
      * @param $email
@@ -50,19 +50,22 @@ class Contact extends Connection
      * @param $zip
      * @param $org
      * @param string $registrar
+     *
      * @return bool|eppContactHandle
      */
     public function createContact($name, $email, $phone, $city, $countryCode, $street, $province, $zip, $org = null, $registrar = 'sidn')
     {
         $eppPostalInfo = new eppContactPostalInfo($name, $city, $countryCode, $org, $street, $province, $zip, 'loc');
+
         try {
-            if($registrar == 'sidn') {
+            if ($registrar == 'sidn') {
                 $eppContact = new sidnEppCreateContactRequest(new eppContact($eppPostalInfo, $email, $phone));
             } else {
                 $eppContact = new eppCreateContactRequest(new eppContact($eppPostalInfo, $email, $phone));
             }
             /** @var eppCreateContactResponse $contact */
             $contact = $this->epp->request($eppContact);
+
             return $contact->getContactHandle();
         } catch (eppException $e) {
             return false;
@@ -72,9 +75,11 @@ class Contact extends Connection
     public function updateContact($handle, $name, $email, $phone, $city, $countryCode, $street, $province, $zip, $org = null)
     {
         $update = new eppContact(new eppContactPostalInfo($name, $city, $countryCode, $org, $street, $province, $zip, eppContact::TYPE_LOC), $email, $phone);
+
         try {
             $eppContact = new eppUpdateContactRequest($handle, null, null, $update);
             $this->epp->request($eppContact);
+
             return true;
         } catch (eppException $e) {
             return false;
@@ -82,9 +87,10 @@ class Contact extends Connection
     }
 
     /**
-     * Delete contact
+     * Delete contact.
      *
      * @param $handle
+     *
      * @return bool
      */
     public function deleteContact($handle)
@@ -92,10 +98,10 @@ class Contact extends Connection
         try {
             $eppHandle = new eppDeleteContactRequest(new eppContactHandle($handle));
             $this->epp->request($eppHandle);
+
             return true;
         } catch (eppException $e) {
             return false;
         }
     }
-
 }

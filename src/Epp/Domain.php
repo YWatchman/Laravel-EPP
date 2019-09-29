@@ -5,7 +5,6 @@ namespace YWatchman\LaravelEPP\Epp;
 use Illuminate\Support\Str;
 use Metaregistrar\EPP\eppCheckDomainRequest;
 use Metaregistrar\EPP\eppCheckDomainResponse;
-use Metaregistrar\EPP\eppConnection;
 use Metaregistrar\EPP\eppContactHandle;
 use Metaregistrar\EPP\eppCreateDomainRequest;
 use Metaregistrar\EPP\eppCreateDomainResponse;
@@ -18,10 +17,8 @@ use Metaregistrar\EPP\sidnEppInfoDomainResponse;
 
 class Domain extends Connection
 {
-
     const DOMAIN_FREE = 1;
     const DOMAIN_TAKEN = 0;
-
 
     public function __construct()
     {
@@ -29,9 +26,10 @@ class Domain extends Connection
     }
 
     /**
-     * Get availability of multiple domains
+     * Get availability of multiple domains.
      *
      * @param array|string $domain
+     *
      * @return array|bool
      */
     public function getAvailability($domain)
@@ -62,8 +60,10 @@ class Domain extends Connection
                         $info[$check['domainname']] = self::DOMAIN_TAKEN;
                     }
                 }
+
                 return $info;
             }
+
             return false;
         } catch (eppException $e) {
             return false;
@@ -71,21 +71,23 @@ class Domain extends Connection
     }
 
     /**
-     * @param string $name Domain name
-     * @param string $registrant Registrant contact
-     * @param string $admin Admin contact
-     * @param string $tech Technical contact
-     * @param string|null $billing Billing contact
-     * @param array $nameservers Preferred nameservers
+     * @param string      $name        Domain name
+     * @param string      $registrant  Registrant contact
+     * @param string      $admin       Admin contact
+     * @param string      $tech        Technical contact
+     * @param string|null $billing     Billing contact
+     * @param array       $nameservers Preferred nameservers
+     *
      * @return bool|\YWatchman\LaravelEPP\Models\Domain
      */
     public function createDomain(string $name, string $registrant, string $admin, string $tech, ?string $billing, array $nameservers)
     {
-        if (!(new Nameserver)->checkNameservers($nameservers)) {
-            if (!(new Nameserver)->createNameservers($nameservers)) {
+        if (!(new Nameserver())->checkNameservers($nameservers)) {
+            if (!(new Nameserver())->createNameservers($nameservers)) {
                 return false;
             }
         }
+
         try {
             $domain = new eppDomain($name);
             $domain->setRegistrant($registrant);
@@ -110,6 +112,7 @@ class Domain extends Connection
 
                 return $d;
             }
+
             return false;
         } catch (eppException $e) {
             return false;
@@ -121,6 +124,7 @@ class Domain extends Connection
         try {
             $eppDomain = new eppDeleteDomainRequest(new eppDomain($domain));
             $this->epp->request($eppDomain);
+
             return true;
         } catch (eppException $e) {
             return false;
@@ -132,13 +136,13 @@ class Domain extends Connection
         try {
             $eppDomain = new sidnEppInfoDomainRequest(new eppDomain($domain));
             /** @var sidnEppInfoDomainResponse $res */
-            if($res = $this->epp->request($eppDomain)) {
+            if ($res = $this->epp->request($eppDomain)) {
                 return $res;
             }
+
             return false;
         } catch (eppException $e) {
             return false;
         }
     }
-
 }

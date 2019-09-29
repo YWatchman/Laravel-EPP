@@ -2,7 +2,6 @@
 
 namespace YWatchman\LaravelEPP\Epp;
 
-use Metaregistrar\EPP\eppConnection;
 use Metaregistrar\EPP\eppDnssecUpdateDomainRequest;
 use Metaregistrar\EPP\eppDomain;
 use Metaregistrar\EPP\eppException;
@@ -11,7 +10,6 @@ use YWatchman\LaravelEPP\Epp;
 
 class Dnssec extends Connection
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -21,11 +19,12 @@ class Dnssec extends Connection
     {
         try {
             $eppDomain = new eppDomain($domain);
-            $eppSec = new eppSecdns;
+            $eppSec = new eppSecdns();
             $eppSec->setKey($signingkey, $algorithm, $publickey);
             $eppDomain->addSecdns($eppSec);
             $eppDnssec = new eppDnssecUpdateDomainRequest($domain, $eppDomain);
             $this->epp->request($eppDnssec);
+
             return true;
         } catch (eppException $e) {
             return false;
@@ -35,6 +34,7 @@ class Dnssec extends Connection
     public function deleteKey($domain)
     {
         $eppSec = Epp::getDomainInfo($domain)->getKeydata();
+
         try {
             $rem = $eppDomain = new eppDomain($domain);
             foreach ($eppSec as $key) {
@@ -42,6 +42,7 @@ class Dnssec extends Connection
             }
             $eppDnssec = new eppDnssecUpdateDomainRequest($eppDomain, null, $rem);
             $this->epp->request($eppDnssec);
+
             return true;
         } catch (eppException $e) {
             return false;
