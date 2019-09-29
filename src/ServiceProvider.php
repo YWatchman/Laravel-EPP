@@ -14,7 +14,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     public function register()
     {
-        $this->app->alias(Epp::class, 'epp');
+        $this->app->alias(Epp::class, 'Epp');
     }
 
     private function publishConfig()
