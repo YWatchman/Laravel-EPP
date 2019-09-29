@@ -5,5 +5,5 @@
  */
 
 return [
-    'settingsFile' => '/etc/cyberfusion/'
+    'settingsFile' => '/etc/cyberfusion/',
 ];
