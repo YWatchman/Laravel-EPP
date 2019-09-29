@@ -1,34 +1,34 @@
 {
-  "name": "ywatchman/laravel-epp",
-  "minimum-stability": "dev",
-  "version": "1.1.2",
-  "description": "Laravel package to work with EPP (SIDN)",
-  "type": "library",
-  "prefer-stable": true,
-  "require": {
-    "php": "^7.2",
-    "metaregistrar/php-epp-client": "^1.0"
-  },
-  "autoload": {
-    "psr-4": {
-      "YWatchman\\LaravelEPP\\": "src/"
-    }
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "YWatchman\\LaravelEPP\\ServiceProvider"
-      ]
+    "authors": [
+        {
+            "email": "ywatchman@cyberfusion.nl",
+            "name": "Yvan E. Watchman"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "YWatchman\\LaravelEPP\\": "src/"
+        }
     },
-    "aliases": {
-      "Epp": "YWatchman\\LaravelEPP\\Epp"
-    }
-  },
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Yvan E. Watchman",
-      "email": "ywatchman@cyberfusion.nl"
-    }
-  ]
+    "description": "Laravel package to work with EPP (SIDN)",
+    "extra": {
+        "laravel": {
+            "aliases": {
+                "Epp": "YWatchman\\LaravelEPP\\Epp"
+            },
+            "providers": [
+                "YWatchman\\LaravelEPP\\ServiceProvider"
+            ]
+        }
+    },
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "name": "ywatchman/laravel-epp",
+    "prefer-stable": true,
+    "require": {
+        "metaregistrar/php-epp-client": "^1.0",
+        "php": "^7.2"
+    },
+    "type": "library",
+    "version": "1.1.2"
 }

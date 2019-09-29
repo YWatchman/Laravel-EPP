@@ -7,8 +7,14 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     /**
      * Bootstrap application events
      */
-    public function boot() {
+    public function boot()
+    {
         $this->publishConfig();
+    }
+
+    public function register()
+    {
+        $this->app->alias(Epp::class, 'epp');
     }
 
     private function publishConfig()
