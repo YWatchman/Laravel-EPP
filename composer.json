@@ -22,7 +22,6 @@
         }
     },
     "license": "MIT",
-    "minimum-stability": "dev",
     "name": "ywatchman/laravel-epp",
     "prefer-stable": true,
     "require": {
