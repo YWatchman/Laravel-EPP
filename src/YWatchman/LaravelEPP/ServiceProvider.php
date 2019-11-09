@@ -25,6 +25,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     private function getConfigPath()
     {
-        return __DIR__ . '/../config/laravel-epp.php';
+        return __DIR__.'/../config/laravel-epp.php';
     }
 }

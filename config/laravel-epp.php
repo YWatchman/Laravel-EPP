@@ -6,7 +6,7 @@
 
 return [
     'settingsFile' => '/etc/cyberfusion/',
-    'model' => [
-        'handle_key' => 'handle'
-    ]
+    'model'        => [
+        'handle_key' => 'handle',
+    ],
 ];

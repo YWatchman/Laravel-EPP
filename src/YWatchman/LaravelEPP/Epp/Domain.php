@@ -2,7 +2,6 @@
 
 namespace YWatchman\LaravelEPP\Epp;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Metaregistrar\EPP\eppCheckDomainRequest;
 use Metaregistrar\EPP\eppCheckDomainResponse;
@@ -14,14 +13,13 @@ use Metaregistrar\EPP\eppDomain;
 use Metaregistrar\EPP\eppException;
 use Metaregistrar\EPP\eppHost;
 use Metaregistrar\EPP\eppTransferRequest;
-use Metaregistrar\EPP\euridEppTransferDomainRequest;
 use Metaregistrar\EPP\sidnEppException;
 use Metaregistrar\EPP\sidnEppInfoDomainRequest;
 use Metaregistrar\EPP\sidnEppInfoDomainResponse;
 use YWatchman\LaravelEPP\Exceptions\DomainRegistrationException;
 use YWatchman\LaravelEPP\Exceptions\EppCheckException;
-use YWatchman\LaravelEPP\Models\Domain as DomainModel;
 use YWatchman\LaravelEPP\Models\Contact as ContactModel;
+use YWatchman\LaravelEPP\Models\Domain as DomainModel;
 
 class Domain extends Connection
 {
@@ -38,8 +36,9 @@ class Domain extends Connection
      *
      * @param array|string $domain
      *
-     * @return array|bool
      * @throws EppCheckException
+     *
+     * @return array|bool
      */
     public function getAvailability($domain)
     {
@@ -72,6 +71,7 @@ class Domain extends Connection
 
                 return $info;
             }
+
             return false;
         } catch (eppException $e) {
             throw new EppCheckException($e->getMessage(), $e->getCode());
@@ -85,13 +85,15 @@ class Domain extends Connection
      * @param $admin
      * @param $tech
      * @param $billing
-     * @param array $nameservers
-     * @param int $period
+     * @param array  $nameservers
+     * @param int    $period
      * @param string $periodUnit
-     * @return bool|DomainModel
+     *
      * @throws DomainRegistrationException
      * @throws EppCheckException
      * @throws eppException
+     *
+     * @return bool|DomainModel
      */
     public function transferDomain(string $name, string $code, $registrant, $admin, $tech, $billing, array $nameservers, int $period = 12, string $periodUnit = 'm')
     {
@@ -99,20 +101,21 @@ class Domain extends Connection
     }
 
     /**
-     * @param string $name Domain name
-     * @param string $registrant Registrant contact
-     * @param string $admin Admin contact
-     * @param string $tech Technical contact
-     * @param string|null $billing Billing contact
-     * @param array $nameservers Preferred nameservers
-     *
-     * @param int $period
-     * @param string $periodUnit
+     * @param string      $name        Domain name
+     * @param string      $registrant  Registrant contact
+     * @param string      $admin       Admin contact
+     * @param string      $tech        Technical contact
+     * @param string|null $billing     Billing contact
+     * @param array       $nameservers Preferred nameservers
+     * @param int         $period
+     * @param string      $periodUnit
      * @param string|bool $code
-     * @return bool|DomainModel
+     *
      * @throws DomainRegistrationException
      * @throws EppCheckException
      * @throws eppException
+     *
+     * @return bool|DomainModel
      */
     public function createDomain(string $name, string $registrant, $admin, $tech, $billing, array $nameservers, int $period = 12, string $periodUnit = 'm', $code = false)
     {
@@ -136,7 +139,7 @@ class Domain extends Connection
                 }
             }
 
-            if($admin instanceof ContactModel) {
+            if ($admin instanceof ContactModel) {
                 $admin = $admin->{config('laravel-epp.model.handle_key', 'handle')};
             }
             $domain->addContact(new eppContactHandle($admin, eppContactHandle::CONTACT_TYPE_ADMIN));
@@ -172,7 +175,7 @@ class Domain extends Connection
                 }
             }
 
-            if($code) {
+            if ($code) {
                 $request = new eppTransferRequest(eppTransferRequest::OPERATION_REQUEST, $domain);
             } else {
                 $request = new eppCreateDomainRequest($domain);
@@ -195,11 +198,13 @@ class Domain extends Connection
     }
 
     /**
-     * Delete domain name registration
+     * Delete domain name registration.
      *
      * @param $domain
-     * @return bool
+     *
      * @throws EppCheckException
+     *
+     * @return bool
      */
     public function deleteDomain($domain)
     {
@@ -216,11 +221,13 @@ class Domain extends Connection
     }
 
     /**
-     * Get basic domain name information
+     * Get basic domain name information.
      *
      * @param $domain
-     * @return bool|sidnEppInfoDomainResponse
+     *
      * @throws EppCheckException
+     *
+     * @return bool|sidnEppInfoDomainResponse
      */
     public function getDomainInfo($domain)
     {

@@ -22,8 +22,9 @@ class Nameserver extends Connection
     /**
      * @param array $nameservers
      *
-     * @return bool|array
      * @throws EppCheckException
+     *
+     * @return bool|array
      */
     public function checkNameservers($nameservers)
     {
@@ -83,9 +84,9 @@ class Nameserver extends Connection
                     $errors[] = "$nameserver couldn't be created";
                 }
             } catch (sidnEppException $e) {
-                $errors[] = "$nameserver couldn't be created: " . $e->getSidnErrorMessage();
+                $errors[] = "$nameserver couldn't be created: ".$e->getSidnErrorMessage();
             } catch (eppException $e) {
-                $errors[] = "$nameserver couldn't be created: " . $e->getMessage();
+                $errors[] = "$nameserver couldn't be created: ".$e->getMessage();
             }
         }
 

@@ -17,14 +17,16 @@ class Dnssec extends Connection
     }
 
     /**
-     * Sign a domain name
+     * Sign a domain name.
      *
      * @param $domain
      * @param $signingkey
      * @param $algorithm
      * @param $publickey
-     * @return bool
+     *
      * @throws DnssecSigningException
+     *
+     * @return bool
      */
     public function createKey($domain, $signingkey, $algorithm, $publickey)
     {
