@@ -127,11 +127,13 @@ class Domain extends Connection
             $domain = new eppDomain($name);
             $domain->setRegistrant($registrant);
 
-            try {
-                $domain->setPeriodUnit($periodUnit);
-                $domain->setPeriod($period);
-            } catch (eppException $e) {
-                throw new DomainRegistrationException('Setting subscription period failed.', 105);
+            if (!$code) {
+                try {
+                    $domain->setPeriodUnit($periodUnit);
+                    $domain->setPeriod($period);
+                } catch (eppException $e) {
+                    throw new DomainRegistrationException('Setting subscription period failed.', 105);
+                }
             }
 
             if($admin instanceof ContactModel) {
