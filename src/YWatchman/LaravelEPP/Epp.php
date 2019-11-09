@@ -72,7 +72,7 @@ class Epp
      */
     public static function transferDomain($name, $code, $registrant, $admin, $tech, $nameservers, $billing = null)
     {
-        return (new Domain())->transferDomain($name, $code, $registrant, $admin, $tech, $nameservers, $billing);
+        return (new Domain())->transferDomain($name, $code, $registrant, $admin, $tech, $billing, $nameservers);
     }
 
     /**

@@ -91,7 +91,7 @@ class Domain extends Connection
      * @throws EppCheckException
      * @throws eppException
      */
-    public function transferDomain(string $name, string $code, string $registrant, $admin, $tech, $billing, array $nameservers, int $period = 12, string $periodUnit = 'm')
+    public function transferDomain(string $name, string $code, $registrant, $admin, $tech, $billing, array $nameservers, int $period = 12, string $periodUnit = 'm')
     {
         return $this->createDomain($name, $registrant, $admin, $tech, $billing, $nameservers, $period, $periodUnit, $code);
     }
