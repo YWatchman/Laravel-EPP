@@ -7,6 +7,7 @@ use Metaregistrar\EPP\eppDomain;
 use Metaregistrar\EPP\eppException;
 use Metaregistrar\EPP\eppSecdns;
 use YWatchman\LaravelEPP\Epp;
+use YWatchman\LaravelEPP\Exceptions\DnssecSigningException;
 
 class Dnssec extends Connection
 {
@@ -15,6 +16,16 @@ class Dnssec extends Connection
         parent::__construct();
     }
 
+    /**
+     * Sign a domain name
+     *
+     * @param $domain
+     * @param $signingkey
+     * @param $algorithm
+     * @param $publickey
+     * @return bool
+     * @throws DnssecSigningException
+     */
     public function createKey($domain, $signingkey, $algorithm, $publickey)
     {
         try {
@@ -27,7 +38,7 @@ class Dnssec extends Connection
 
             return true;
         } catch (eppException $e) {
-            return false;
+            throw new DnssecSigningException($e->getMessage(), $e->getCode());
         }
     }
 

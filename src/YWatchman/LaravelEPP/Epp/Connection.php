@@ -19,7 +19,7 @@ class Connection
     public function __construct()
     {
         $this->connection = eppConnection::create(
-            env('EPP_SETTINGS_FILE', config('laravel-epp.settingsFile')),
+            env('EPP_SETTINGS_FILE', config('laravel-epp.settingsFile', '/etc/cyberfusion/epp.ini')),
             env('EPP_DEBUG', false)
         );
         $this->epp = $this->getConnection();

@@ -2,6 +2,7 @@
 
 namespace YWatchman\LaravelEPP\Epp;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Metaregistrar\EPP\eppCheckDomainRequest;
 use Metaregistrar\EPP\eppCheckDomainResponse;
@@ -14,6 +15,10 @@ use Metaregistrar\EPP\eppException;
 use Metaregistrar\EPP\eppHost;
 use Metaregistrar\EPP\sidnEppInfoDomainRequest;
 use Metaregistrar\EPP\sidnEppInfoDomainResponse;
+use YWatchman\LaravelEPP\Exceptions\DomainRegistrationException;
+use YWatchman\LaravelEPP\Exceptions\EppCheckException;
+use YWatchman\LaravelEPP\Models\Domain as DomainModel;
+use YWatchman\LaravelEPP\Models\Contact as ContactModel;
 
 class Domain extends Connection
 {
@@ -31,6 +36,7 @@ class Domain extends Connection
      * @param array|string $domain
      *
      * @return array|bool
+     * @throws EppCheckException
      */
     public function getAvailability($domain)
     {
@@ -39,7 +45,7 @@ class Domain extends Connection
             try {
                 $eppDomain = new eppDomain($domain);
             } catch (eppException $e) {
-                return false;
+                throw new EppCheckException($e->getMessage(), $e->getCode());
             }
         }
         // Construct domain request for EPP
@@ -63,51 +69,85 @@ class Domain extends Connection
 
                 return $info;
             }
-
             return false;
         } catch (eppException $e) {
-            return false;
+            throw new EppCheckException($e->getMessage(), $e->getCode());
         }
     }
 
     /**
-     * @param string      $name        Domain name
-     * @param string      $registrant  Registrant contact
-     * @param string      $admin       Admin contact
-     * @param string      $tech        Technical contact
-     * @param string|null $billing     Billing contact
-     * @param array       $nameservers Preferred nameservers
+     * @param string $name Domain name
+     * @param string $registrant Registrant contact
+     * @param string $admin Admin contact
+     * @param string $tech Technical contact
+     * @param string|null $billing Billing contact
+     * @param array $nameservers Preferred nameservers
      *
-     * @return bool|\YWatchman\LaravelEPP\Models\Domain
+     * @param int $period
+     * @param string $periodUnit
+     * @return bool|DomainModel
+     * @throws DomainRegistrationException
+     * @throws EppCheckException
+     * @throws eppException
      */
-    public function createDomain(string $name, string $registrant, string $admin, string $tech, ?string $billing, array $nameservers)
+    public function createDomain(string $name, string $registrant, $admin, $tech, $billing, array $nameservers, int $period = 12, string $periodUnit = 'm')
     {
-        if (!(new Nameserver())->checkNameservers($nameservers)) {
-            if (!(new Nameserver())->createNameservers($nameservers)) {
-                return false;
+        $nameserver = new Nameserver();
+        if (!$nameserver->checkNameservers($nameservers)) {
+            if (!$nameserver->createNameservers($nameservers)) {
+                throw new EppCheckException('No nameservers available, creating nameservers failed', 120);
             }
         }
 
         try {
             $domain = new eppDomain($name);
             $domain->setRegistrant($registrant);
+
+            try {
+                $domain->setPeriod($period);
+                $domain->setPeriodUnit($periodUnit);
+            } catch (eppException $e) {
+                throw new DomainRegistrationException('Setting subscription period failed.', 105);
+            }
+
+            if($admin instanceof ContactModel) {
+                $admin = $admin->{config('laravel-epp.model.handle_key', 'handle')};
+            }
             $domain->addContact(new eppContactHandle($admin, eppContactHandle::CONTACT_TYPE_ADMIN));
+
+            if ($tech instanceof ContactModel) {
+                $tech = $tech->{config('laravel-epp.model.handle_key', 'handle')};
+            }
             $domain->addContact(new eppContactHandle($tech, eppContactHandle::CONTACT_TYPE_TECH));
-            if (1 != 1) {
-                // SIDN only supports Admin and tech contact
+
+            // SIDN only supports Admin and tech contact so if contains DRS of SIDN, don't handle add billing contact
+            if (!Str::contains($this->getConnection()->getHostname(), 'domain-registry.nl')) {
+                if ($billing instanceof ContactModel) {
+                    $billing = $billing->{config('laravel-epp.model.handle_key', 'handle')};
+                }
                 $domain->addContact(new eppContactHandle($billing, eppContactHandle::CONTACT_TYPE_BILLING));
             }
+
             $domain->setAuthorisationCode(Str::random(8));
+
             if (is_array($nameservers)) {
-                foreach ($nameservers as $nameserver) {
-                    $domain->addHost(new eppHost($nameserver)); // Todo: add compatibility for glue records
+                foreach ($nameservers as $key => $nameserver) {
+                    if (count($nameservers) == count($nameservers, COUNT_RECURSIVE)) {
+                        $nameserver = new eppHost($nameserver);
+                    } else {
+                        if (!filter_var($nameserver, FILTER_VALIDATE_IP)) {
+                            throw new DomainRegistrationException('Glue record value does not have a valid IP Address.', 106);
+                        }
+                        $nameserver = new eppHost($key, $nameserver);
+                    }
+                    $domain->addHost($nameserver);
                 }
             }
 
             $request = new eppCreateDomainRequest($domain);
             /** @var $res eppCreateDomainResponse epp create domain response */
             if ($res = $this->epp->request($request)) {
-                $d = new \YWatchman\LaravelEPP\Models\Domain();
+                $d = new DomainModel();
                 $d->name = $res->getDomainName();
 
                 return $d;
@@ -115,10 +155,16 @@ class Domain extends Connection
 
             return false;
         } catch (eppException $e) {
-            return false;
+            throw new DomainRegistrationException($e->getMessage(), $e->getCode());
         }
     }
 
+    /**
+     * Delete domain name registration
+     *
+     * @param $domain
+     * @return bool
+     */
     public function deleteDomain($domain)
     {
         try {
@@ -131,6 +177,13 @@ class Domain extends Connection
         }
     }
 
+    /**
+     * Get basic domain name information
+     *
+     * @param $domain
+     * @return bool|sidnEppInfoDomainResponse
+     * @throws EppCheckException
+     */
     public function getDomainInfo($domain)
     {
         try {
@@ -142,7 +195,7 @@ class Domain extends Connection
 
             return false;
         } catch (eppException $e) {
-            return false;
+            throw new EppCheckException($e->getMessage(), $e->getCode());
         }
     }
 }

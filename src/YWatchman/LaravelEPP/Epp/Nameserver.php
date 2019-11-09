@@ -9,6 +9,7 @@ use Metaregistrar\EPP\eppCreateHostResponse;
 use Metaregistrar\EPP\eppDeleteHostRequest;
 use Metaregistrar\EPP\eppException;
 use Metaregistrar\EPP\eppHost;
+use YWatchman\LaravelEPP\Exceptions\EppCheckException;
 
 class Nameserver extends Connection
 {
@@ -21,11 +22,12 @@ class Nameserver extends Connection
      * @param array $nameservers
      *
      * @return bool
+     * @throws EppCheckException
      */
     public function checkNameservers($nameservers)
     {
-        $checks = [];
         if (is_array($nameservers)) {
+            $checkNames = [];
             foreach ($nameservers as $nameserver) {
                 $checkNames[] = new eppHost($nameserver);
             }
@@ -49,7 +51,7 @@ class Nameserver extends Connection
                     return $allchecksok;
                 }
             } catch (eppException $e) {
-                $allchecksok = false;
+                throw new EppCheckException($e->getMessage(), $e->getCode());
             }
         }
 

@@ -15,9 +15,11 @@ class Epp
 
     /**
      * Epp constructor.
+     * @param Application $app
      */
-    public function __construct()
+    public function __construct(Application $app)
     {
+        $this->app = $app;
     }
 
     public static function getDomainAvailability($domain)
@@ -82,6 +84,6 @@ class Epp
 
     public function deleteDnssec($domain)
     {
-        return (new Domain())->deleteDomain($domain);
+        return (new Dnssec())->deleteKey($domain);
     }
 }

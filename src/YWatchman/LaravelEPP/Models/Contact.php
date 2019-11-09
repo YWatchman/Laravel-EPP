@@ -1,6 +1,6 @@
 <?php
 
-namespace YWatchman\LaravelEPP\Models\Domain;
+namespace YWatchman\LaravelEPP\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,6 +11,9 @@ class Contact extends Model
 
     /** @var $contactId integer Epp service contact id */
     public $contactId;
+
+    /** @var $handle string Epp service contact handle */
+    public $handle;
 
     /** @var $email string Contact Email Address */
     public $email;
