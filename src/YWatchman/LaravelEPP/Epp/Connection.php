@@ -32,7 +32,7 @@ class Connection
      */
     public function getConnection()
     {
-        if ($this->connection->login(true)) {
+        if ($this->connection->isLoggedin() || $this->connection->login(true)) {
             return $this->connection;
         }
 

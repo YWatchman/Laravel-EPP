@@ -9,6 +9,7 @@ use Metaregistrar\EPP\eppCreateHostResponse;
 use Metaregistrar\EPP\eppDeleteHostRequest;
 use Metaregistrar\EPP\eppException;
 use Metaregistrar\EPP\eppHost;
+use Metaregistrar\EPP\sidnEppException;
 use YWatchman\LaravelEPP\Exceptions\EppCheckException;
 
 class Nameserver extends Connection
@@ -21,7 +22,7 @@ class Nameserver extends Connection
     /**
      * @param array $nameservers
      *
-     * @return bool
+     * @return bool|array
      * @throws EppCheckException
      */
     public function checkNameservers($nameservers)
@@ -29,10 +30,11 @@ class Nameserver extends Connection
         if (is_array($nameservers)) {
             $checkNames = [];
             foreach ($nameservers as $nameserver) {
-                $checkNames[] = new eppHost($nameserver);
+                $checkNames[$nameserver] = new eppHost($nameserver);
             }
             /* @var eppCheckHostResponse $response */
             try {
+                $chksrvs = [];
                 $check = new eppCheckHostRequest($checkNames);
                 if ($response = $this->epp->request($check)) {
                     $checks = $response->getCheckedHosts();
@@ -41,15 +43,15 @@ class Nameserver extends Connection
                     foreach ($checks as $server => $check) {
                         if ($check) {
                             $errors[] = "$server does not exist...".PHP_EOL;
+                            $chksrvs[] = $server;
                             $allchecksok = false;
                         }
                     }
-                    if (env('APP_DEBUG', false)) {
-                        print_r($errors);
-                    }
 
-                    return $allchecksok;
+                    return $chksrvs;
                 }
+            } catch (sidnEppException $e) {
+                throw new EppCheckException($e->getSidnErrorMessage(), $e->getSidnErrorCode());
             } catch (eppException $e) {
                 throw new EppCheckException($e->getMessage(), $e->getCode());
             }
@@ -69,7 +71,7 @@ class Nameserver extends Connection
     {
         $errors = [];
         if (is_string($nameservers)) {
-            $nameservers = [$nameservers];
+            $nameservers = (array) $nameservers;
         }
         foreach ($nameservers as $nameserver) {
             try {
@@ -80,10 +82,14 @@ class Nameserver extends Connection
                 } else {
                     $errors[] = "$nameserver couldn't be created";
                 }
+            } catch (sidnEppException $e) {
+                $errors[] = "$nameserver couldn't be created: " . $e->getSidnErrorMessage();
             } catch (eppException $e) {
-                $errors[] = "$nameserver couldn't be created";
+                $errors[] = "$nameserver couldn't be created: " . $e->getMessage();
             }
         }
+
+        print_r($errors);
 
         return count($errors) == 0;
     }

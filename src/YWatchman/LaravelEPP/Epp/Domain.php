@@ -13,6 +13,7 @@ use Metaregistrar\EPP\eppDeleteDomainRequest;
 use Metaregistrar\EPP\eppDomain;
 use Metaregistrar\EPP\eppException;
 use Metaregistrar\EPP\eppHost;
+use Metaregistrar\EPP\sidnEppException;
 use Metaregistrar\EPP\sidnEppInfoDomainRequest;
 use Metaregistrar\EPP\sidnEppInfoDomainResponse;
 use YWatchman\LaravelEPP\Exceptions\DomainRegistrationException;
@@ -93,8 +94,8 @@ class Domain extends Connection
     public function createDomain(string $name, string $registrant, $admin, $tech, $billing, array $nameservers, int $period = 12, string $periodUnit = 'm')
     {
         $nameserver = new Nameserver();
-        if (!$nameserver->checkNameservers($nameservers)) {
-            if (!$nameserver->createNameservers($nameservers)) {
+        if ($srvs = $nameserver->checkNameservers($nameservers)) {
+            if (!$nameserver->createNameservers($srvs)) {
                 throw new EppCheckException('No nameservers available, creating nameservers failed', 120);
             }
         }
@@ -104,8 +105,8 @@ class Domain extends Connection
             $domain->setRegistrant($registrant);
 
             try {
-                $domain->setPeriod($period);
                 $domain->setPeriodUnit($periodUnit);
+                $domain->setPeriod($period);
             } catch (eppException $e) {
                 throw new DomainRegistrationException('Setting subscription period failed.', 105);
             }
@@ -146,7 +147,7 @@ class Domain extends Connection
 
             $request = new eppCreateDomainRequest($domain);
             /** @var $res eppCreateDomainResponse epp create domain response */
-            if ($res = $this->epp->request($request)) {
+            if ($res = $this->getConnection()->request($request)) {
                 $d = new DomainModel();
                 $d->name = $res->getDomainName();
 
@@ -154,8 +155,10 @@ class Domain extends Connection
             }
 
             return false;
+        } catch (sidnEppException $e) {
+            throw new EppCheckException($e->getSidnErrorMessage(), $e->getSidnErrorCode());
         } catch (eppException $e) {
-            throw new DomainRegistrationException($e->getMessage(), $e->getCode());
+            throw new EppCheckException($e->getMessage(), $e->getCode());
         }
     }
 
@@ -164,6 +167,7 @@ class Domain extends Connection
      *
      * @param $domain
      * @return bool
+     * @throws EppCheckException
      */
     public function deleteDomain($domain)
     {
@@ -172,8 +176,10 @@ class Domain extends Connection
             $this->epp->request($eppDomain);
 
             return true;
+        } catch (sidnEppException $e) {
+            throw new EppCheckException($e->getSidnErrorMessage(), $e->getSidnErrorCode());
         } catch (eppException $e) {
-            return false;
+            throw new EppCheckException($e->getMessage(), $e->getCode());
         }
     }
 
@@ -194,6 +200,8 @@ class Domain extends Connection
             }
 
             return false;
+        } catch (sidnEppException $e) {
+            throw new EppCheckException($e->getSidnErrorMessage(), $e->getSidnErrorCode());
         } catch (eppException $e) {
             throw new EppCheckException($e->getMessage(), $e->getCode());
         }
