@@ -156,7 +156,7 @@ class Domain extends Connection
 
             return false;
         } catch (sidnEppException $e) {
-            throw new EppCheckException($e->getSidnErrorMessage(), $e->getSidnErrorCode());
+            throw new EppCheckException($e->getMessage(), $e->getCode(), $e);
         } catch (eppException $e) {
             throw new EppCheckException($e->getMessage(), $e->getCode());
         }
@@ -177,7 +177,7 @@ class Domain extends Connection
 
             return true;
         } catch (sidnEppException $e) {
-            throw new EppCheckException($e->getSidnErrorMessage(), $e->getSidnErrorCode());
+            throw new EppCheckException($e->getMessage(), $e->getCode(), $e);
         } catch (eppException $e) {
             throw new EppCheckException($e->getMessage(), $e->getCode());
         }
