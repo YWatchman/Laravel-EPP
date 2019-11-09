@@ -29,5 +29,5 @@
         "php": "^7.2"
     },
     "type": "library",
-    "version": "dev-master"
+    "version": "v1.1.4-beta1"
 }
