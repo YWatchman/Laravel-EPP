@@ -77,6 +77,26 @@ class Domain extends Connection
     }
 
     /**
+     * @param string $name
+     * @param string $code
+     * @param string $registrant
+     * @param $admin
+     * @param $tech
+     * @param $billing
+     * @param array $nameservers
+     * @param int $period
+     * @param string $periodUnit
+     * @return bool|DomainModel
+     * @throws DomainRegistrationException
+     * @throws EppCheckException
+     * @throws eppException
+     */
+    public function transferDomain(string $name, string $code, string $registrant, $admin, $tech, $billing, array $nameservers, int $period = 12, string $periodUnit = 'm')
+    {
+        return $this->createDomain($name, $registrant, $admin, $tech, $billing, $nameservers, $period, $periodUnit, $code);
+    }
+
+    /**
      * @param string $name Domain name
      * @param string $registrant Registrant contact
      * @param string $admin Admin contact
@@ -86,12 +106,13 @@ class Domain extends Connection
      *
      * @param int $period
      * @param string $periodUnit
+     * @param string|bool $code
      * @return bool|DomainModel
      * @throws DomainRegistrationException
      * @throws EppCheckException
      * @throws eppException
      */
-    public function createDomain(string $name, string $registrant, $admin, $tech, $billing, array $nameservers, int $period = 12, string $periodUnit = 'm')
+    public function createDomain(string $name, string $registrant, $admin, $tech, $billing, array $nameservers, int $period = 12, string $periodUnit = 'm', $code = false)
     {
         $nameserver = new Nameserver();
         if ($srvs = $nameserver->checkNameservers($nameservers)) {
@@ -129,7 +150,9 @@ class Domain extends Connection
                 $domain->addContact(new eppContactHandle($billing, eppContactHandle::CONTACT_TYPE_BILLING));
             }
 
-            $domain->setAuthorisationCode(Str::random(8));
+            if ($code) {
+                $domain->setAuthorisationCode($code);
+            }
 
             if (is_array($nameservers)) {
                 foreach ($nameservers as $key => $nameserver) {

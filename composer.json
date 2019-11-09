@@ -28,6 +28,9 @@
         "metaregistrar/php-epp-client": "^1.0",
         "php": "^7.2"
     },
+    "require-dev": {
+        "laravel/framework": "^5.8"
+    },
     "type": "library",
     "version": "v1.1.4-beta3"
 }
