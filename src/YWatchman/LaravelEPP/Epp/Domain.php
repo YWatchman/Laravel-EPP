@@ -171,7 +171,7 @@ class Domain extends Connection
             }
 
             if($code) {
-                $request = new euridEppTransferDomainRequest(eppTransferRequest::OPERATION_REQUEST, $domain);
+                $request = new eppTransferRequest(eppTransferRequest::OPERATION_REQUEST, $domain);
             } else {
                 $request = new eppCreateDomainRequest($domain);
             }
