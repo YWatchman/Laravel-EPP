@@ -13,6 +13,7 @@ use Metaregistrar\EPP\eppDeleteDomainRequest;
 use Metaregistrar\EPP\eppDomain;
 use Metaregistrar\EPP\eppException;
 use Metaregistrar\EPP\eppHost;
+use Metaregistrar\EPP\euridEppTransferDomainRequest;
 use Metaregistrar\EPP\sidnEppException;
 use Metaregistrar\EPP\sidnEppInfoDomainRequest;
 use Metaregistrar\EPP\sidnEppInfoDomainResponse;
@@ -168,7 +169,12 @@ class Domain extends Connection
                 }
             }
 
-            $request = new eppCreateDomainRequest($domain);
+            if($code) {
+                $request = new euridEppTransferDomainRequest($domain);
+            } else {
+                $request = new eppCreateDomainRequest($domain);
+            }
+
             /** @var $res eppCreateDomainResponse epp create domain response */
             if ($res = $this->getConnection()->request($request)) {
                 $d = new DomainModel();
