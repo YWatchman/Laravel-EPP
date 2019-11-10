@@ -36,9 +36,9 @@ class Domain extends Connection
      *
      * @param array|string $domain
      *
+     * @return array|bool
      * @throws EppCheckException
      *
-     * @return array|bool
      */
     public function getAvailability($domain)
     {
@@ -85,15 +85,15 @@ class Domain extends Connection
      * @param $admin
      * @param $tech
      * @param $billing
-     * @param array  $nameservers
-     * @param int    $period
+     * @param array $nameservers
+     * @param int $period
      * @param string $periodUnit
      *
+     * @return bool|eppCreateDomainResponse
      * @throws DomainRegistrationException
      * @throws EppCheckException
      * @throws eppException
      *
-     * @return bool|DomainModel
      */
     public function transferDomain(string $name, string $code, $registrant, $admin, $tech, $billing, array $nameservers, int $period = 12, string $periodUnit = 'm')
     {
@@ -101,18 +101,18 @@ class Domain extends Connection
     }
 
     /**
-     * @param string      $name        Domain name
-     * @param string      $registrant  Registrant contact
-     * @param string      $admin       Admin contact
-     * @param string      $tech        Technical contact
-     * @param string|null $billing     Billing contact
-     * @param array       $nameservers Preferred nameservers
-     * @param int         $period
-     * @param string      $periodUnit
+     * @param string $name Domain name
+     * @param string $registrant Registrant contact
+     * @param string $admin Admin contact
+     * @param string $tech Technical contact
+     * @param string|null $billing Billing contact
+     * @param array $nameservers Preferred nameservers
+     * @param int $period
+     * @param string $periodUnit
      * @param string|bool $code
      *
      * @return bool|eppCreateDomainResponse
-     *@throws DomainRegistrationException
+     * @throws DomainRegistrationException
      * @throws EppCheckException
      * @throws eppException
      *
@@ -199,9 +199,9 @@ class Domain extends Connection
      *
      * @param $domain
      *
+     * @return bool
      * @throws EppCheckException
      *
-     * @return bool
      */
     public function deleteDomain($domain)
     {
@@ -222,9 +222,9 @@ class Domain extends Connection
      *
      * @param $domain
      *
+     * @return bool|sidnEppInfoDomainResponse
      * @throws EppCheckException
      *
-     * @return bool|sidnEppInfoDomainResponse
      */
     public function getDomainInfo($domain)
     {

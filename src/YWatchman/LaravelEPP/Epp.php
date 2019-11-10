@@ -3,6 +3,7 @@
 namespace YWatchman\LaravelEPP;
 
 use Illuminate\Foundation\Application;
+use Metaregistrar\EPP\eppCreateDomainResponse;
 use Metaregistrar\EPP\eppException;
 use YWatchman\LaravelEPP\Epp\Contact;
 use YWatchman\LaravelEPP\Epp\Dnssec;
@@ -45,7 +46,7 @@ class Epp
      * @param $tech
      * @param $nameservers
      * @param null $billing
-     * @return bool|Models\Domain
+     * @return bool|eppCreateDomainResponse
      * @throws Exceptions\DomainRegistrationException
      * @throws Exceptions\EppCheckException
      * @throws eppException
@@ -65,7 +66,7 @@ class Epp
      * @param $tech
      * @param $nameservers
      * @param null $billing
-     * @return bool|Models\Domain
+     * @return bool|eppCreateDomainResponse
      * @throws Exceptions\DomainRegistrationException
      * @throws Exceptions\EppCheckException
      * @throws eppException
