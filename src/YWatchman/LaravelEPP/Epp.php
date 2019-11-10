@@ -17,6 +17,7 @@ class Epp
 
     /**
      * Epp constructor.
+     *
      * @param Application $app
      */
     public function __construct(Application $app)
@@ -25,12 +26,14 @@ class Epp
     }
 
     /**
-     * Check if domain is available
+     * Check if domain is available.
      *
      * @param $domain
-     * @return array|bool
+     *
      * @throws Exceptions\EppCheckException
      * @throws eppException
+     *
+     * @return array|bool
      */
     public static function getDomainAvailability($domain)
     {
@@ -38,7 +41,7 @@ class Epp
     }
 
     /**
-     * Register domain name
+     * Register domain name.
      *
      * @param $name
      * @param $registrant
@@ -50,6 +53,8 @@ class Epp
      * @throws Exceptions\DomainRegistrationException
      * @throws Exceptions\EppCheckException
      * @throws eppException
+     *
+     * @return bool|Models\Domain
      */
     public static function createDomain($name, $registrant, $admin, $tech, $nameservers, $billing = null)
     {
@@ -57,7 +62,7 @@ class Epp
     }
 
     /**
-     * Transfer domain name
+     * Transfer domain name.
      *
      * @param $name
      * @param $code
@@ -70,6 +75,8 @@ class Epp
      * @throws Exceptions\DomainRegistrationException
      * @throws Exceptions\EppCheckException
      * @throws eppException
+     *
+     * @return bool|Models\Domain
      */
     public static function transferDomain($name, $code, $registrant, $admin, $tech, $nameservers, $billing = null)
     {
@@ -77,12 +84,14 @@ class Epp
     }
 
     /**
-     * Move domain name to quarantine
+     * Move domain name to quarantine.
      *
      * @param $domain
-     * @return bool
+     *
      * @throws Exceptions\EppCheckException
      * @throws eppException
+     *
+     * @return bool
      */
     public static function deleteDomain($domain)
     {
@@ -90,12 +99,14 @@ class Epp
     }
 
     /**
-     * Check if nameserver existance
+     * Check if nameserver existance.
      *
      * @param $nameserver
-     * @return array|bool
+     *
      * @throws Exceptions\EppCheckException
      * @throws eppException
+     *
+     * @return array|bool
      */
     public static function checkNameserver($nameserver)
     {
@@ -103,11 +114,13 @@ class Epp
     }
 
     /**
-     * Create a 'host'
+     * Create a 'host'.
      *
      * @param $nameservers
-     * @return bool
+     *
      * @throws eppException
+     *
+     * @return bool
      */
     public static function createNameserver($nameservers)
     {
