@@ -111,11 +111,11 @@ class Domain extends Connection
      * @param string      $periodUnit
      * @param string|bool $code
      *
-     * @throws DomainRegistrationException
+     * @return bool|eppCreateDomainResponse
+     *@throws DomainRegistrationException
      * @throws EppCheckException
      * @throws eppException
      *
-     * @return bool|DomainModel
      */
     public function createDomain(string $name, string $registrant, $admin, $tech, $billing, array $nameservers, int $period = 12, string $periodUnit = 'm', $code = false)
     {
@@ -183,10 +183,7 @@ class Domain extends Connection
 
             /** @var $res eppCreateDomainResponse epp create domain response */
             if ($res = $this->getConnection()->request($request)) {
-                $d = new DomainModel();
-                $d->name = $res->getDomainName();
-
-                return $d;
+                return $res;
             }
 
             return false;
@@ -239,8 +236,6 @@ class Domain extends Connection
             }
 
             return false;
-        } catch (sidnEppException $e) {
-            throw new EppCheckException($e->getSidnErrorMessage(), $e->getSidnErrorCode());
         } catch (eppException $e) {
             throw new EppCheckException($e->getMessage(), $e->getCode());
         }
