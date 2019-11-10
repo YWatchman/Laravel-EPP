@@ -117,7 +117,7 @@ class Domain extends Connection
      * @throws eppException
      *
      */
-    public function createDomain(string $name, string $registrant, $admin, $tech, $billing, array $nameservers, int $period = 12, string $periodUnit = 'm', $code = false)
+    public function createDomain(string $name, $registrant, $admin, $tech, $billing, array $nameservers, int $period = 12, string $periodUnit = 'm', $code = false)
     {
         $nameserver = new Nameserver();
         if ($srvs = $nameserver->checkNameservers($nameservers)) {
@@ -128,16 +128,11 @@ class Domain extends Connection
 
         try {
             $domain = new eppDomain($name);
-            $domain->setRegistrant($registrant);
 
-            if (!$code) {
-                try {
-                    $domain->setPeriodUnit($periodUnit);
-                    $domain->setPeriod($period);
-                } catch (eppException $e) {
-                    throw new DomainRegistrationException('Setting subscription period failed.', 105);
-                }
+            if ($registrant instanceof ContactModel) {
+                $registrant = $registrant->{config('laravel-epp.model.handle_key', 'handle')};
             }
+            $domain->setRegistrant($registrant);
 
             if ($admin instanceof ContactModel) {
                 $admin = $admin->{config('laravel-epp.model.handle_key', 'handle')};
@@ -157,10 +152,6 @@ class Domain extends Connection
                 $domain->addContact(new eppContactHandle($billing, eppContactHandle::CONTACT_TYPE_BILLING));
             }
 
-            if ($code) {
-                $domain->setAuthorisationCode($code);
-            }
-
             if (is_array($nameservers)) {
                 foreach ($nameservers as $key => $nameserver) {
                     if (count($nameservers) == count($nameservers, COUNT_RECURSIVE)) {
@@ -176,8 +167,16 @@ class Domain extends Connection
             }
 
             if ($code) {
+                $domain->setAuthorisationCode($code);
                 $request = new eppTransferRequest(eppTransferRequest::OPERATION_REQUEST, $domain);
             } else {
+                $domain->setAuthorisationCode(Str::random(8));
+                try {
+                    $domain->setPeriodUnit($periodUnit);
+                    $domain->setPeriod($period);
+                } catch (eppException $e) {
+                    throw new DomainRegistrationException('Setting subscription period failed.', 105);
+                }
                 $request = new eppCreateDomainRequest($domain);
             }
 
