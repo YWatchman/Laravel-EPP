@@ -49,11 +49,12 @@ class Epp
      * @param $tech
      * @param $nameservers
      * @param null $billing
-     * @return bool|eppCreateDomainResponse
+     *
      * @throws Exceptions\DomainRegistrationException
      * @throws Exceptions\EppCheckException
      * @throws eppException
      *
+     * @return bool|eppCreateDomainResponse
      * @return bool|Models\Domain
      */
     public static function createDomain($name, $registrant, $admin, $tech, $nameservers, $billing = null)
@@ -71,11 +72,12 @@ class Epp
      * @param $tech
      * @param $nameservers
      * @param null $billing
-     * @return bool|eppCreateDomainResponse
+     *
      * @throws Exceptions\DomainRegistrationException
      * @throws Exceptions\EppCheckException
      * @throws eppException
      *
+     * @return bool|eppCreateDomainResponse
      * @return bool|Models\Domain
      */
     public static function transferDomain($name, $code, $registrant, $admin, $tech, $nameservers, $billing = null)
