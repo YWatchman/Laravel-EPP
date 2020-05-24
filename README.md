@@ -2,6 +2,8 @@
 [![Latest Stable Version](https://poser.pugx.org/ywatchman/laravel-epp/v/stable)](https://packagist.org/packages/ywatchman/laravel-epp)
 ![StyleCI](https://github.styleci.io/repos/211557879/shield)
 
+# Currently being totally rewritten, getting rid of metaregistrar/php-epp-client dependency.
+
 ### Installing with auto-discovery enabled
 ```bash
 composer require ywatchman/laravel-epp
