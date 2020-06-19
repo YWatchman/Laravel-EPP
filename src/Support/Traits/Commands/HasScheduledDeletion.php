@@ -15,6 +15,17 @@ trait HasScheduledDeletion
     protected $planned_cancellation = false;
 
     /**
+     * Enable scheduled deletion for request.
+     */
+    public function enabledScheduledDeletion()
+    {
+        $this->planned_cancellation = true;
+        if (! in_array('planned-cancellation', $this->extensions)) {
+            $this->extensions[] = 'planned-cancellation';
+        }
+    }
+
+    /**
      * Scheduled Cancellation node for extensions.
      * Operations:
      * - setDate # Set a cancellation date
@@ -48,17 +59,4 @@ trait HasScheduledDeletion
 
         return $node;
     }
-
-    /**
-     * Enable scheduled deletion for request.
-     */
-    public function enabledScheduledDeletion()
-    {
-        $this->planned_cancellation = true;
-        if (! in_array('planned-cancellation', $this->extensions)) {
-            $this->extensions[] = 'planned-cancellation';
-        }
-    }
-
-
 }

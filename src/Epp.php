@@ -13,6 +13,14 @@ class Epp
     /** @var resource */
     protected $socket;
 
+    /** @var bool */
+    protected $loggedIn = false;
+
+    /**
+     * @var string|null
+     */
+    protected $helloMsg;
+
     /** @var string  */
     private $registrar;
 
@@ -27,14 +35,6 @@ class Epp
 
     /** @var int */
     private $port;
-
-    /** @var bool */
-    protected $loggedIn = false;
-
-    /**
-     * @var string|null
-     */
-    protected $helloMsg;
 
     /**
      * Epp constructor.
@@ -57,34 +57,6 @@ class Epp
         if ($this->socket !== null) {
             fclose($this->socket);
         }
-    }
-
-    /**
-     * Setup registrar credentials.
-     *
-     * @throws EppException
-     */
-    private function setupRegistrar()
-    {
-        $config = config(sprintf('epp.registrars.%s', $this->registrar));
-        if ($config === null) {
-            throw EppException::missingRegistrarConfig($this->registrar);
-        }
-
-        if (
-            !isset($config['username'], $config['password'], $config['hostname'], $config['port'])
-            || !is_string($config['username'])
-            || !is_string($config['password'])
-            || !is_string($config['hostname'])
-            || !is_int($config['port'])
-        ) {
-            throw EppException::missingCredentials($this->registrar);
-        }
-
-        $this->hostname = $config['hostname'];
-        $this->username = $config['username'];
-        $this->password = $config['password'];
-        $this->port = $config['port'];
     }
 
     /**
@@ -224,5 +196,33 @@ class Epp
     public function getBigEndianLength($xml)
     {
         return pack('N', strlen($xml) + 4);
+    }
+
+    /**
+     * Setup registrar credentials.
+     *
+     * @throws EppException
+     */
+    private function setupRegistrar()
+    {
+        $config = config(sprintf('epp.registrars.%s', $this->registrar));
+        if ($config === null) {
+            throw EppException::missingRegistrarConfig($this->registrar);
+        }
+
+        if (
+            !isset($config['username'], $config['password'], $config['hostname'], $config['port'])
+            || !is_string($config['username'])
+            || !is_string($config['password'])
+            || !is_string($config['hostname'])
+            || !is_int($config['port'])
+        ) {
+            throw EppException::missingCredentials($this->registrar);
+        }
+
+        $this->hostname = $config['hostname'];
+        $this->username = $config['username'];
+        $this->password = $config['password'];
+        $this->port = $config['port'];
     }
 }

@@ -13,7 +13,6 @@ use YWatchman\LaravelEPP\Support\Xml\Commands\Command;
 
 class UpdateCommand extends Command
 {
-
     use HasDnssec;
     use HasScheduledDeletion;
 

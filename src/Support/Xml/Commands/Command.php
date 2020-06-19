@@ -49,6 +49,15 @@ class Command extends XmlHelper
     }
 
     /**
+     * @param $cmd
+     * @return string
+     */
+    public function getCommandTag($cmd): string
+    {
+        return sprintf('%s:%s', static::NODE_BASE, $cmd);
+    }
+
+    /**
      * Get command node element.
      *
      * @return DOMElement
@@ -87,15 +96,6 @@ class Command extends XmlHelper
 
             $this->walknode->appendChild($newNode);
         }
-    }
-
-    /**
-     * @param $cmd
-     * @return string
-     */
-    public function getCommandTag($cmd): string
-    {
-        return sprintf('%s:%s', static::NODE_BASE, $cmd);
     }
 
     /**

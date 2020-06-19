@@ -11,22 +11,6 @@ class CheckResponse extends Response
 
     /** @var array */
     protected $availableDomains = [];
-
-    /**
-     * @return array
-     */
-    public function getAvailableDomains(): array
-    {
-        return $this->availableDomains;
-    }
-
-    /**
-     * @return array
-     */
-    public function getOccupiedDomains(): array
-    {
-        return $this->occupiedDomains;
-    }
     
     /** @var array */
     protected $occupiedDomains = [];
@@ -49,6 +33,22 @@ class CheckResponse extends Response
                 $this->addOccupiedDomain($domain->text());
             }
         });
+    }
+
+    /**
+     * @return array
+     */
+    public function getAvailableDomains(): array
+    {
+        return $this->availableDomains;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOccupiedDomains(): array
+    {
+        return $this->occupiedDomains;
     }
 
     /**

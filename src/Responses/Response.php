@@ -24,22 +24,6 @@ class Response
     
     /** @var int */
     protected $code = 0;
-
-    /**
-     * @return string
-     */
-    public function getServerTransaction(): string
-    {
-        return $this->serverTransaction;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getClientTransaction(): ?string
-    {
-        return $this->clientTransaction;
-    }
     
     /**
      * @var string
@@ -77,6 +61,22 @@ class Response
         if ($transaction->count() > 0) {
             $this->clientTransaction = $transaction->text();
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getServerTransaction(): string
+    {
+        return $this->serverTransaction;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getClientTransaction(): ?string
+    {
+        return $this->clientTransaction;
     }
 
     /**

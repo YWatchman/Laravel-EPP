@@ -25,36 +25,6 @@ trait HasDnssec
     protected $algorithm = 13;
 
     /**
-     * DNSSEC node for extensions.
-     *
-     * @return mixed
-     */
-    private function dnssecNode()
-    {
-        $keyNode = $this->createElement('secDNS:keyData');
-        $keyOptNode = [];
-        $keyOptNode[] = $this->createElement('secDNS:flags', $this->flag);
-        $keyOptNode[] = $this->createElement('secDNS:protocol', $this->protocol);
-        $keyOptNode[] = $this->createElement('secDNS:alg', $this->algorithm);
-        $keyOptNode[] = $this->createElement('secDNS:pubKey', base64_encode($this->pubKey));
-
-        foreach ($keyOptNode as $node) {
-            $keyNode->appendChild($node);
-        }
-
-        return $keyNode;
-    }
-
-    private function createDnssecExtension()
-    {
-        $node = $this->createElement('secDNS:create');
-        $node->setAttribute('xmlns:secDNS', 'urn:ietf:params:xml:ns:secDNS-1.1');
-        $node->appendChild($this->dnssecNode());
-
-        return $node;
-    }
-
-    /**
      * Enable DNSSEC for request.
      */
     public function enableDNSSEC()
@@ -104,5 +74,35 @@ trait HasDnssec
     public function setProtocol(int $protocol)
     {
         $this->protocol = $protocol;
+    }
+
+    /**
+     * DNSSEC node for extensions.
+     *
+     * @return mixed
+     */
+    private function dnssecNode()
+    {
+        $keyNode = $this->createElement('secDNS:keyData');
+        $keyOptNode = [];
+        $keyOptNode[] = $this->createElement('secDNS:flags', $this->flag);
+        $keyOptNode[] = $this->createElement('secDNS:protocol', $this->protocol);
+        $keyOptNode[] = $this->createElement('secDNS:alg', $this->algorithm);
+        $keyOptNode[] = $this->createElement('secDNS:pubKey', base64_encode($this->pubKey));
+
+        foreach ($keyOptNode as $node) {
+            $keyNode->appendChild($node);
+        }
+
+        return $keyNode;
+    }
+
+    private function createDnssecExtension()
+    {
+        $node = $this->createElement('secDNS:create');
+        $node->setAttribute('xmlns:secDNS', 'urn:ietf:params:xml:ns:secDNS-1.1');
+        $node->appendChild($this->dnssecNode());
+
+        return $node;
     }
 }

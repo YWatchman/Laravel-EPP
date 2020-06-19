@@ -24,6 +24,16 @@ class ContactTransformer extends Transformer
     }
 
     /**
+     * Transform contact model to array.
+     *
+     * @return array|void
+     */
+    public function toArray()
+    {
+        return $this->transformed;
+    }
+
+    /**
      * Return transformed array.
      *
      * @return array|void
@@ -50,15 +60,5 @@ class ContactTransformer extends Transformer
             'fax' => $this->transformable->fax,
             'email' => $this->transformable->email,
         ];
-    }
-
-    /**
-     * Transform contact model to array.
-     *
-     * @return array|void
-     */
-    public function toArray()
-    {
-        return $this->transformed;
     }
 }

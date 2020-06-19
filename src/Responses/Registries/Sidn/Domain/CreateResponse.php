@@ -3,7 +3,6 @@
 
 namespace YWatchman\LaravelEPP\Responses\Registries\Sidn\Domain;
 
-
 use YWatchman\LaravelEPP\Responses\Domain\CreateResponse as CommonCreateResponse;
 use YWatchman\LaravelEPP\Support\Extensions\Sidn\SidnEppExtension;
 
@@ -15,7 +14,7 @@ class CreateResponse extends CommonCreateResponse
 
     /**
      * CreateResponse constructor.
-     * 
+     *
      * @param string $rawXml
      */
     public function __construct(string $rawXml)
@@ -41,6 +40,4 @@ class CreateResponse extends CommonCreateResponse
     {
         return $this->sidnMessages;
     }
-
-
 }

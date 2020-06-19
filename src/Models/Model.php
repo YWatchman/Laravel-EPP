@@ -13,6 +13,22 @@ abstract class Model
     protected $attributes = [];
 
     /**
+     * Model constructor.
+     *
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        foreach ($this->columns as $column) {
+            if (array_key_exists($column, $attributes)) {
+                $this->{$column} = $attributes[$column];
+            } else {
+                $this->{$column} = null;
+            }
+        }
+    }
+
+    /**
      * @param string $name
      * @return mixed
      */
@@ -33,21 +49,4 @@ abstract class Model
     {
         $this->attributes[$name] = $value;
     }
-
-    /**
-     * Model constructor.
-     * 
-     * @param array $attributes
-     */
-    public function __construct(array $attributes = [])
-    {
-        foreach ($this->columns as $column) {
-            if (array_key_exists($column, $attributes)) {
-                $this->{$column} = $attributes[$column];
-            } else {
-                $this->{$column} = null;
-            }
-        }
-    }
-    
 }

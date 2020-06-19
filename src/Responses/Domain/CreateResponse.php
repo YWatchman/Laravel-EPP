@@ -16,26 +16,6 @@ class CreateResponse extends Response
     protected $name;
 
     /**
-     * Get creation date.
-     * 
-     * @return string
-     */
-    public function getDate(): string
-    {
-        return $this->date;
-    }
-
-    /**
-     * Get domain name.
-     * 
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
      * CreateResponse constructor.
      *
      * @param string $rawXml
@@ -49,5 +29,25 @@ class CreateResponse extends Response
             $this->date = $data->filter('creData > crDate')->text();
             $this->name = $data->filter('creData > name')->text();
         }
+    }
+
+    /**
+     * Get creation date.
+     *
+     * @return string
+     */
+    public function getDate(): string
+    {
+        return $this->date;
+    }
+
+    /**
+     * Get domain name.
+     *
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
     }
 }

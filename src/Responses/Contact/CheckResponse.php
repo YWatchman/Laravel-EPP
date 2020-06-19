@@ -31,14 +31,6 @@ class CheckResponse extends Response
     }
 
     /**
-     * @param $contact
-     */
-    private function addExistentContact(string $contact)
-    {
-        $this->existingContacts[] = $contact;
-    }
-
-    /**
      * Check if contact exists.
      * @param string $contact
      * @return bool
@@ -49,7 +41,7 @@ class CheckResponse extends Response
     }
 
     /**
-     * Inverse of CheckResponse::contactExists()
+     * Inverse of CheckResponse::contactExists().
      *
      * @param string $contact
      * @return bool
@@ -57,5 +49,13 @@ class CheckResponse extends Response
     public function contactDoesNotExist(string $contact): bool
     {
         return ! $this->contactExists($contact);
+    }
+
+    /**
+     * @param $contact
+     */
+    private function addExistentContact(string $contact)
+    {
+        $this->existingContacts[] = $contact;
     }
 }

@@ -3,7 +3,6 @@
 
 namespace YWatchman\LaravelEPP\Responses\Registries\Sidn\Domain;
 
-
 use YWatchman\LaravelEPP\Responses\Domain\UpdateResponse as CommonUpdateResponse;
 use YWatchman\LaravelEPP\Support\Extensions\Sidn\SidnEppExtension;
 
@@ -15,7 +14,7 @@ class UpdateResponse extends CommonUpdateResponse
 
     /**
      * CreateResponse constructor.
-     * 
+     *
      * @param string $rawXml
      */
     public function __construct(string $rawXml)
@@ -41,6 +40,4 @@ class UpdateResponse extends CommonUpdateResponse
     {
         return $this->sidnMessages;
     }
-
-
 }

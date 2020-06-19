@@ -19,7 +19,7 @@ class SidnEppExtension extends Extension
 
     /**
      * SidnEppExtension constructor.
-     * 
+     *
      * @param Crawler $crawler
      */
     public function __construct(Crawler $crawler)
@@ -52,5 +52,4 @@ class SidnEppExtension extends Extension
     {
         return $this->message;
     }
-    
 }

@@ -12,6 +12,11 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->publishConfig();
     }
 
+    public function register()
+    {
+        $this->app->alias(Epp::class, 'Epp');
+    }
+
     private function publishConfig()
     {
         $path = $this->getConfigPath();
@@ -21,10 +26,5 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     private function getConfigPath()
     {
         return __DIR__ . '/../config/epp.php';
-    }
-
-    public function register()
-    {
-        $this->app->alias(Epp::class, 'Epp');
     }
 }
