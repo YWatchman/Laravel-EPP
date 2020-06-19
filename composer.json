@@ -7,7 +7,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "YWatchman\\LaravelEPP\\": "src/YWatchman/LaravelEPP"
+            "YWatchman\\LaravelEPP\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "YWatchman\\LaravelEPP\\Tests\\": "tests/"
         }
     },
     "description": "Laravel package to work with EPP (SIDN)",
@@ -25,11 +30,17 @@
     "name": "ywatchman/laravel-epp",
     "prefer-stable": true,
     "require": {
-        "metaregistrar/php-epp-client": "^1.0",
-        "php": "^7.2"
-    },
-    "require-dev": {
-        "laravel/framework": "^5.8"
+        "ext-dom": "*",
+        "ext-json": "*",
+        "ext-libxml": "*",
+        "ext-simplexml": "*",
+        "guzzlehttp/guzzle": "^6.5.2",
+        "illuminate/support": "^5.8|6.x|7.x",
+        "illuminate/database": "^5.8|^6.0|^7.0",
+        "jeremykendall/php-domain-parser": "^5.6",
+        "php": "^7.2",
+        "symfony/dom-crawler": "^5.0",
+        "symfony/css-selector": "^5.0"
     },
     "type": "library",
     "version": "v1.1.4-beta3"

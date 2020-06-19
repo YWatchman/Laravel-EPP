@@ -1,3 +1,4 @@
-vendor/
+/vendor
+.php_cs.cache
 .idea/
-tests/ # Ignore tests for now
+/composer.lock
