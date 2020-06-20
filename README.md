@@ -4,26 +4,31 @@
 
 # Currently being totally rewritten, getting rid of metaregistrar/php-epp-client dependency.
 
-### Installing with auto-discovery enabled
+## Installing
 ```bash
-composer require ywatchman/laravel-epp
+composer require "ywatchman/laravel-epp=dev-develop"
 php artisan vendor:publish --provider="YWatchman\LaravelEPP\ServiceProvider"
 ```
 
-### .env
-```env
-EPP_SETTINGS_FILE=/etc/cyberfusion/epp.ini
+## Setup registry in config/epp.php
+Append registrar to registrars array.
+
+```php
+'sidn' => [
+  'username' => env('SIDN_USERNAME'),
+  'password' => env('SIDN_PASSWORD'),
+  'hostname' => env('SIDN_HOSTNAME'),
+  'port' => env('SIDN_PORT', 700),
+  'timeout' => env('SIDN_TIMEOUT', 30),
+],
 ```
 
-### epp.ini
-```ini
-interface=eppConnection
-hostname=ssl://drs.domain-registry.nl
-port=700
-userid=
-password=
-logging=false
-verifypeer=true
-verifypeername=true
-allowselfsigned=false
+Setup environment variables for registrar in environment file
+
 ```
+SIDN_USERNAME=123456
+SIDN_PASSWORD=superpass123!
+SIDN_HOSTNAME=drs.domain-registry.nl
+```
+
+Start using Laravel EPP !
