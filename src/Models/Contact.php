@@ -31,9 +31,7 @@ class Contact extends Model implements Transformable, IsContact
      */
     public function fields(): array
     {
-        $data = [
-            'legalForm' => $this->legalForm,
-        ];
+        $data = $this->attributes;
 
         if (!empty($this->legalFormNo)) {
             $data['legalFormNo'] = $this->legalFormNo;
