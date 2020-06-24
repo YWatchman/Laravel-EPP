@@ -6,6 +6,7 @@ namespace YWatchman\LaravelEPP\Support\Xml\Commands\Contact;
 use DOMElement;
 use ReflectionClass;
 use ReflectionException;
+use YWatchman\LaravelEPP\Contracts\IsContact;
 use YWatchman\LaravelEPP\Exceptions\EppException;
 use YWatchman\LaravelEPP\Models\Contact;
 use YWatchman\LaravelEPP\Support\Traits\Commands\ProvidesContactCommand;
@@ -35,10 +36,10 @@ class CreateCommand extends Command
     /**
      * CreateCommand constructor.
      *
-     * @param Contact $contact
+     * @param IsContact $contact
      * @throws EppException
      */
-    public function __construct(Contact $contact)
+    public function __construct(IsContact $contact)
     {
         parent::__construct();
 
