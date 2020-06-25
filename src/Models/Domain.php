@@ -7,9 +7,13 @@ use YWatchman\LaravelEPP\Contracts\Transformable;
 class Domain extends Model implements Transformable
 {
     /**
-     * The attributes that aren't mass assignable.
+     * Model columns.
      *
      * @var string[]
      */
-    protected $guarded = ['id'];
+    protected $columns = [
+        'name',
+        'sld',
+        'tld',
+    ];
 }
