@@ -47,6 +47,8 @@ trait ProvidesCheckCommand
         switch ($type) {
             case 'domain':
                 return ['name', 'domainname'];
+            case 'host':
+                return ['name', 'name'];
             default:
                 return ['id', 'external_identifier'];
         }
