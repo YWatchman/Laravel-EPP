@@ -1,6 +1,5 @@
 <?php
 
-
 namespace YWatchman\LaravelEPP\Support\Xml\Objects\Host;
 
 use DOMDocument;
@@ -53,7 +52,6 @@ class AuthObject
             default:
                 throw EppException::notImplemented();
         }
-
 
         $document = new DOMDocument();
         $authObject = $document

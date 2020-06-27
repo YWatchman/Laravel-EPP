@@ -1,10 +1,8 @@
 <?php
 
-
 namespace YWatchman\LaravelEPP\Support\Xml\Commands\Domain;
 
 use DOMElement;
-use YWatchman\LaravelEPP\Models\Domain;
 use YWatchman\LaravelEPP\Support\Traits\Commands\ProvidesCheckCommand;
 use YWatchman\LaravelEPP\Support\Xml\Commands\Command;
 
@@ -16,7 +14,7 @@ class CheckCommand extends Command
     public const NODE = 'domain:check';
     public const NAMESPACE = 'urn:ietf:params:xml:ns:domain-1.0';
 
-    /** @var DOMElement $node */
+    /** @var DOMElement */
     protected $node;
 
     /** @var array Domains to check */
@@ -24,6 +22,7 @@ class CheckCommand extends Command
 
     /**
      * CheckCommand constructor.
+     *
      * @param array $domains
      */
     public function __construct(array $domains)

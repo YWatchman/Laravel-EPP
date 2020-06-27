@@ -1,6 +1,5 @@
 <?php
 
-
 namespace YWatchman\LaravelEPP\Support\Xml\Objects\Contact;
 
 class TechContact extends ContactObject

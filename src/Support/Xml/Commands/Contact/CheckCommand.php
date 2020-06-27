@@ -1,6 +1,5 @@
 <?php
 
-
 namespace YWatchman\LaravelEPP\Support\Xml\Commands\Contact;
 
 use DOMElement;
@@ -8,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use YWatchman\LaravelEPP\Models\Contact;
 use YWatchman\LaravelEPP\Support\Traits\Commands\ProvidesCheckCommand;
 use YWatchman\LaravelEPP\Support\Xml\Commands\Command;
-use YWatchman\LaravelEPP\Support\Xml\Objects\Registrar;
 
 class CheckCommand extends Command
 {

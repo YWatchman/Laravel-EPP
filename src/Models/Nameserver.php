@@ -2,7 +2,6 @@
 
 namespace YWatchman\LaravelEPP\Models;
 
-use YWatchman\LaravelEPP\Contracts\IsContact;
 use YWatchman\LaravelEPP\Contracts\Transformable;
 
 class Nameserver extends Model implements Transformable

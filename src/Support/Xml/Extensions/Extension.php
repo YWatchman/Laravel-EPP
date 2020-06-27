@@ -10,8 +10,7 @@ use YWatchman\LaravelEPP\Support\Xml\XmlHelper;
 
 abstract class Extension
 {
-
-    /** @var string $prefix Extension node prefix */
+    /** @var string Extension node prefix */
     protected $prefix = null;
 
     /**
@@ -34,16 +33,18 @@ abstract class Extension
         if ($this->prefix === null) {
             throw new EppException('Extension prefix cannot be null.');
         }
-        $this->helper = new XmlHelper;
-        $this->extension = $this->helper->createElement($this->prefix . ':ext');
+        $this->helper = new XmlHelper();
+        $this->extension = $this->helper->createElement($this->prefix.':ext');
     }
 
     /**
      * Return new ContactExtension instance.
      *
      * @param string $registrar
-     * @return string
+     *
      * @throws EppException
+     *
+     * @return string
      */
     public static function contactInstance($registrar = Registrar::REGISTRAR_SIDN): string
     {
@@ -72,10 +73,11 @@ abstract class Extension
      * Get prefixed name.
      *
      * @param string $name
+     *
      * @return string
      */
     public function prefixedName(string $name): string
     {
-        return $this->prefix . ':' . $name;
+        return $this->prefix.':'.$name;
     }
 }

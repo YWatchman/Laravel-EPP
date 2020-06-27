@@ -1,17 +1,14 @@
 <?php
 
-
 namespace YWatchman\LaravelEPP\Responses\Domain;
 
-use Symfony\Component\DomCrawler\Crawler;
 use YWatchman\LaravelEPP\Responses\Response;
 
 class CreateResponse extends Response
 {
-    
     /** @var string */
     protected $date;
-    
+
     /** @var string */
     protected $name;
 
@@ -24,7 +21,7 @@ class CreateResponse extends Response
     {
         parent::__construct($rawXml);
         $data = $this->response->filter('response > resData > creData');
-        
+
         if ($this->isSucceeded()) {
             $this->date = $data->filter('creData > crDate')->text();
             $this->name = $data->filter('creData > name')->text();

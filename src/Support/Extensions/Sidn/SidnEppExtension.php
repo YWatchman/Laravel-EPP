@@ -7,13 +7,12 @@ use YWatchman\LaravelEPP\Support\Extensions\Extension;
 
 class SidnEppExtension extends Extension
 {
-
     /** @var string */
     protected $code;
-    
+
     /** @var string */
     protected $field;
-    
+
     /** @var string */
     protected $message;
 

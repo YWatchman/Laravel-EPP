@@ -1,6 +1,5 @@
 <?php
 
-
 namespace YWatchman\LaravelEPP\Responses\Domain;
 
 use Symfony\Component\DomCrawler\Crawler;
@@ -8,10 +7,9 @@ use YWatchman\LaravelEPP\Responses\Response;
 
 class CheckResponse extends Response
 {
-
     /** @var array */
     protected $availableDomains = [];
-    
+
     /** @var array */
     protected $occupiedDomains = [];
 
@@ -24,7 +22,7 @@ class CheckResponse extends Response
     {
         parent::__construct($rawXml);
         $data = $this->response->filter('response > resData > chkData > cd');
-        
+
         $data->each(function (Crawler $domain) {
             $domain = $domain->filter('cd > name');
             if ($domain->attr('avail') === 'true') {

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace YWatchman\LaravelEPP\Support\Xml\Objects\Contact;
 
 class BillingContact extends ContactObject

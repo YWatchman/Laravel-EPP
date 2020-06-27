@@ -4,7 +4,6 @@ namespace YWatchman\LaravelEPP\Support\Traits\Commands;
 
 trait HasExtensions
 {
-
     /** @var array */
     protected $extensions = [];
 

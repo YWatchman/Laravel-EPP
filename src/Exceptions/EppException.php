@@ -1,6 +1,5 @@
 <?php
 
-
 namespace YWatchman\LaravelEPP\Exceptions;
 
 use Exception;
@@ -21,7 +20,7 @@ class EppException extends Exception
 
     public const NOT_IMPLEMENTED = 999;
 
-    public static function serverClosedConnection(int $code, string $msg = 'Empty response'): EppException
+    public static function serverClosedConnection(int $code, string $msg = 'Empty response'): self
     {
         return new self(
             sprintf('`%d`: The EPP server unexpectedly closed the connection. Message: %s', $code, $msg),
@@ -37,7 +36,7 @@ class EppException extends Exception
         );
     }
 
-    public static function authenticationFailed(int $code): EppException
+    public static function authenticationFailed(int $code): self
     {
         return new self(
             sprintf('`%d`: Failed authenticating with the EPP server.', $code),
@@ -45,7 +44,7 @@ class EppException extends Exception
         );
     }
 
-    public static function missingCredentials(string $registrar): EppException
+    public static function missingCredentials(string $registrar): self
     {
         return new self(
             sprintf('Failed to validate config variables for registrar %s.', $registrar),
@@ -53,7 +52,7 @@ class EppException extends Exception
         );
     }
 
-    public static function missingRegistrarConfig(string $registrar): EppException
+    public static function missingRegistrarConfig(string $registrar): self
     {
         return new self(
             sprintf('Registrar %s is not configured.', $registrar),

@@ -1,17 +1,16 @@
 <?php
 
-
 namespace YWatchman\LaravelEPP\Support\Xml\Objects\Host;
 
 use DOMElement;
 
 class HostObject
 {
-
     /**
      * Get array of DOM elements.
      *
      * @param array $nameservers
+     *
      * @return array
      */
     public static function getNameservers(array $nameservers)
@@ -25,6 +24,7 @@ class HostObject
      * Get DOM element for single nameserver.
      *
      * @param $nameserver
+     *
      * @return DOMElement
      */
     public static function getNameserver($nameserver)

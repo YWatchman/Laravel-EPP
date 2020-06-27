@@ -1,15 +1,14 @@
 <?php
 
-
 namespace YWatchman\LaravelEPP\Support\Traits\Commands;
 
 use YWatchman\LaravelEPP\Exceptions\EppException;
 
 trait HasScheduledDeletion
 {
-
     /**
      * Cancellation enabled status.
+     *
      * @var bool
      */
     protected $planned_cancellation = false;
@@ -20,7 +19,7 @@ trait HasScheduledDeletion
     public function enabledScheduledDeletion()
     {
         $this->planned_cancellation = true;
-        if (! in_array('planned-cancellation', $this->extensions)) {
+        if (!in_array('planned-cancellation', $this->extensions)) {
             $this->extensions[] = 'planned-cancellation';
         }
     }
@@ -32,20 +31,21 @@ trait HasScheduledDeletion
      * - setDateToEndOfSubscriptionPeriod # Cancel domain at the end of the subscription.
      * - cancel # Cancel the planned cancellation.
      *
-     * @param string $operation
+     * @param string      $operation
      * @param string|null $date
-     * @return mixed
      *
      * @throws EppException
+     *
+     * @return mixed
      */
     private function scheduledCancellationNode(string $operation, string $date = null)
     {
         $node = $this->createElement('scheduledDelete:update');
 
-        if (! in_array($operation, [
+        if (!in_array($operation, [
             'setDate',
             'setDateToEndOfSubscriptionPeriod',
-            'cancel'
+            'cancel',
         ])) {
             throw EppException::InvalidOperation($operation);
         }

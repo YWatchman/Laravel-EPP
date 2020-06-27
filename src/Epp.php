@@ -21,7 +21,7 @@ class Epp
      */
     protected $helloMsg;
 
-    /** @var string  */
+    /** @var string */
     private $registrar;
 
     /** @var string */
@@ -40,6 +40,7 @@ class Epp
      * Epp constructor.
      *
      * @param string $registrar
+     *
      * @throws EppException
      */
     public function __construct(string $registrar = 'sidn')
@@ -69,14 +70,15 @@ class Epp
         $this->start();
 
         $command = new HelloCommand();
-        $cmdString = (string)$command;
+        $cmdString = (string) $command;
 
         $this->helloMsg = $this->sendRequest($cmdString);
 
         $command = new LoginCommand($this->username, $this->password);
 
-        $cmdString = (string)$command;
+        $cmdString = (string) $command;
         $this->loggedIn = true;
+
         return $this->sendRequest($cmdString);
     }
 
@@ -87,7 +89,8 @@ class Epp
     {
         if ($this->loggedIn) {
             $this->loggedIn = false;
-            $cmd = (string) (new LogoutCommand);
+            $cmd = (string) (new LogoutCommand());
+
             return $this->sendRequest($cmd);
         }
     }
@@ -95,8 +98,9 @@ class Epp
     /**
      * Connect to EPP server.
      *
-     * @return string|null
      * @throws EppException
+     *
+     * @return string|null
      */
     public function start()
     {
@@ -150,10 +154,10 @@ class Epp
             $data = fread($this->socket, ($length - 4));
 
             if (config('epp.debug')) {
-                print('Read data.. parsing:' . PHP_EOL . PHP_EOL);
+                echo 'Read data.. parsing:'.PHP_EOL.PHP_EOL;
                 $cmd = dom_import_simplexml(simplexml_load_string($data))->ownerDocument;
                 $cmd->formatOutput = true;
-                print($cmd->saveXML());
+                echo $cmd->saveXML();
             }
 
             return $data;
@@ -166,6 +170,7 @@ class Epp
      * Send EPP Request.
      *
      * @param $xml
+     *
      * @return string|null
      */
     public function sendRequest($xml)
@@ -174,23 +179,23 @@ class Epp
 
         if ($this->socket !== false) {
             if (config('epp.debug', false)) {
-                print(PHP_EOL);
-                print('Writing command to socket...'.PHP_EOL);
+                echo PHP_EOL;
+                echo 'Writing command to socket...'.PHP_EOL;
                 $cmd = dom_import_simplexml(simplexml_load_string($xml))->ownerDocument;
                 $cmd->formatOutput = true;
-                print($cmd->saveXML());
+                echo $cmd->saveXML();
             }
-            fwrite($this->socket, $this->getBigEndianLength($xml) . $xml);
+            fwrite($this->socket, $this->getBigEndianLength($xml).$xml);
         }
 
         return $this->read();
     }
 
-
     /**
      * First four bits of a packet are the request length.
      *
      * @param $xml
+     *
      * @return false|string
      */
     public function getBigEndianLength($xml)

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace YWatchman\LaravelEPP\Support\Xml\Objects\Contact;
 
 use YWatchman\LaravelEPP\Exceptions\EppException;
@@ -8,7 +7,6 @@ use YWatchman\LaravelEPP\Models\Contact;
 
 abstract class ContactObject
 {
-
     /**
      * Possible contact types to use.
      */
@@ -16,7 +14,7 @@ abstract class ContactObject
         self::CONTACT_ADMIN,
         self::CONTACT_TECH,
         self::CONTACT_BILLING,
-        self::CONTACT_REGISTRANT
+        self::CONTACT_REGISTRANT,
     ];
 
     public const CONTACT_ADMIN = 'admin';
@@ -60,12 +58,14 @@ abstract class ContactObject
     /** @var string */
     public $email;
 
-    /** @var boolean */
+    /** @var bool */
     public $disclose;
 
     /**
      * ContactObject constructor.
+     *
      * @param string $type
+     *
      * @throws EppException
      */
     public function __construct(string $type)

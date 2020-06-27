@@ -1,14 +1,11 @@
 <?php
 
-
 namespace YWatchman\LaravelEPP\Responses\Domain;
 
-use Symfony\Component\DomCrawler\Crawler;
 use YWatchman\LaravelEPP\Responses\Response;
 
 class UpdateResponse extends Response
 {
-    
     /**
      * CheckResponse constructor.
      *

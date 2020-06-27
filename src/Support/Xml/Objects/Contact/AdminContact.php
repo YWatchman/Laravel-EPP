@@ -1,13 +1,11 @@
 <?php
 
-
 namespace YWatchman\LaravelEPP\Support\Xml\Objects\Contact;
 
 class AdminContact extends ContactObject
 {
-
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function __construct()
     {

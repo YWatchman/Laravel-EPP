@@ -1,26 +1,25 @@
 <?php
 
-
 namespace YWatchman\LaravelEPP\Support\Traits\Commands;
 
 trait HasDnssec
 {
-
     /**
      * DNSSEC status.
+     *
      * @var bool
      */
     protected $dnssec = false;
-    
+
     /** @var string */
     protected $pubKey;
-    
+
     /** @var int */
     protected $protocol = 3;
-    
+
     /** @var int */
     protected $flag = 257;
-    
+
     /** @var int */
     protected $algorithm = 13;
 
@@ -34,7 +33,6 @@ trait HasDnssec
             $this->extensions[] = 'dnssec';
         }
     }
-
 
     /**
      * Set public dnskey.

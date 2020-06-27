@@ -21,19 +21,19 @@ class UpdateCommand extends Command
     public const NAMESPACE = 'urn:ietf:params:xml:ns:domain-1.0';
 
     /**
-     * @var DOMElement $node
+     * @var DOMElement
      */
     protected $node;
 
     /**
-     * @var Domain $domain
+     * @var Domain
      */
     protected $domain;
 
     /**
      * EPP Extensions to be used.
      *
-     * @var array $extensions
+     * @var array
      */
     protected $extensions;
 
@@ -54,11 +54,12 @@ class UpdateCommand extends Command
 
     /**
      * UpdateCommand constructor.
+     *
      * @param Domain $domain
-     * @param array $add
-     * @param array $delete
-     * @param array $update
-     * @param array $extensions
+     * @param array  $add
+     * @param array  $delete
+     * @param array  $update
+     * @param array  $extensions
      */
     public function __construct(
         Domain $domain,
@@ -111,8 +112,9 @@ class UpdateCommand extends Command
     /**
      * Get add nodes.
      *
-     * @return DOMElement
      * @throws Exception
+     *
+     * @return DOMElement
      */
     protected function getAddNodes(): DOMElement
     {
@@ -137,14 +139,16 @@ class UpdateCommand extends Command
 
             $node->appendChild($element);
         }
+
         return $node;
     }
 
     /**
      * Get remove nodes.
      *
-     * @return DOMElement
      * @throws Exception
+     *
+     * @return DOMElement
      */
     protected function getRemNodes()
     {
@@ -169,14 +173,16 @@ class UpdateCommand extends Command
 
             $node->appendChild($element);
         }
+
         return $node;
     }
 
     /**
      * Get update nodes.
      *
-     * @return DOMElement
      * @throws Exception
+     *
+     * @return DOMElement
      */
     protected function getChgNodes()
     {
@@ -201,6 +207,7 @@ class UpdateCommand extends Command
 
             $node->appendChild($element);
         }
+
         return $node;
     }
 

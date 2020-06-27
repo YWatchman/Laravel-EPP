@@ -1,6 +1,5 @@
 <?php
 
-
 namespace YWatchman\LaravelEPP\Transformers;
 
 use YWatchman\LaravelEPP\Contracts\Transformable;
@@ -41,7 +40,7 @@ class ContactTransformer extends Transformer
     protected function transform()
     {
         return [
-            'id' => $this->transformable->external_identifier,
+            'id'         => $this->transformable->external_identifier,
             'postalInfo' => [
                 'attributes' => [
                     'type' => 'loc',
@@ -52,12 +51,12 @@ class ContactTransformer extends Transformer
                         $this->transformable->number,
                         $this->transformable->suffix,
                     ],
-                    'city' => $this->transformable->city,
+                    'city'  => $this->transformable->city,
                     'state' => $this->transformable->state,
                 ],
             ],
             'voice' => $this->transformable->phone,
-            'fax' => $this->transformable->fax,
+            'fax'   => $this->transformable->fax,
             'email' => $this->transformable->email,
         ];
     }

@@ -8,11 +8,11 @@ use YWatchman\LaravelEPP\Support\ArrayHelper;
 
 trait ProvidesContactCommand
 {
-
     /**
      * Transform contact array into DOMElement.
      *
      * @param array $contact
+     *
      * @return DOMElement
      */
     public function handleContact(array $contact): DOMElement
@@ -21,7 +21,7 @@ trait ProvidesContactCommand
         $node->setAttributeNodeNS(
             new DOMAttr('xmlns:contact', self::NAMESPACE)
         );
-        
+
         ArrayHelper::filterEmpty($contact);
 
         foreach ($contact as $tag => $child) {

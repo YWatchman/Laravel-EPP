@@ -1,14 +1,12 @@
 <?php
 
-
 namespace YWatchman\LaravelEPP\Models;
 
 abstract class Model
 {
-    
     /** @var array */
     protected $columns = [];
-    
+
     /** @var array */
     protected $attributes = [];
 
@@ -30,6 +28,7 @@ abstract class Model
 
     /**
      * @param string $name
+     *
      * @return mixed
      */
     public function __get(string $name)
@@ -37,7 +36,7 @@ abstract class Model
         if (array_key_exists($name, $this->attributes)) {
             return $this->attributes[$name];
         }
-        
+
         return $this->{$name};
     }
 

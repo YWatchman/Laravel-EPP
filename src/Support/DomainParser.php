@@ -1,6 +1,5 @@
 <?php
 
-
 namespace YWatchman\LaravelEPP\Support;
 
 use Illuminate\Support\Str;
@@ -16,6 +15,7 @@ class DomainParser
      * Parse the domain name to a model. Returns null when the domain name can't be parsed.
      *
      * @param string $domainName
+     *
      * @return Domain|null
      */
     public static function parse(string $domainName): ?Domain
@@ -38,6 +38,7 @@ class DomainParser
         $domain->tld = $domainData->getPublicSuffix();
         $domain->sld = Str::before($domainData->getRegistrableDomain(), sprintf('.%s', $domain->tld));
         $domain->name = sprintf('%s.%s', $domain->sld, $domain->tld);
+
         return $domain;
     }
 }

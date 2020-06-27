@@ -1,6 +1,5 @@
 <?php
 
-
 namespace YWatchman\LaravelEPP\Responses\Contact;
 
 use Symfony\Component\DomCrawler\Crawler;
@@ -8,7 +7,6 @@ use YWatchman\LaravelEPP\Responses\Response;
 
 class CheckResponse extends Response
 {
-
     /** @var string[] */
     protected $existingContacts = [];
 
@@ -32,7 +30,9 @@ class CheckResponse extends Response
 
     /**
      * Check if contact exists.
+     *
      * @param string $contact
+     *
      * @return bool
      */
     public function contactExists(string $contact): bool
@@ -44,11 +44,12 @@ class CheckResponse extends Response
      * Inverse of CheckResponse::contactExists().
      *
      * @param string $contact
+     *
      * @return bool
      */
     public function contactDoesNotExist(string $contact): bool
     {
-        return ! $this->contactExists($contact);
+        return !$this->contactExists($contact);
     }
 
     /**

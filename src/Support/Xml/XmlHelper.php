@@ -1,6 +1,5 @@
 <?php
 
-
 namespace YWatchman\LaravelEPP\Support\Xml;
 
 use DOMDocument;
@@ -9,11 +8,10 @@ use DOMNode;
 
 class XmlHelper
 {
-
-    /** @var DOMDocument $document */
+    /** @var DOMDocument */
     protected $document;
 
-    /** @var array $nodes List of all nodes */
+    /** @var array List of all nodes */
     protected $nodes = [];
 
     /**
@@ -34,8 +32,9 @@ class XmlHelper
     /**
      * Add DOM node to current XML Document.
      *
-     * @param string $name
+     * @param string       $name
      * @param DOMNode|null $node if should be layered
+     *
      * @return DOMNode
      */
     public function addNode(string $name, $node = null)
@@ -45,6 +44,7 @@ class XmlHelper
         } else {
             $node = $this->createElement($name);
         }
+
         return $this->nodes[] = $node;
     }
 
@@ -53,6 +53,7 @@ class XmlHelper
      *
      * @param $name
      * @param null $value
+     *
      * @return DOMElement
      */
     public function createElement($name, $value = null): DOMElement

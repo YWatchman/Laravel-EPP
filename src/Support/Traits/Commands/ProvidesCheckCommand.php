@@ -7,11 +7,11 @@ use DOMElement;
 
 trait ProvidesCheckCommand
 {
-
     /**
      * Generate check node.
      *
      * @param string $type
+     *
      * @return DOMElement
      */
     private function generateCheck(string $type): DOMElement
@@ -19,14 +19,14 @@ trait ProvidesCheckCommand
         /** @var DOMElement $node */
         $node = $this->createElement(self::NODE);
         $node->setAttributeNodeNS(
-            new DOMAttr('xmlns:' . self::NODE_BASE, self::NAMESPACE)
+            new DOMAttr('xmlns:'.self::NODE_BASE, self::NAMESPACE)
         );
 
         foreach ($this->iterable as $iterable) {
             list($key, $value) = $this->checkKey($type);
             $node->appendChild(
                 $this->createElement(
-                    self::NODE_BASE . ':' . $key,
+                    self::NODE_BASE.':'.$key,
                     $iterable->{$value}
                 )
             );
@@ -39,6 +39,7 @@ trait ProvidesCheckCommand
      * Get key for generateCheck(string).
      *
      * @param string $type
+     *
      * @return string[]
      */
     private function checkKey(string $type): array

@@ -6,30 +6,29 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class Response
 {
-
     /** @var string */
     protected $rawXml = null;
-    
+
     /** @var Crawler */
     protected $crawler;
-    
+
     /** @var Crawler */
     protected $response;
-    
+
     /** @var bool */
     protected $succeeded = false;
-    
+
     /** @var string|null */
     protected $message = null;
-    
+
     /** @var int */
     protected $code = 0;
-    
+
     /**
      * @var string
      */
     protected $serverTransaction;
-    
+
     /**
      * @var string
      */
@@ -48,15 +47,15 @@ class Response
         // Create base response.
         $this->response = $this->crawler->filter('epp > response');
         $result = $this->response->filter('response > result');
-        
+
         $msg = $result->filter('result > msg');
         // Todo: implement RFC 5730 sec. 3
         $this->code = $result->attr('code');
-        $this->succeeded = ($msg->count() === 1 && $this->code === "1000");
+        $this->succeeded = ($msg->count() === 1 && $this->code === '1000');
         $this->message = $msg->text();
-        
+
         $this->serverTransaction = $this->response->filter('response > trID > svTRID')->text();
-        
+
         $transaction = $this->response->filter('response > trID > clTRID');
         if ($transaction->count() > 0) {
             $this->clientTransaction = $transaction->text();

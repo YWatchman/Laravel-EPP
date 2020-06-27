@@ -1,14 +1,11 @@
 <?php
 
-
 namespace YWatchman\LaravelEPP\Responses\Contact;
 
-use Symfony\Component\DomCrawler\Crawler;
 use YWatchman\LaravelEPP\Responses\Response;
 
 class CreateResponse extends Response
 {
-
     /** @var string */
     protected $date;
 

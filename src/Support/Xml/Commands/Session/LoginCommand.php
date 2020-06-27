@@ -1,6 +1,5 @@
 <?php
 
-
 namespace YWatchman\LaravelEPP\Support\Xml\Commands\Session;
 
 use DOMElement;
@@ -8,12 +7,12 @@ use YWatchman\LaravelEPP\Support\Xml\Commands\Command;
 
 class LoginCommand extends Command
 {
-
-    /** @var DOMElement $node */
+    /** @var DOMElement */
     protected $node;
 
     /**
      * LoginCommand constructor.
+     *
      * @param string $username EPP Username
      * @param string $password EPP Password
      */

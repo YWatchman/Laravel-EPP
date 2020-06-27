@@ -1,18 +1,14 @@
 <?php
 
-
 namespace YWatchman\LaravelEPP\Support\Xml\Commands\Contact;
 
 use DOMElement;
-use ReflectionClass;
-use ReflectionException;
 use YWatchman\LaravelEPP\Contracts\IsContact;
 use YWatchman\LaravelEPP\Exceptions\EppException;
 use YWatchman\LaravelEPP\Models\Contact;
 use YWatchman\LaravelEPP\Support\Traits\Commands\ProvidesContactCommand;
 use YWatchman\LaravelEPP\Support\Xml\Commands\Command;
 use YWatchman\LaravelEPP\Support\Xml\Extensions\Extension;
-use YWatchman\LaravelEPP\Support\Xml\Objects\Registrar;
 use YWatchman\LaravelEPP\Transformers\ContactTransformer;
 
 class CreateCommand extends Command
@@ -37,6 +33,7 @@ class CreateCommand extends Command
      * CreateCommand constructor.
      *
      * @param IsContact $contact
+     *
      * @throws EppException
      */
     public function __construct(IsContact $contact)
@@ -68,13 +65,13 @@ class CreateCommand extends Command
     /**
      * Generate contact extension.
      *
-     * @return DOMElement
      * @throws EppException
+     *
+     * @return DOMElement
      */
     protected function getExtensionNode()
     {
         $node = $this->createElement('extension');
-
 
         return $node;
     }

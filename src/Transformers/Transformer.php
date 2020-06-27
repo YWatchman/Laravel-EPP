@@ -8,7 +8,6 @@ use YWatchman\LaravelEPP\Exceptions\NotImplementedException;
 
 abstract class Transformer
 {
-
     /** @var Transformable */
     protected $transformable;
 
@@ -30,7 +29,7 @@ abstract class Transformer
      */
     public function toArray()
     {
-        throw new NotImplementedException;
+        throw new NotImplementedException();
     }
 
     /**
@@ -38,6 +37,6 @@ abstract class Transformer
      */
     protected function transform()
     {
-        throw new NotImplementedException;
+        throw new NotImplementedException();
     }
 }

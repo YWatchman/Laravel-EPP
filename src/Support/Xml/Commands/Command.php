@@ -50,6 +50,7 @@ class Command extends XmlHelper
 
     /**
      * @param $cmd
+     *
      * @return string
      */
     public function getCommandTag($cmd): string
@@ -109,7 +110,7 @@ class Command extends XmlHelper
     }
 
     /**
-     * @param array $tag
+     * @param array   $tag
      * @param DOMNode $node
      */
     protected function recurseTags(array $tag, DOMNode $node): void
@@ -118,6 +119,7 @@ class Command extends XmlHelper
             if (is_array($value)) {
                 $vals = $this->createElement($this->getCommandTag($key));
                 array_walk($value, [self::class, 'recurseCallback'], $vals);
+
                 return $value;
             }
 
@@ -127,6 +129,7 @@ class Command extends XmlHelper
                     $value
                 )
             );
+
             return $value;
         });
     }

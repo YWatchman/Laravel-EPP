@@ -1,6 +1,5 @@
 <?php
 
-
 namespace YWatchman\LaravelEPP\Responses\Registries\Sidn\Domain;
 
 use YWatchman\LaravelEPP\Responses\Domain\UpdateResponse as CommonUpdateResponse;
@@ -8,7 +7,6 @@ use YWatchman\LaravelEPP\Support\Extensions\Sidn\SidnEppExtension;
 
 class UpdateResponse extends CommonUpdateResponse
 {
-
     /** @var SidnEppExtension[] */
     protected $sidnMessages = [];
 
@@ -20,7 +18,7 @@ class UpdateResponse extends CommonUpdateResponse
     public function __construct(string $rawXml)
     {
         parent::__construct($rawXml);
-        
+
         if (!$this->isSucceeded()) {
             $this
                 ->response

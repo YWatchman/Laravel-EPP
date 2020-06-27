@@ -6,7 +6,6 @@ use YWatchman\LaravelEPP\Support\Xml\Commands\Command;
 
 trait HasAuthentication
 {
-
     /**
      * Append authentication node to the end.
      *
@@ -15,7 +14,7 @@ trait HasAuthentication
     public function includeAuth($password = Command::NOT_USED)
     {
         $this->transformed['authInfo'] = [
-            'pw' => $password
+            'pw' => $password,
         ];
     }
 }

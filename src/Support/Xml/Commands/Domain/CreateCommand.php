@@ -12,47 +12,47 @@ use YWatchman\LaravelEPP\Support\Xml\Commands\Command;
 class CreateCommand extends Command
 {
     use HasDnssec;
-    
+
     public const NODE = 'domain:create';
     public const NAMESPACE = 'urn:ietf:params:xml:ns:domain-1.0';
 
     /**
-     * @var DOMElement $node
+     * @var DOMElement
      */
     protected $node;
 
     /**
-     * @var Domain $domain
+     * @var Domain
      */
     protected $domain;
 
     /**
-     * @var Contact $admin
+     * @var Contact
      */
     protected $admin;
 
     /**
-     * @var Contact $tech
+     * @var Contact
      */
     protected $tech;
 
     /**
-     * @var Contact $registrant
+     * @var Contact
      */
     protected $registrant;
 
     /**
-     * @var array $nameservers
+     * @var array
      */
     protected $nameservers;
 
     /**
      * EPP Extensions to be used.
      *
-     * @var array $extensions
+     * @var array
      */
     protected $extensions = [];
-    
+
     /**
      * @var string|null
      */
@@ -60,12 +60,13 @@ class CreateCommand extends Command
 
     /**
      * CreateCommand constructor.
-     * @param Domain $domain
-     * @param Contact $admin admin-c handle
-     * @param Contact $tech tech-c handle
-     * @param Contact $registrant registrant handle
-     * @param array $nameservers
-     * @param array $extensions
+     *
+     * @param Domain      $domain
+     * @param Contact     $admin         admin-c handle
+     * @param Contact     $tech          tech-c handle
+     * @param Contact     $registrant    registrant handle
+     * @param array       $nameservers
+     * @param array       $extensions
      * @param string|null $transactionId
      */
     public function __construct(
@@ -99,15 +100,15 @@ class CreateCommand extends Command
     {
         $n = $this->addNode($this->getCommandNode()->nodeName);
         $n->appendChild($this->node)->appendChild($this->getCreateNode());
-        if (sizeof($this->extensions) > 0) {
+        if (count($this->extensions) > 0) {
             $n->appendChild($this->getExtensionNode());
         }
-        
+
         // Todo: move $n to $this->node or something and move this code below to the Command class.
         if ($this->transactionId !== null && is_string($this->transactionId)) {
             $n->appendChild($this->createElement('clTRID', $this->transactionId));
         }
-        
+
         return parent::__toString();
     }
 
@@ -188,17 +189,17 @@ class CreateCommand extends Command
     {
         $extNode = $this->createElement('extension');
         $nodes = [];
-        
+
         if (in_array('dnssec', $this->extensions) && $this->dnssec === true) {
             $nodes['secDNS'] = $this->createElement('secDNS:create');
             $nodes['secDNS']->setAttribute('xmlns:secDNS', 'urn:ietf:params:xml:ns:secDNS-1.1');
             $nodes['secDNS']->appendChild($this->dnssecNode());
         }
-        
+
         foreach ($nodes as $node) {
             $extNode->appendChild($node);
         }
-        
+
         return $extNode;
     }
 }

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace YWatchman\LaravelEPP\Support\Xml\Commands\Contact;
 
 use DOMElement;
@@ -41,7 +40,8 @@ class UpdateCommand extends Command
      * CreateCommand constructor.
      *
      * @param Contact $contact
-     * @param string $registrar
+     * @param string  $registrar
+     *
      * @throws EppException
      */
     public function __construct(Contact $contact, $registrar = Registrar::REGISTRAR_SIDN)
@@ -74,8 +74,9 @@ class UpdateCommand extends Command
     /**
      * Generate contact extension.
      *
-     * @return DOMElement
      * @throws EppException
+     *
+     * @return DOMElement
      */
     protected function getExtensionNode()
     {

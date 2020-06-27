@@ -1,20 +1,11 @@
 <?php
 
-
 namespace YWatchman\LaravelEPP\Support\Xml\Commands\Host;
 
 use DOMElement;
-use ReflectionClass;
-use ReflectionException;
-use YWatchman\LaravelEPP\Contracts\IsContact;
 use YWatchman\LaravelEPP\Exceptions\EppException;
-use YWatchman\LaravelEPP\Models\Contact;
 use YWatchman\LaravelEPP\Models\Nameserver;
-use YWatchman\LaravelEPP\Support\Traits\Commands\ProvidesContactCommand;
 use YWatchman\LaravelEPP\Support\Xml\Commands\Command;
-use YWatchman\LaravelEPP\Support\Xml\Extensions\Extension;
-use YWatchman\LaravelEPP\Support\Xml\Objects\Registrar;
-use YWatchman\LaravelEPP\Transformers\ContactTransformer;
 
 class CreateCommand extends Command
 {
@@ -36,6 +27,7 @@ class CreateCommand extends Command
      * CreateCommand constructor.
      *
      * @param Nameserver[]
+     *
      * @throws EppException
      */
     public function __construct(array $nameservers)
@@ -75,7 +67,7 @@ class CreateCommand extends Command
             $address = explode('-', $address, 2);
             $ipNode = $this->createElement('host:addr', $address[0]);
 
-            if (sizeof($address) > 1) {
+            if (count($address) > 1) {
                 $ipNode->setAttribute('ip', $address[1]);
             }
 
