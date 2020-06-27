@@ -18,7 +18,7 @@ trait ProvidesCheckCommand
     {
         /** @var DOMElement $node */
         $node = $this->createElement(self::NODE);
-        $node->setAttributeNodeNS(new DOMAttr('xmlns', self::NAMESPACE));
+        $node->setAttributeNodeNS(new DOMAttr(sprintf('xmlns:%s', self::NODE_BASE), self::NAMESPACE));
         $node->setAttributeNodeNS(
             new DOMAttr('xmlns:'.self::NODE_BASE, self::NAMESPACE)
         );
