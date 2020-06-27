@@ -20,22 +20,22 @@ class CreateCommand extends Command
     protected $node;
 
     /**
-     * @var Nameserver[]
+     * @var Nameserver
      */
-    protected $nameservers;
+    protected $nameserver;
 
     /**
      * CreateCommand constructor.
      *
-     * @param Nameserver[]
+     * @param Nameserver
      *
      * @throws EppException
      */
-    public function __construct(array $nameservers)
+    public function __construct(Nameserver $nameserver)
     {
         parent::__construct();
 
-        $this->nameservers = $nameservers;
+        $this->nameserver = $nameserver;
 
         $n = $this->addNode($this->getCommandNode()->nodeName);
         $n
@@ -49,9 +49,7 @@ class CreateCommand extends Command
     {
         $node = $this->createElement('create');
 
-        foreach ($this->nameservers as $nameserver) {
-            $node->appendChild($this->handleNamserver($nameserver));
-        }
+        $node->appendChild($this->handleNamserver($this->nameserver));
 
         return $node;
     }
