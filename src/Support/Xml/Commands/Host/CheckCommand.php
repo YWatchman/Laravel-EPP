@@ -15,7 +15,7 @@ class CheckCommand extends Command
 
     public const NODE_BASE = 'host';
     public const NODE = 'host:check';
-    public const NAMESPACE = 'urn:ietf:params:xml:ns:contact-1.0';
+    public const NAMESPACE = 'urn:ietf:params:xml:ns:host-1.0';
 
     /**
      * @var DOMElement

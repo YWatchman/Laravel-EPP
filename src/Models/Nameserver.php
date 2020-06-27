@@ -13,6 +13,9 @@ class Nameserver extends Model implements Transformable
         'version',
     ];
 
+    public const VERSION_V4 = 'v4';
+    public const VERSION_V6 = 'v6';
+
     /**
      * @return array
      */
