@@ -2,6 +2,7 @@
 
 namespace YWatchman\LaravelEPP\Support\Xml\Commands\Host;
 
+use DOMAttr;
 use DOMElement;
 use YWatchman\LaravelEPP\Exceptions\EppException;
 use YWatchman\LaravelEPP\Models\Nameserver;
@@ -58,6 +59,7 @@ class CreateCommand extends Command
     private function handleNamserver(Nameserver $nameserver): DOMElement
     {
         $node = $this->createElement(self::NODE);
+        $node->setAttributeNodeNS(new DOMAttr('xmlns', self::NAMESPACE));
         $node->appendChild(
             $this->createElement('host:name', $nameserver->getName())
         );
@@ -65,15 +67,18 @@ class CreateCommand extends Command
         $addresses = $nameserver->getAddresses();
         foreach ($addresses as $address) {
             $address = explode('-', $address, 2);
-            $ipNode = $this->createElement('host:addr', $address[0]);
+            if (!empty($address[0])) {
+                $ipNode = $this->createElement('host:addr', $address[0]);
 
-            if (count($address) > 1) {
-                $ipNode->setAttribute('ip', $address[1]);
+                if (count($address) > 1) {
+                    $ipNode->setAttribute('ip', $address[1]);
+                }
+
+
+                $node->appendChild(
+                    $ipNode
+                );
             }
-
-            $node->appendChild(
-                $ipNode
-            );
         }
 
         return $node;
