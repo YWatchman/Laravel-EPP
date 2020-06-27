@@ -54,8 +54,8 @@ class Epp
      */
     public function __destruct()
     {
-        $this->logout();
         if ($this->socket !== null) {
+            $this->logout();
             fclose($this->socket);
         }
     }
