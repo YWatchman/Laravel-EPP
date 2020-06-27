@@ -230,4 +230,12 @@ class Epp
         $this->password = $config['password'];
         $this->port = $config['port'];
     }
+
+    /**
+     * @return bool
+     */
+    public function isLoggedIn(): bool
+    {
+        return $this->loggedIn;
+    }
 }
