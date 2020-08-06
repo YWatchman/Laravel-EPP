@@ -45,6 +45,8 @@ class ContactTransformer extends Transformer
                 'attributes' => [
                     'type' => 'loc',
                 ],
+                'name' => $this->transformable->name,
+                'org' => $this->transformable->organization,
                 'addr' => [
                     'street' => [
                         $this->transformable->street,

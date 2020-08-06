@@ -42,6 +42,5 @@
         "symfony/dom-crawler": "^5.0",
         "symfony/css-selector": "^5.0"
     },
-    "type": "library",
-    "version": "v1.1.4-beta3"
+    "type": "library"
 }

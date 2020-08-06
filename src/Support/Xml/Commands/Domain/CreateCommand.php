@@ -136,7 +136,7 @@ class CreateCommand extends Command
 
         $nsNode = $this->createElement('domain:ns');
         foreach ($this->nameservers as $nameserver) {
-            $nsNode->appendChild($this->createElement('domain:hostObj', $nameserver));
+            $nsNode->appendChild($this->createElement('domain:hostObj', $nameserver->getName()));
         }
         $node->appendChild($nsNode);
 

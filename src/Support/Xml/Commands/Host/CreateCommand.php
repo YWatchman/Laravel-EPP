@@ -72,7 +72,6 @@ class CreateCommand extends Command
                     $ipNode->setAttribute('ip', $address[1]);
                 }
 
-
                 $node->appendChild(
                     $ipNode
                 );

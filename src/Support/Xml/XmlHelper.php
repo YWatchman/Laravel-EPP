@@ -52,7 +52,7 @@ class XmlHelper
      * Alias for DOMDocument::createElement().
      *
      * @param $name
-     * @param null $value
+     * @param string|null $value
      *
      * @return DOMElement
      */
