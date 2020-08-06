@@ -6,13 +6,12 @@ use YWatchman\LaravelEPP\Contracts\Transformable;
 
 class Nameserver extends Model implements Transformable
 {
+    public const VERSION_V4 = 'v4';
+    public const VERSION_V6 = 'v6';
     protected $columns = [
         'name',
         'address', // Should be given in format '127.0.0.1-v4' or '::1-v4'
     ];
-
-    public const VERSION_V4 = 'v4';
-    public const VERSION_V6 = 'v6';
 
     /**
      * @return array

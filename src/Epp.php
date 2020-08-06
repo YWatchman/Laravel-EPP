@@ -204,6 +204,14 @@ class Epp
     }
 
     /**
+     * @return bool
+     */
+    public function isLoggedIn(): bool
+    {
+        return $this->loggedIn;
+    }
+
+    /**
      * Setup registrar credentials.
      *
      * @throws EppException
@@ -229,13 +237,5 @@ class Epp
         $this->username = $config['username'];
         $this->password = $config['password'];
         $this->port = $config['port'];
-    }
-
-    /**
-     * @return bool
-     */
-    public function isLoggedIn(): bool
-    {
-        return $this->loggedIn;
     }
 }
