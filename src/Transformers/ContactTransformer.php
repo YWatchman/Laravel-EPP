@@ -47,11 +47,11 @@ class ContactTransformer extends Transformer
                 ],
                 'name' => $this->transformable->name,
                 'addr' => [
-                    'street' => [
-                        $this->transformable->street,
-                        $this->transformable->number,
-                        $this->transformable->suffix,
-                    ],
+//                    'street' => [
+//                        $this->transformable->street,
+//                        $this->transformable->number,
+//                        $this->transformable->suffix,
+//                    ],
                     'city'  => $this->transformable->city,
                     'sp' => $this->transformable->state,
                     'pc' => $this->transformable->postal,
