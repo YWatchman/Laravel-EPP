@@ -47,7 +47,7 @@ class CreateCommand extends Command
         $n
             ->appendChild($this->node)
             ->appendChild($this->getCreateNode());
-        $n->appendChild($this->getExtensionNode());
+//        $n->appendChild($this->getExtensionNode());
     }
 
     /**
