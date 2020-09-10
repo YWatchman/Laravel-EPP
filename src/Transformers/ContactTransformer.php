@@ -40,7 +40,7 @@ class ContactTransformer extends Transformer
     protected function transform()
     {
         return [
-            'id'         => $this->transformable->external_identifier,
+            'id'         => $this->transformable->handle,
             'postalInfo' => [
                 'attributes' => [
                     'type' => 'loc',

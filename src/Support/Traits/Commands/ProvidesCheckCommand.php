@@ -52,7 +52,7 @@ trait ProvidesCheckCommand
             case 'host':
                 return ['name', 'name'];
             default:
-                return ['id', 'external_identifier'];
+                return ['id', 'handle'];
         }
     }
 }
