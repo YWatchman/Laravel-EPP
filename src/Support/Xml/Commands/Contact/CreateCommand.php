@@ -8,7 +8,6 @@ use YWatchman\LaravelEPP\Exceptions\EppException;
 use YWatchman\LaravelEPP\Models\Contact;
 use YWatchman\LaravelEPP\Support\Traits\Commands\ProvidesContactCommand;
 use YWatchman\LaravelEPP\Support\Xml\Commands\Command;
-use YWatchman\LaravelEPP\Support\Xml\Extensions\Extension;
 use YWatchman\LaravelEPP\Transformers\ContactTransformer;
 
 class CreateCommand extends Command
