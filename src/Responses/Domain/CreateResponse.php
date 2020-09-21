@@ -19,7 +19,6 @@ class CreateResponse extends Response
      */
     public function __construct(string $rawXml)
     {
-        print($rawXml);
         parent::__construct($rawXml);
         $data = $this->response->filter('response > resData > creData');
 
