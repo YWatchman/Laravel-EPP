@@ -99,7 +99,7 @@ class TransferCommand extends Command
 
         $period = $this->createElement($this->getCommandTag('period'), 1);
         $period->setAttributeNodeNS(
-            new DOMAttr('period', 'y')
+            new DOMAttr('unit', 'y')
         );
 
         $node->appendChild($period);
