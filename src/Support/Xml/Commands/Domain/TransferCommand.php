@@ -93,7 +93,7 @@ class TransferCommand extends Command
         $node->appendChild(
             $this->createElement(
                 $this->getCommandTag('name'),
-                $this->domain->sld
+                sprintf('%s.%s', $this->domain->sld, $this->domain->tld)
             )
         );
 
