@@ -33,10 +33,14 @@ class TransferResponse extends Response
         $extData = $this->response->filter('response > extension > ext > trnData');
 
         if ($this->isSucceeded()) {
-            $this->expirationDate = $data->filter('trnData > exDate')->text();
+            $expirationDate = $data->filter('trnData > exDate');
+            if ($expirationDate->count() !== 0) {
+                $this->expirationDate = $expirationDate->text();
+            }
+
             $this->transferDate = $data->filter('trnData > acDate')->text();
             $this->name = $data->filter('trnData > name')->text();
-            $this->status = $data->filter('trnData > status')->text();
+            $this->status = $data->filter('trnData > trStatus')->text();
 
             $this->token = $extData->filter('trnData > pw');
         }
