@@ -100,9 +100,9 @@ trait HasDnssec
             $node = $this->createElement('secDNS:update');
             $node->setAttribute('xmlns:secDNS', 'urn:ietf:params:xml:ns:secDNS-1.1');
 
-            $rem = $this->createElement('secDNS:rem');
-            $rem->appendChild($this->createElement('secDNS:all'));
-            $node->appendChild($rem);
+//            $rem = $this->createElement('secDNS:rem');
+//            $rem->appendChild($this->createElement('secDNS:all'));
+//            $node->appendChild($rem);
 
             $add = $this->createElement('secDNS:add');
             $add->appendChild($this->dnssecNode());
