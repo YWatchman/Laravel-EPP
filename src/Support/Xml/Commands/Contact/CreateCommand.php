@@ -77,11 +77,11 @@ class CreateCommand extends Command
         $sidnExtension = $this->createElement('sidn-ext-epp:ext');
         $contactNode = $this->createElement('sidn-ext-epp:contact');
 
-        $legalForm = $this->createElement('contact:legalForm', $contact['legalForm']);
+        $legalForm = $this->createElement('sidn-ext-epp:legalForm', $contact['legalForm']);
         $contactNode->appendChild($legalForm);
 
         if (isset($contact['legalFormNo'])) {
-            $legalFormNo = $this->createElement('contact:legalFormNo', $contact['legalFormNo']);
+            $legalFormNo = $this->createElement('sidn-ext-epp:legalFormNo', $contact['legalFormNo']);
             $contactNode->appendChild($legalFormNo);
         }
 
