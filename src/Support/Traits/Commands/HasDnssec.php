@@ -100,13 +100,13 @@ trait HasDnssec
             $node = $this->createElement('secDNS:update');
             $node->setAttribute('xmlns:secDNS', 'http://rxsd.domain-registry.nl/sidn-ext-epp-scheduled-delete-1.0');
 
-            $add = $this->createElement('secDNS:add');
-            $add->appendChild($this->dnssecNode());
-            $node->appendChild($add);
-
             $rem = $this->createElement('secDNS:rem');
             $rem->appendChild($this->createElement('secDNS:all'));
             $node->appendChild($rem);
+
+            $add = $this->createElement('secDNS:add');
+            $add->appendChild($this->dnssecNode());
+            $node->appendChild($add);
 
         } else {
             $node = $this->createElement('secDNS:create');
