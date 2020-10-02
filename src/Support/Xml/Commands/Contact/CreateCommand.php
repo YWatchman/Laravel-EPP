@@ -70,8 +70,25 @@ class CreateCommand extends Command
      */
     protected function getExtensionNode()
     {
+        $contact = $this->contact->fields();
+
         $node = $this->createElement('extension');
 
+        $sidnExtension = $this->createElement('sidn-ext-epp:ext');
+        $contactNode = $this->createElement('sidn-ext-epp:contact');
+
+        $legalForm = $this->createElement('contact:legalForm', $contact['legalForm']);
+        $contactNode->appendChild($legalForm);
+
+        if (isset($contact['legalFormNo'])) {
+            $legalFormNo = $this->createElement('contact:legalFormNo', $contact['legalFormNo']);
+            $contactNode->appendChild($legalFormNo);
+        }
+
+
+        $sidnExtension->appendChild($contactNode);
+
+        $node->appendChild($sidnExtension);
         return $node;
     }
 }

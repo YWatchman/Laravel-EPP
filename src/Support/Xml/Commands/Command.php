@@ -38,6 +38,7 @@ class Command extends XmlHelper
             ->document
             ->createElement('epp');
         $node->setAttributeNodeNS(new DOMAttr('xmlns', 'urn:ietf:params:xml:ns:epp-1.0'));
+        $node->setAttributeNodeNS(new DOMAttr('xmlns:sidn-ext-epp', 'http://rxsd.domain-registry.nl/sidn-ext-epp-1.0'));
 
         foreach ($this->nodes as $newNode) {
             $node->appendChild($newNode);
