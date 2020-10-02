@@ -98,7 +98,7 @@ trait HasDnssec
 
         if ($update) {
             $node = $this->createElement('secDNS:update');
-            $node->setAttribute('xmlns:secDNS', 'http://rxsd.domain-registry.nl/sidn-ext-epp-scheduled-delete-1.0');
+            $node->setAttribute('xmlns:secDNS', 'urn:ietf:params:xml:ns:secDNS-1.1');
 
             $rem = $this->createElement('secDNS:rem');
             $rem->appendChild($this->createElement('secDNS:all'));
