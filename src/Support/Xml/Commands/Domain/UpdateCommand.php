@@ -78,6 +78,14 @@ class UpdateCommand extends Command
 
         $this->node = $this->createElement('update');
 
+        if (array_key_exists('dnssec', $this->extensions)) {
+            $this->enableDNSSEC();
+        }
+
+        if (array_key_exists('scheduledDelete', $this->extensions)) {
+            $this->enabledScheduledDeletion();
+        }
+
         $n = $this->addNode($this->getCommandNode()->nodeName);
         $n->appendChild($this->node)->appendChild($this->getUpdateNode());
         $n->appendChild($this->getExtensionNodes());
@@ -216,11 +224,11 @@ class UpdateCommand extends Command
         $extNode = $this->createElement('extension');
         $nodes = [];
 
-        if (in_array('dnssec', $this->extensions) && $this->dnssec === true) {
-            $nodes['secDNS'] = $this->createDnssecExtension();
+        if ($this->dnssec === true) {
+            $nodes['secDNS'] = $this->createDnssecExtension(true);
         }
 
-        if (in_array('planned-cancellation', $this->extensions) && $this->planned_cancellation === true) {
+        if ($this->planned_cancellation === true) {
             $nodes['scheduledDelete'] = $this->scheduledCancellationNode();
         }
 

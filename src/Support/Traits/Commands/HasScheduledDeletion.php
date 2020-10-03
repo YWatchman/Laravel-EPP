@@ -6,6 +6,12 @@ use YWatchman\LaravelEPP\Exceptions\EppException;
 
 trait HasScheduledDeletion
 {
+    /** @var string */
+    protected $scheduledDate;
+
+    /** @var string */
+    protected $scheduledOperation;
+
     /**
      * Cancellation enabled status.
      *
@@ -19,8 +25,9 @@ trait HasScheduledDeletion
     public function enabledScheduledDeletion()
     {
         $this->planned_cancellation = true;
-        if (!in_array('planned-cancellation', $this->extensions)) {
-            $this->extensions[] = 'planned-cancellation';
+        $this->setScheduledOperation($this->extensions['scheduledDelete']['operation']);
+        if (isset($this->extensions['scheduledDelete']['date'])) {
+            $this->setScheduledDate($this->extensions['scheduledDelete']['date']);
         }
     }
 
@@ -31,32 +38,65 @@ trait HasScheduledDeletion
      * - setDateToEndOfSubscriptionPeriod # Cancel domain at the end of the subscription.
      * - cancel # Cancel the planned cancellation.
      *
-     * @param string      $operation
-     * @param string|null $date
-     *
-     * @throws EppException
-     *
      * @return mixed
      */
-    private function scheduledCancellationNode(string $operation, string $date = null)
+    private function scheduledCancellationNode()
     {
         $node = $this->createElement('scheduledDelete:update');
-
-        if (!in_array($operation, [
-            'setDate',
-            'setDateToEndOfSubscriptionPeriod',
-            'cancel',
-        ])) {
-            throw EppException::InvalidOperation($operation);
-        }
+        $node->setAttribute('xmlns:secDNS', 'urn:ietf:params:xml:ns:secDNS-1.1');
 
         $nodeOpts = [];
-        $nodeOpts[] = $this->createElement('scheduledDelete:operation', $operation);
+        $nodeOpts[] = $this->createElement('scheduledDelete:operation', $this->getScheduledOperation());
 
-        if ($operation === 'setDate') {
-            $nodeOpts[] = $this->createElement('scheduledDelete:date', $date);
+        if ($this->getScheduledOperation() === 'setDate') {
+            $nodeOpts[] = $this->createElement('scheduledDelete:date', $this->getScheduledDate());
+        }
+
+        foreach ($nodeOpts as $opt) {
+            $node->appendChild($opt);
         }
 
         return $node;
+    }
+
+    /**
+     * @return string
+     */
+    public function getScheduledDate(): string
+    {
+        return $this->scheduledDate;
+    }
+
+    /**
+     * @param string $scheduledDate
+     */
+    public function setScheduledDate(string $scheduledDate): void
+    {
+        $this->scheduledDate = $scheduledDate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getScheduledOperation(): string
+    {
+        return $this->scheduledOperation;
+    }
+
+    /**
+     * @param string $scheduledOperation
+     */
+    public function setScheduledOperation(string $scheduledOperation): void
+    {
+        if (!in_array($scheduledOperation,
+            [
+                'setDate',
+                'setDateToEndOfSubscriptionPeriod',
+                'cancel',
+            ]
+        )) {
+            throw EppException::InvalidOperation($scheduledOperation);
+        }
+        $this->scheduledOperation = $scheduledOperation;
     }
 }

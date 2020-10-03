@@ -29,9 +29,6 @@ trait HasDnssec
     public function enableDNSSEC()
     {
         $this->dnssec = true;
-        if (!in_array('dnssec', $this->extensions)) {
-            $this->extensions[] = 'dnssec';
-        }
     }
 
     /**
@@ -86,7 +83,7 @@ trait HasDnssec
         $keyOptNode[] = $this->createElement('secDNS:flags', $this->flag);
         $keyOptNode[] = $this->createElement('secDNS:protocol', $this->protocol);
         $keyOptNode[] = $this->createElement('secDNS:alg', $this->algorithm);
-        $keyOptNode[] = $this->createElement('secDNS:pubKey', base64_encode($this->pubKey));
+        $keyOptNode[] = $this->createElement('secDNS:pubKey', $this->pubKey);
 
         foreach ($keyOptNode as $node) {
             $keyNode->appendChild($node);
@@ -95,11 +92,27 @@ trait HasDnssec
         return $keyNode;
     }
 
-    private function createDnssecExtension()
+    private function createDnssecExtension(bool $update = false)
     {
-        $node = $this->createElement('secDNS:create');
-        $node->setAttribute('xmlns:secDNS', 'urn:ietf:params:xml:ns:secDNS-1.1');
-        $node->appendChild($this->dnssecNode());
+        $this->setPublicKey($this->extensions['dnssec']['pubKey']);
+
+        if ($update) {
+            $node = $this->createElement('secDNS:update');
+            $node->setAttribute('xmlns:secDNS', 'urn:ietf:params:xml:ns:secDNS-1.1');
+
+//            $rem = $this->createElement('secDNS:rem');
+//            $rem->appendChild($this->createElement('secDNS:all'));
+//            $node->appendChild($rem);
+
+            $add = $this->createElement('secDNS:add');
+            $add->appendChild($this->dnssecNode());
+            $node->appendChild($add);
+
+        } else {
+            $node = $this->createElement('secDNS:create');
+            $node->setAttribute('xmlns:secDNS', 'urn:ietf:params:xml:ns:secDNS-1.1');
+            $node->appendChild($this->dnssecNode());
+        }
 
         return $node;
     }

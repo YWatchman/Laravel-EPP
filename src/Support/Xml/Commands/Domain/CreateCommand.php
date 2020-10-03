@@ -88,6 +88,10 @@ class CreateCommand extends Command
         $this->extensions = $extensions;
         $this->transactionId = $transactionId;
 
+        if (array_key_exists('dnssec', $this->extensions)) {
+            $this->enableDNSSEC();
+        }
+
         $this->node = $this->createElement('create');
     }
 
@@ -190,13 +194,11 @@ class CreateCommand extends Command
         $extNode = $this->createElement('extension');
         $nodes = [];
 
-        if (in_array('dnssec', $this->extensions) && $this->dnssec === true) {
-            $nodes['secDNS'] = $this->createElement('secDNS:create');
-            $nodes['secDNS']->setAttribute('xmlns:secDNS', 'urn:ietf:params:xml:ns:secDNS-1.1');
-            $nodes['secDNS']->appendChild($this->dnssecNode());
+        if ($this->dnssec === true) {
+            $nodes['secDNS'] = $this->createDnssecExtension();
         }
 
-        foreach ($nodes as $node) {
+        foreach ($nodes as $key => $node) {
             $extNode->appendChild($node);
         }
 
