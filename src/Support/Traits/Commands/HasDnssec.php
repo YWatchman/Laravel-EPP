@@ -24,6 +24,14 @@ trait HasDnssec
     protected $algorithm = 13;
 
     /**
+     * @return string|null
+     */
+    public function getPublicKey(): ?string
+    {
+        return $this->pubKey;
+    }
+
+    /**
      * Enable DNSSEC for request.
      */
     public function enableDNSSEC()
@@ -34,9 +42,9 @@ trait HasDnssec
     /**
      * Set public dnskey.
      *
-     * @param string $pubKey
+     * @param string|null $pubKey
      */
-    public function setPublicKey(string $pubKey)
+    public function setPublicKey(?string $pubKey)
     {
         $this->pubKey = $pubKey;
     }
@@ -94,20 +102,22 @@ trait HasDnssec
 
     private function createDnssecExtension(bool $update = false)
     {
-        $this->setPublicKey($this->extensions['dnssec']['pubKey']);
+        $pubKey = isset($this->extensions['dnssec']['pubKey']) ? $this->extensions['dnssec']['pubKey'] : null;
+        $this->setPublicKey($pubKey);
 
         if ($update) {
             $node = $this->createElement('secDNS:update');
             $node->setAttribute('xmlns:secDNS', 'urn:ietf:params:xml:ns:secDNS-1.1');
 
-//            $rem = $this->createElement('secDNS:rem');
-//            $rem->appendChild($this->createElement('secDNS:all'));
-//            $node->appendChild($rem);
+            $rem = $this->createElement('secDNS:rem');
+            $rem->appendChild($this->createElement('secDNS:all'));
+            $node->appendChild($rem);
 
-            $add = $this->createElement('secDNS:add');
-            $add->appendChild($this->dnssecNode());
-            $node->appendChild($add);
-
+            if ($this->getPublicKey() !== null) {
+                $add = $this->createElement('secDNS:add');
+                $add->appendChild($this->dnssecNode());
+                $node->appendChild($add);
+            }
         } else {
             $node = $this->createElement('secDNS:create');
             $node->setAttribute('xmlns:secDNS', 'urn:ietf:params:xml:ns:secDNS-1.1');

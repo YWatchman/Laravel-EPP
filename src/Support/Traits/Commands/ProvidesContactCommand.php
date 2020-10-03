@@ -67,7 +67,9 @@ trait ProvidesContactCommand
                 foreach ($child as $key => $value) {
                     if (is_array($value)) {
                         foreach ($value as $v) {
-                            if (empty($v)) continue;
+                            if (empty($v)) {
+                                continue;
+                            }
                             $tempnode->appendChild(
                                 $this->createElement(
                                     $this->getCommandTag($key),

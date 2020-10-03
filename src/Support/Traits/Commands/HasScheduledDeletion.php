@@ -32,34 +32,6 @@ trait HasScheduledDeletion
     }
 
     /**
-     * Scheduled Cancellation node for extensions.
-     * Operations:
-     * - setDate # Set a cancellation date
-     * - setDateToEndOfSubscriptionPeriod # Cancel domain at the end of the subscription.
-     * - cancel # Cancel the planned cancellation.
-     *
-     * @return mixed
-     */
-    private function scheduledCancellationNode()
-    {
-        $node = $this->createElement('scheduledDelete:update');
-        $node->setAttribute('xmlns:secDNS', 'urn:ietf:params:xml:ns:secDNS-1.1');
-
-        $nodeOpts = [];
-        $nodeOpts[] = $this->createElement('scheduledDelete:operation', $this->getScheduledOperation());
-
-        if ($this->getScheduledOperation() === 'setDate') {
-            $nodeOpts[] = $this->createElement('scheduledDelete:date', $this->getScheduledDate());
-        }
-
-        foreach ($nodeOpts as $opt) {
-            $node->appendChild($opt);
-        }
-
-        return $node;
-    }
-
-    /**
      * @return string
      */
     public function getScheduledDate(): string
@@ -88,7 +60,8 @@ trait HasScheduledDeletion
      */
     public function setScheduledOperation(string $scheduledOperation): void
     {
-        if (!in_array($scheduledOperation,
+        if (!in_array(
+            $scheduledOperation,
             [
                 'setDate',
                 'setDateToEndOfSubscriptionPeriod',
@@ -98,5 +71,33 @@ trait HasScheduledDeletion
             throw EppException::InvalidOperation($scheduledOperation);
         }
         $this->scheduledOperation = $scheduledOperation;
+    }
+
+    /**
+     * Scheduled Cancellation node for extensions.
+     * Operations:
+     * - setDate # Set a cancellation date
+     * - setDateToEndOfSubscriptionPeriod # Cancel domain at the end of the subscription.
+     * - cancel # Cancel the planned cancellation.
+     *
+     * @return mixed
+     */
+    private function scheduledCancellationNode()
+    {
+        $node = $this->createElement('scheduledDelete:update');
+        $node->setAttribute('xmlns:scheduledDelete', 'http://rxsd.domain-registry.nl/sidn-ext-epp-scheduled-delete-1.0');
+
+        $nodeOpts = [];
+        $nodeOpts[] = $this->createElement('scheduledDelete:operation', $this->getScheduledOperation());
+
+        if ($this->getScheduledOperation() === 'setDate') {
+            $nodeOpts[] = $this->createElement('scheduledDelete:date', $this->getScheduledDate());
+        }
+
+        foreach ($nodeOpts as $opt) {
+            $node->appendChild($opt);
+        }
+
+        return $node;
     }
 }
