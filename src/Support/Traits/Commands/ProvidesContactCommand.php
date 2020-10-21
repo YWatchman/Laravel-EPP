@@ -45,7 +45,7 @@ trait ProvidesContactCommand
     /**
      * Recurse tags for child.
      *
-     * @param array $childTags
+     * @param array      $childTags
      * @param DOMElement $node
      */
     private function recurse(array &$childTags, DOMElement $node): void

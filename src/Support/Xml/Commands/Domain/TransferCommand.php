@@ -46,9 +46,9 @@ class TransferCommand extends Command
     /**
      * CreateCommand constructor.
      *
-     * @param Domain $domain
-     * @param string $token
-     * @param array $extensions
+     * @param Domain      $domain
+     * @param string      $token
+     * @param array       $extensions
      * @param string|null $transactionId
      */
     public function __construct(

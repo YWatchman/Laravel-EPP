@@ -90,6 +90,7 @@ class CreateCommand extends Command
         $sidnExtension->appendChild($create);
 
         $node->appendChild($sidnExtension);
+
         return $node;
     }
 }

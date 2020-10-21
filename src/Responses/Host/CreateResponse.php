@@ -14,7 +14,9 @@ class CreateResponse extends Response
 
     /**
      * CreateResponse constructor.
+     *
      * @todo Create error extensions for SIDN.
+     *
      * @param string $rawXml
      */
     public function __construct(string $rawXml)

@@ -116,7 +116,7 @@ class Command extends XmlHelper
      */
     protected function recurseTags(array $tag, DOMNode $node): void
     {
-        array_walk($tag, function ($value, $key) use ($node) {
+        array_walk($tag, function ($value, $key) {
             if (is_array($value)) {
                 $vals = $this->createElement($this->getCommandTag($key));
                 array_walk($value, [self::class, 'recurseCallback'], $vals);
