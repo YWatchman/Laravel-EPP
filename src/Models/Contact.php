@@ -5,7 +5,7 @@ namespace YWatchman\LaravelEPP\Models;
 use YWatchman\LaravelEPP\Contracts\IsContact;
 use YWatchman\LaravelEPP\Contracts\Transformable;
 
-class Contact extends Model implements Transformable, IsContact
+class Contact extends Model implements IsContact, Transformable
 {
     protected $columns = [
         'street',
@@ -25,14 +25,11 @@ class Contact extends Model implements Transformable, IsContact
         'legalFormNo',
     ];
 
-    /**
-     * @return array
-     */
     public function fields(): array
     {
         $data = $this->attributes;
 
-        if (!empty($this->legalFormNo)) {
+        if (! empty($this->legalFormNo)) {
             $data['legalFormNo'] = $this->legalFormNo;
         }
 

@@ -2,7 +2,7 @@
 
 namespace YWatchman\LaravelEPP;
 
-use Exception;
+use Illuminate\Support\Facades\Log;
 use YWatchman\LaravelEPP\Exceptions\EppException;
 use YWatchman\LaravelEPP\Support\Xml\Commands\Session\HelloCommand;
 use YWatchman\LaravelEPP\Support\Xml\Commands\Session\LoginCommand;
@@ -13,33 +13,23 @@ class Epp
     /** @var resource */
     protected $socket;
 
-    /** @var bool */
-    protected $loggedIn = false;
+    protected bool $loggedIn = false;
 
-    /**
-     * @var string|null
-     */
-    protected $helloMsg;
+    protected ?string $helloMsg;
 
-    /** @var string */
-    private $registrar;
+    private string $registrar;
 
-    /** @var string */
-    private $username;
+    private string $username;
 
-    /** @var string */
-    private $password;
+    private string $password;
 
-    /** @var string */
-    private $hostname;
+    private string $hostname;
 
-    /** @var int */
-    private $port;
+    private int $port;
 
     /**
      * Epp constructor.
      *
-     * @param string $registrar
      *
      * @throws EppException
      */
@@ -51,6 +41,8 @@ class Epp
 
     /**
      * Epp destruction...
+     *
+     * @throws EppException
      */
     public function __destruct()
     {
@@ -63,13 +55,13 @@ class Epp
     /**
      * Initiate EPP session login.
      *
-     * @throws Exception
+     * @throws EppException
      */
-    public function login()
+    public function login(): ?string
     {
         $this->start();
 
-        $command = new HelloCommand();
+        $command = new HelloCommand;
         $cmdString = (string) $command;
 
         $this->helloMsg = $this->sendRequest($cmdString);
@@ -84,12 +76,14 @@ class Epp
 
     /**
      * @return string|void
+     *
+     * @throws EppException
      */
     public function logout()
     {
         if ($this->loggedIn) {
             $this->loggedIn = false;
-            $cmd = (string) (new LogoutCommand());
+            $cmd = (string) (new LogoutCommand);
 
             return $this->sendRequest($cmd);
         }
@@ -99,10 +93,8 @@ class Epp
      * Connect to EPP server.
      *
      * @throws EppException
-     *
-     * @return string|null
      */
-    public function start()
+    public function start(): ?string
     {
         $ctx = stream_context_create();
 
@@ -115,7 +107,7 @@ class Epp
             $ctx
         );
 
-        if (!$this->socket) {
+        if (! $this->socket) {
             throw EppException::serverClosedConnection($errno, $errstr);
         }
 
@@ -125,65 +117,56 @@ class Epp
     /**
      * Read stream socket response.
      *
-     * @return string|null
+     * @throws EppException
      */
     public function read(): ?string
     {
-        if ($this->socket !== false) {
+        if ($this->socket) {
             if (@feof($this->socket)) {
-                return new Exception('Server closed connection.');
+                throw EppException::serverClosedConnection(0, 'Server closed connection.');
             }
 
             $header = @fread($this->socket, 4);
 
             if (empty($header) && feof($this->socket)) {
-                return new Exception('Server closed connection.');
+                throw EppException::serverClosedConnection(0, 'Server closed connection.');
             }
 
             $length = unpack('N', $header)[1];
 
             if ($length <= 4) {
-                return new Exception(
-                    sprintf(
-                        'Got bad frame header, length of %d. Length should be higher than 5.',
-                        $length
-                    )
-                );
+                throw EppException::badFrame($length);
             }
 
             $data = fread($this->socket, ($length - 4));
 
             if (config('epp.debug')) {
-                echo 'Read data.. parsing:'.PHP_EOL.PHP_EOL;
                 $cmd = dom_import_simplexml(simplexml_load_string($data))->ownerDocument;
                 $cmd->formatOutput = true;
-                echo $cmd->saveXML();
+                Log::debug('EPP read: '.$cmd->saveXML());
             }
 
             return $data;
         }
 
-        return false;
+        return null;
     }
 
     /**
      * Send EPP Request.
      *
-     * @param $xml
      *
-     * @return string|null
+     * @throws EppException
      */
-    public function sendRequest($xml)
+    public function sendRequest($xml): ?string
     {
         $xml = trim(preg_replace('/\s\s+/', '', $xml));
 
-        if ($this->socket !== false) {
+        if ($this->socket) {
             if (config('epp.debug', false)) {
-                echo PHP_EOL;
-                echo 'Writing command to socket...'.PHP_EOL;
                 $cmd = dom_import_simplexml(simplexml_load_string($xml))->ownerDocument;
                 $cmd->formatOutput = true;
-                echo $cmd->saveXML();
+                Log::debug('EPP write: '.$cmd->saveXML());
             }
             fwrite($this->socket, $this->getBigEndianLength($xml).$xml);
         }
@@ -193,19 +176,12 @@ class Epp
 
     /**
      * First four bits of a packet are the request length.
-     *
-     * @param $xml
-     *
-     * @return false|string
      */
-    public function getBigEndianLength($xml)
+    public function getBigEndianLength($xml): false|string
     {
         return pack('N', strlen($xml) + 4);
     }
 
-    /**
-     * @return bool
-     */
     public function isLoggedIn(): bool
     {
         return $this->loggedIn;
@@ -216,7 +192,7 @@ class Epp
      *
      * @throws EppException
      */
-    private function setupRegistrar()
+    private function setupRegistrar(): void
     {
         $config = config(sprintf('epp.registrars.%s', $this->registrar));
         if ($config === null) {
@@ -224,11 +200,11 @@ class Epp
         }
 
         if (
-            !isset($config['username'], $config['password'], $config['hostname'], $config['port'])
-            || !is_string($config['username'])
-            || !is_string($config['password'])
-            || !is_string($config['hostname'])
-            || !is_int($config['port'])
+            ! isset($config['username'], $config['password'], $config['hostname'], $config['port'])
+            || ! is_string($config['username'])
+            || ! is_string($config['password'])
+            || ! is_string($config['hostname'])
+            || ! is_int($config['port'])
         ) {
             throw EppException::missingCredentials($this->registrar);
         }

@@ -8,10 +8,8 @@ trait HasAuthentication
 {
     /**
      * Append authentication node to the end.
-     *
-     * @param string $password
      */
-    public function includeAuth($password = Command::NOT_USED)
+    public function includeAuth(string $password = Command::NOT_USED): void
     {
         $this->transformed['authInfo'] = [
             'pw' => $password,

@@ -18,33 +18,24 @@ class UpdateCommand extends Command
     use ProvidesContactCommand;
 
     public const NODE_BASE = 'contact';
+
     public const NODE = 'contact:update';
+
     public const NAMESPACE = 'urn:ietf:params:xml:ns:contact-1.0';
 
-    /**
-     * @var DOMElement
-     */
-    protected $node;
+    protected DOMElement $node;
 
-    /**
-     * @var Contact
-     */
-    protected $contact;
+    protected Contact $contact;
 
-    /**
-     * @var string
-     */
-    protected $registrar;
+    protected string $registrar;
 
     /**
      * CreateCommand constructor.
      *
-     * @param Contact $contact
-     * @param string  $registrar
      *
      * @throws EppException
      */
-    public function __construct(Contact $contact, $registrar = Registrar::REGISTRAR_SIDN)
+    public function __construct(Contact $contact, string $registrar = Registrar::REGISTRAR_SIDN)
     {
         parent::__construct();
 
@@ -60,10 +51,7 @@ class UpdateCommand extends Command
         $n->appendChild($this->getExtensionNode());
     }
 
-    /**
-     * @return DOMElement
-     */
-    protected function getUpdateNode()
+    protected function getUpdateNode(): DOMElement
     {
         $contact = new ContactTransformer($this->contact);
         $contact = $contact->toArray();
@@ -74,11 +62,11 @@ class UpdateCommand extends Command
     /**
      * Generate contact extension.
      *
-     * @throws EppException
      *
-     * @return DOMElement
+     *
+     * @throws EppException
      */
-    protected function getExtensionNode()
+    protected function getExtensionNode(): DOMElement
     {
         $node = $this->createElement('extension');
         $classPath = Extension::contactInstance($this->registrar);

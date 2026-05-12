@@ -13,14 +13,10 @@ class DomainParser
 {
     /**
      * Parse the domain name to a model. Returns null when the domain name can't be parsed.
-     *
-     * @param string $domainName
-     *
-     * @return Domain|null
      */
     public static function parse(string $domainName): ?Domain
     {
-        $manager = new Manager(new Cache(), new CurlHttpClient());
+        $manager = new Manager(new Cache, new CurlHttpClient);
 
         try {
             $domainData = $manager
@@ -34,7 +30,7 @@ class DomainParser
             return null;
         }
 
-        $domain = new Domain();
+        $domain = new Domain;
         $domain->tld = $domainData->getPublicSuffix();
         $domain->sld = Str::before($domainData->getRegistrableDomain(), sprintf('.%s', $domain->tld));
         $domain->name = sprintf('%s.%s', $domain->sld, $domain->tld);

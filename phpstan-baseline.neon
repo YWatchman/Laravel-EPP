@@ -1,0 +1,277 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^If condition is always true\.$#'
+			identifier: if.alwaysTrue
+			count: 2
+			path: src/Epp.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: src/Epp.php
+
+		-
+			message: '#^Access to an undefined property YWatchman\\LaravelEPP\\Models\\Nameserver\:\:\$address\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Models/Nameserver.php
+
+		-
+			message: '#^Access to an undefined property YWatchman\\LaravelEPP\\Models\\Nameserver\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Models/Nameserver.php
+
+		-
+			message: '#^Access to an undefined property YWatchman\\LaravelEPP\\Models\\Domain\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Support/DomainParser.php
+
+		-
+			message: '#^Access to an undefined property YWatchman\\LaravelEPP\\Models\\Domain\:\:\$sld\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Support/DomainParser.php
+
+		-
+			message: '#^Access to an undefined property YWatchman\\LaravelEPP\\Models\\Domain\:\:\$tld\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Support/DomainParser.php
+
+		-
+			message: '#^Call to method getRules\(\) on an unknown class Pdp\\Manager\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Support/DomainParser.php
+
+		-
+			message: '#^Instantiated class Pdp\\Cache not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Support/DomainParser.php
+
+		-
+			message: '#^Instantiated class Pdp\\CurlHttpClient not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Support/DomainParser.php
+
+		-
+			message: '#^Instantiated class Pdp\\Manager not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Support/DomainParser.php
+
+		-
+			message: '#^Trait YWatchman\\LaravelEPP\\Support\\Traits\\Commands\\HasExtensions is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: src/Support/Traits/Commands/HasExtensions.php
+
+		-
+			message: '#^Access to undefined constant static\(YWatchman\\LaravelEPP\\Support\\Xml\\Commands\\Command\)\:\:NODE_BASE\.$#'
+			identifier: classConstant.notFound
+			count: 1
+			path: src/Support/Xml/Commands/Command.php
+
+		-
+			message: '#^Call to an undefined method DOMNode\:\:setAttribute\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Support/Xml/Commands/Command.php
+
+		-
+			message: '#^Parameter \#2 \$callback of function array_walk expects callable\(mixed, int\|string, DOMElement\)\: mixed, array\{''YWatchman\\\\LaravelEPP\\\\Support\\\\Xml\\\\Commands\\\\Command'', ''recurseCallback''\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Support/Xml/Commands/Command.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between null and null will always evaluate to false\.$#'
+			identifier: notIdentical.alwaysFalse
+			count: 1
+			path: src/Support/Xml/Commands/Command.php
+
+		-
+			message: '#^Undefined variable\: \$attrs$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Support/Xml/Commands/Command.php
+
+		-
+			message: '#^Variable \$attrs in isset\(\) is never defined\.$#'
+			identifier: isset.variable
+			count: 1
+			path: src/Support/Xml/Commands/Command.php
+
+		-
+			message: '#^Property YWatchman\\LaravelEPP\\Support\\Xml\\Commands\\Contact\\CreateCommand\:\:\$contact \(YWatchman\\LaravelEPP\\Models\\Contact\) does not accept YWatchman\\LaravelEPP\\Contracts\\IsContact\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Support/Xml/Commands/Contact/CreateCommand.php
+
+		-
+			message: '#^Access to an undefined property YWatchman\\LaravelEPP\\Models\\Contact\:\:\$handle\.$#'
+			identifier: property.notFound
+			count: 3
+			path: src/Support/Xml/Commands/Domain/CreateCommand.php
+
+		-
+			message: '#^Access to an undefined property YWatchman\\LaravelEPP\\Models\\Domain\:\:\$sld\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Support/Xml/Commands/Domain/CreateCommand.php
+
+		-
+			message: '#^Access to an undefined property YWatchman\\LaravelEPP\\Models\\Domain\:\:\$tld\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Support/Xml/Commands/Domain/CreateCommand.php
+
+		-
+			message: '#^Parameter \#2 \$value of method YWatchman\\LaravelEPP\\Support\\Xml\\XmlHelper\:\:createElement\(\) expects string\|null, int given\.$#'
+			identifier: argument.type
+			count: 4
+			path: src/Support/Xml/Commands/Domain/CreateCommand.php
+
+		-
+			message: '#^Access to an undefined property YWatchman\\LaravelEPP\\Models\\Domain\:\:\$sld\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Support/Xml/Commands/Domain/TransferCommand.php
+
+		-
+			message: '#^Access to an undefined property YWatchman\\LaravelEPP\\Models\\Domain\:\:\$tld\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Support/Xml/Commands/Domain/TransferCommand.php
+
+		-
+			message: '#^Parameter \#2 \$value of method YWatchman\\LaravelEPP\\Support\\Xml\\XmlHelper\:\:createElement\(\) expects string\|null, int given\.$#'
+			identifier: argument.type
+			count: 4
+			path: src/Support/Xml/Commands/Domain/TransferCommand.php
+
+		-
+			message: '#^Access to an undefined property YWatchman\\LaravelEPP\\Models\\Domain\:\:\$sld\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Support/Xml/Commands/Domain/UpdateCommand.php
+
+		-
+			message: '#^Access to an undefined property YWatchman\\LaravelEPP\\Models\\Domain\:\:\$tld\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Support/Xml/Commands/Domain/UpdateCommand.php
+
+		-
+			message: '#^Access to an undefined property YWatchman\\LaravelEPP\\Support\\Xml\\Commands\\Domain\\UpdateCommand\:\:\$admin\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Support/Xml/Commands/Domain/UpdateCommand.php
+
+		-
+			message: '#^Access to an undefined property YWatchman\\LaravelEPP\\Support\\Xml\\Commands\\Domain\\UpdateCommand\:\:\$registrant\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Support/Xml/Commands/Domain/UpdateCommand.php
+
+		-
+			message: '#^Access to an undefined property YWatchman\\LaravelEPP\\Support\\Xml\\Commands\\Domain\\UpdateCommand\:\:\$tech\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Support/Xml/Commands/Domain/UpdateCommand.php
+
+		-
+			message: '#^Parameter \#2 \$value of method YWatchman\\LaravelEPP\\Support\\Xml\\XmlHelper\:\:createElement\(\) expects string\|null, int given\.$#'
+			identifier: argument.type
+			count: 3
+			path: src/Support/Xml/Commands/Domain/UpdateCommand.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(Nameserver\)\: Unexpected token "\\n     \*", expected variable at offset 69 on line 4$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/Support/Xml/Commands/Host/CreateCommand.php
+
+		-
+			message: '#^Call to an undefined static method YWatchman\\LaravelEPP\\Exceptions\\EppException\:\:notImplemented\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Support/Xml/Objects/Host/AuthObject.php
+
+		-
+			message: '#^Access to an undefined property YWatchman\\LaravelEPP\\Contracts\\Transformable\:\:\$city\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Transformers/ContactTransformer.php
+
+		-
+			message: '#^Access to an undefined property YWatchman\\LaravelEPP\\Contracts\\Transformable\:\:\$country\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Transformers/ContactTransformer.php
+
+		-
+			message: '#^Access to an undefined property YWatchman\\LaravelEPP\\Contracts\\Transformable\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Transformers/ContactTransformer.php
+
+		-
+			message: '#^Access to an undefined property YWatchman\\LaravelEPP\\Contracts\\Transformable\:\:\$fax\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Transformers/ContactTransformer.php
+
+		-
+			message: '#^Access to an undefined property YWatchman\\LaravelEPP\\Contracts\\Transformable\:\:\$handle\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Transformers/ContactTransformer.php
+
+		-
+			message: '#^Access to an undefined property YWatchman\\LaravelEPP\\Contracts\\Transformable\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Transformers/ContactTransformer.php
+
+		-
+			message: '#^Access to an undefined property YWatchman\\LaravelEPP\\Contracts\\Transformable\:\:\$number\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Transformers/ContactTransformer.php
+
+		-
+			message: '#^Access to an undefined property YWatchman\\LaravelEPP\\Contracts\\Transformable\:\:\$phone\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Transformers/ContactTransformer.php
+
+		-
+			message: '#^Access to an undefined property YWatchman\\LaravelEPP\\Contracts\\Transformable\:\:\$postal\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Transformers/ContactTransformer.php
+
+		-
+			message: '#^Access to an undefined property YWatchman\\LaravelEPP\\Contracts\\Transformable\:\:\$state\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Transformers/ContactTransformer.php
+
+		-
+			message: '#^Access to an undefined property YWatchman\\LaravelEPP\\Contracts\\Transformable\:\:\$street\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Transformers/ContactTransformer.php
+
+		-
+			message: '#^Access to an undefined property YWatchman\\LaravelEPP\\Contracts\\Transformable\:\:\$suffix\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Transformers/ContactTransformer.php

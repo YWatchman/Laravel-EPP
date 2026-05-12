@@ -13,7 +13,9 @@ class CheckCommand extends Command
     use ProvidesCheckCommand;
 
     public const NODE_BASE = 'host';
+
     public const NODE = 'host:check';
+
     public const NAMESPACE = 'urn:ietf:params:xml:ns:host-1.0';
 
     /**
@@ -29,7 +31,7 @@ class CheckCommand extends Command
     /**
      * CreateCommand constructor.
      *
-     * @param Nameserver[]|Model[] $nameservers
+     * @param  Nameserver[]|Model[]  $nameservers
      */
     public function __construct(array $nameservers)
     {

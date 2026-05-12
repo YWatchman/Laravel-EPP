@@ -10,10 +10,6 @@ trait ProvidesContactCommand
 {
     /**
      * Transform contact array into DOMElement.
-     *
-     * @param array $contact
-     *
-     * @return DOMElement
      */
     public function handleContact(array $contact): DOMElement
     {
@@ -44,9 +40,6 @@ trait ProvidesContactCommand
 
     /**
      * Recurse tags for child.
-     *
-     * @param array      $childTags
-     * @param DOMElement $node
      */
     private function recurse(array &$childTags, DOMElement $node): void
     {

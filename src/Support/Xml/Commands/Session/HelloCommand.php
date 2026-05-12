@@ -7,8 +7,7 @@ use YWatchman\LaravelEPP\Support\Xml\Commands\Command;
 
 class HelloCommand extends Command
 {
-    /** @var DOMElement */
-    protected $node;
+    protected DOMElement $node;
 
     /**
      * HelloCommand constructor.

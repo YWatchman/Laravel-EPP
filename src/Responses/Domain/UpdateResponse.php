@@ -8,8 +8,6 @@ class UpdateResponse extends Response
 {
     /**
      * CheckResponse constructor.
-     *
-     * @param string $rawXml
      */
     public function __construct(string $rawXml)
     {

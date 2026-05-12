@@ -4,17 +4,13 @@ namespace YWatchman\LaravelEPP\Support\Traits\Commands;
 
 trait HasExtensions
 {
-    /** @var array */
-    protected $extensions = [];
+    protected array $extensions = [];
 
-    public function getExtensions()
+    public function getExtensions(): array
     {
-        //
+        return $this->extensions;
     }
 
-    /**
-     * @param array $extensions
-     */
     public function setExtensions(array $extensions): void
     {
         $this->extensions = $extensions;

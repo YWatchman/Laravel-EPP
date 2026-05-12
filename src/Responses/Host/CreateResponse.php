@@ -16,8 +16,6 @@ class CreateResponse extends Response
      * CreateResponse constructor.
      *
      * @todo Create error extensions for SIDN.
-     *
-     * @param string $rawXml
      */
     public function __construct(string $rawXml)
     {
@@ -32,20 +30,16 @@ class CreateResponse extends Response
 
     /**
      * Get creation date.
-     *
-     * @return string
      */
-    public function getDate(): string
+    public function getDate(): ?string
     {
         return $this->date;
     }
 
     /**
-     * Get domain name.
-     *
-     * @return string
+     * Get host name.
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }

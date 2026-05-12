@@ -4,7 +4,6 @@ namespace YWatchman\LaravelEPP\Support\Xml\Commands\Contact;
 
 use DOMElement;
 use YWatchman\LaravelEPP\Contracts\IsContact;
-use YWatchman\LaravelEPP\Exceptions\EppException;
 use YWatchman\LaravelEPP\Models\Contact;
 use YWatchman\LaravelEPP\Support\Traits\Commands\ProvidesContactCommand;
 use YWatchman\LaravelEPP\Support\Xml\Commands\Command;
@@ -15,25 +14,17 @@ class CreateCommand extends Command
     use ProvidesContactCommand;
 
     public const NODE_BASE = 'contact';
+
     public const NODE = 'contact:create';
+
     public const NAMESPACE = 'urn:ietf:params:xml:ns:contact-1.0';
 
-    /**
-     * @var DOMElement
-     */
-    protected $node;
+    protected DOMElement $node;
 
-    /**
-     * @var Contact
-     */
-    protected $contact;
+    protected Contact $contact;
 
     /**
      * CreateCommand constructor.
-     *
-     * @param IsContact $contact
-     *
-     * @throws EppException
      */
     public function __construct(IsContact $contact)
     {
@@ -50,10 +41,7 @@ class CreateCommand extends Command
         $n->appendChild($this->getExtensionNode());
     }
 
-    /**
-     * @return DOMElement
-     */
-    protected function getCreateNode()
+    protected function getCreateNode(): DOMElement
     {
         $contact = new ContactTransformer($this->contact);
         $contact = $contact->toArray();
@@ -63,22 +51,23 @@ class CreateCommand extends Command
 
     /**
      * Generate contact extension.
-     *
-     * @throws EppException
-     *
-     * @return DOMElement
      */
-    protected function getExtensionNode()
+    protected function getExtensionNode(): DOMElement
     {
         $contact = $this->contact->fields();
 
         $node = $this->createElement('extension');
 
         $sidnExtension = $this->createElement('sidn-ext-epp:ext');
+        $sidnExtension->setAttributeNS(
+            'http://www.w3.org/2000/xmlns/',
+            'xmlns:sidn-ext-epp',
+            'https://rxsd.domain-registry.nl/sidn-ext-epp-1.0'
+        );
         $create = $this->createElement('sidn-ext-epp:create');
         $contactNode = $this->createElement('sidn-ext-epp:contact');
 
-        $legalForm = $this->createElement('sidn-ext-epp:legalForm', $contact['legalForm']);
+        $legalForm = $this->createElement('sidn-ext-epp:legalForm', $this->mapLegalForm($contact['legalForm']));
         $contactNode->appendChild($legalForm);
 
         if (isset($contact['legalFormNo'])) {
@@ -92,5 +81,14 @@ class CreateCommand extends Command
         $node->appendChild($sidnExtension);
 
         return $node;
+    }
+
+    private function mapLegalForm(string $form): string
+    {
+        return match (strtoupper($form)) {
+            'PERSON' => 'PERSOON',
+            'OTHER' => 'ANDERS',
+            default => strtoupper($form),
+        };
     }
 }

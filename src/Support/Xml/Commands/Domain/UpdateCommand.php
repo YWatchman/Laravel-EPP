@@ -17,7 +17,9 @@ class UpdateCommand extends Command
     use HasScheduledDeletion;
 
     public const NODE_BASE = 'domain';
+
     public const NODE = 'domain:update';
+
     public const NAMESPACE = 'urn:ietf:params:xml:ns:domain-1.0';
 
     /**
@@ -54,12 +56,6 @@ class UpdateCommand extends Command
 
     /**
      * UpdateCommand constructor.
-     *
-     * @param Domain $domain
-     * @param array  $add
-     * @param array  $delete
-     * @param array  $update
-     * @param array  $extensions
      */
     public function __construct(
         Domain $domain,
@@ -121,8 +117,6 @@ class UpdateCommand extends Command
      * Get add nodes.
      *
      * @throws Exception
-     *
-     * @return DOMElement
      */
     protected function getAddNodes(): DOMElement
     {
@@ -130,7 +124,7 @@ class UpdateCommand extends Command
 
         foreach ($this->add as $key => $addNode) {
             if (is_array($addNode)) {
-                if (!is_string($key)) {
+                if (! is_string($key)) {
                     throw new Exception('Key should be a string.');
                 }
                 $element = $this->createElement($key);
@@ -154,9 +148,10 @@ class UpdateCommand extends Command
     /**
      * Get remove nodes.
      *
-     * @throws Exception
      *
      * @return DOMElement
+     *
+     * @throws Exception
      */
     protected function getRemNodes()
     {
@@ -164,7 +159,7 @@ class UpdateCommand extends Command
 
         foreach ($this->delete as $key => $delNode) {
             if (is_array($delNode)) {
-                if (!is_string($key)) {
+                if (! is_string($key)) {
                     throw new Exception('Key should be a string.');
                 }
                 $element = $this->createElement($key);
@@ -188,9 +183,10 @@ class UpdateCommand extends Command
     /**
      * Get update nodes.
      *
-     * @throws Exception
      *
      * @return DOMElement
+     *
+     * @throws Exception
      */
     protected function getChgNodes()
     {
@@ -198,7 +194,7 @@ class UpdateCommand extends Command
 
         foreach ($this->update as $key => $chgNode) {
             if (is_array($chgNode)) {
-                if (!is_string($key)) {
+                if (! is_string($key)) {
                     throw new Exception('Key should be a string.');
                 }
                 $element = $this->createElement($key);

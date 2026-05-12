@@ -9,7 +9,6 @@ class HostObject
     /**
      * Get array of DOM elements.
      *
-     * @param array $nameservers
      *
      * @return array
      */
@@ -23,7 +22,6 @@ class HostObject
     /**
      * Get DOM element for single nameserver.
      *
-     * @param $nameserver
      *
      * @return DOMElement
      */
