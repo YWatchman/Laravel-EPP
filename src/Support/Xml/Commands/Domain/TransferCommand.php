@@ -13,7 +13,9 @@ class TransferCommand extends Command
     use HasDnssec;
 
     public const NODE_BASE = 'domain';
+
     public const NODE = 'domain:transfer';
+
     public const NAMESPACE = 'urn:ietf:params:xml:ns:domain-1.0';
 
     /**
@@ -45,17 +47,12 @@ class TransferCommand extends Command
 
     /**
      * CreateCommand constructor.
-     *
-     * @param Domain      $domain
-     * @param string      $token
-     * @param array       $extensions
-     * @param string|null $transactionId
      */
     public function __construct(
         Domain $domain,
         string $token,
         array $extensions = [],
-        string $transactionId = null
+        ?string $transactionId = null
     ) {
         parent::__construct();
 
@@ -80,8 +77,6 @@ class TransferCommand extends Command
 
     /**
      * Fill command.
-     *
-     * @return DOMElement
      */
     protected function getCreateNode(): DOMElement
     {

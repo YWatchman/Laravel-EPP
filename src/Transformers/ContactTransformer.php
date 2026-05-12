@@ -11,8 +11,6 @@ class ContactTransformer extends Transformer
 
     /**
      * ContactTransformer constructor.
-     *
-     * @param Transformable $transformable
      */
     public function __construct(Transformable $transformable)
     {
@@ -24,23 +22,19 @@ class ContactTransformer extends Transformer
 
     /**
      * Transform contact model to array.
-     *
-     * @return array|void
      */
-    public function toArray()
+    public function toArray(): ?array
     {
         return $this->transformed;
     }
 
     /**
      * Return transformed array.
-     *
-     * @return array|void
      */
-    protected function transform()
+    protected function transform(): array
     {
         return [
-            'id'         => $this->transformable->handle,
+            'id' => $this->transformable->handle,
             'postalInfo' => [
                 'attributes' => [
                     'type' => 'loc',
@@ -52,14 +46,14 @@ class ContactTransformer extends Transformer
                         $this->transformable->number,
                         $this->transformable->suffix,
                     ],
-                    'city'  => $this->transformable->city,
-                    'sp'    => $this->transformable->state,
-                    'pc'    => $this->transformable->postal,
-                    'cc'    => $this->transformable->country,
+                    'city' => $this->transformable->city,
+                    'sp' => $this->transformable->state,
+                    'pc' => $this->transformable->postal,
+                    'cc' => $this->transformable->country,
                 ],
             ],
             'voice' => $this->transformable->phone,
-            'fax'   => $this->transformable->fax,
+            'fax' => $this->transformable->fax,
             'email' => $this->transformable->email,
         ];
     }

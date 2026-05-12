@@ -14,17 +14,19 @@ class Command extends XmlHelper
 
     /** @var DOMNode */
     protected $walknode;
+
     /**
      * @var DOMElement
      */
     private $commandNode;
 
+    protected ?string $clientTransactionId;
+
     public function __construct()
     {
         parent::__construct();
         $this->commandNode = $this->createElement('command');
-
-        // Todo: clTRID
+        $this->clientTransactionId = uniqid('epp-', true);
     }
 
     /**
@@ -38,9 +40,11 @@ class Command extends XmlHelper
             ->document
             ->createElement('epp');
         $node->setAttributeNodeNS(new DOMAttr('xmlns', 'urn:ietf:params:xml:ns:epp-1.0'));
-        $node->setAttributeNodeNS(new DOMAttr('xmlns:sidn-ext-epp', 'http://rxsd.domain-registry.nl/sidn-ext-epp-1.0'));
 
         foreach ($this->nodes as $newNode) {
+            if ($newNode->nodeName === 'command' && $this->clientTransactionId !== null) {
+                $newNode->appendChild($this->createElement('clTRID', $this->clientTransactionId));
+            }
             $node->appendChild($newNode);
         }
 
@@ -49,11 +53,6 @@ class Command extends XmlHelper
         return $this->document->saveXML(null, LIBXML_NOEMPTYTAG);
     }
 
-    /**
-     * @param $cmd
-     *
-     * @return string
-     */
     public function getCommandTag($cmd): string
     {
         return sprintf('%s:%s', static::NODE_BASE, $cmd);
@@ -70,9 +69,7 @@ class Command extends XmlHelper
     }
 
     /**
-     * @param $value
-     * @param $key
-     * @param null $node
+     * @param  null  $node
      */
     protected function recurseCallback($value, $key, $node = null): void
     {
@@ -100,9 +97,6 @@ class Command extends XmlHelper
         }
     }
 
-    /**
-     * @param $child
-     */
     protected function setAttributes($child): void
     {
         foreach ($child as $key => $item) {
@@ -110,10 +104,6 @@ class Command extends XmlHelper
         }
     }
 
-    /**
-     * @param array   $tag
-     * @param DOMNode $node
-     */
     protected function recurseTags(array $tag, DOMNode $node): void
     {
         array_walk($tag, function ($value, $key) {

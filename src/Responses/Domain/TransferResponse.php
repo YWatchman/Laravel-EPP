@@ -23,8 +23,6 @@ class TransferResponse extends Response
 
     /**
      * CreateResponse constructor.
-     *
-     * @param string $rawXml
      */
     public function __construct(string $rawXml)
     {
@@ -42,50 +40,37 @@ class TransferResponse extends Response
             $this->name = $data->filter('trnData > name')->text();
             $this->status = $data->filter('trnData > trStatus')->text();
 
-            $this->token = $extData->filter('trnData > pw');
+            $this->token = $extData->filter('trnData > pw')->text();
         }
     }
 
     /**
      * Get creation date.
-     *
-     * @return string
      */
-    public function getExpirationDate(): string
+    public function getExpirationDate(): ?string
     {
         return $this->expirationDate;
     }
 
-    /**
-     * @return string
-     */
-    public function getStatus(): string
+    public function getStatus(): ?string
     {
         return $this->status;
     }
 
-    /**
-     * @return string
-     */
-    public function getTransferDate(): string
+    public function getTransferDate(): ?string
     {
         return $this->transferDate;
     }
 
-    /**
-     * @return string
-     */
-    public function getToken(): string
+    public function getToken(): ?string
     {
         return $this->token;
     }
 
     /**
      * Get domain name.
-     *
-     * @return string
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }

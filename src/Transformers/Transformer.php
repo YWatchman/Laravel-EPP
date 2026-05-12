@@ -16,8 +16,6 @@ abstract class Transformer
 
     /**
      * Transformer constructor.
-     *
-     * @param Transformable $transformable
      */
     public function __construct(Transformable $transformable)
     {
@@ -29,7 +27,7 @@ abstract class Transformer
      */
     public function toArray()
     {
-        throw new NotImplementedException();
+        throw new NotImplementedException;
     }
 
     /**
@@ -37,6 +35,6 @@ abstract class Transformer
      */
     protected function transform()
     {
-        throw new NotImplementedException();
+        throw new NotImplementedException;
     }
 }

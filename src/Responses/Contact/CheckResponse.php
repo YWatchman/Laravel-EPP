@@ -12,8 +12,6 @@ class CheckResponse extends Response
 
     /**
      * CheckResponse constructor.
-     *
-     * @param string $rawXml
      */
     public function __construct(string $rawXml)
     {
@@ -30,10 +28,6 @@ class CheckResponse extends Response
 
     /**
      * Check if contact exists.
-     *
-     * @param string $contact
-     *
-     * @return bool
      */
     public function contactExists(string $contact): bool
     {
@@ -42,19 +36,12 @@ class CheckResponse extends Response
 
     /**
      * Inverse of CheckResponse::contactExists().
-     *
-     * @param string $contact
-     *
-     * @return bool
      */
     public function contactDoesNotExist(string $contact): bool
     {
-        return !$this->contactExists($contact);
+        return ! $this->contactExists($contact);
     }
 
-    /**
-     * @param $contact
-     */
     private function addExistentContact(string $contact)
     {
         $this->existingContacts[] = $contact;

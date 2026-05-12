@@ -11,7 +11,9 @@ class CheckCommand extends Command
     use ProvidesCheckCommand;
 
     public const NODE_BASE = 'domain';
+
     public const NODE = 'domain:check';
+
     public const NAMESPACE = 'urn:ietf:params:xml:ns:domain-1.0';
 
     /** @var DOMElement */
@@ -22,8 +24,6 @@ class CheckCommand extends Command
 
     /**
      * CheckCommand constructor.
-     *
-     * @param array $domains
      */
     public function __construct(array $domains)
     {

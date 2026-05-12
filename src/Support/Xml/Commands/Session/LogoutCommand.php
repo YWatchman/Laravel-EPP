@@ -7,8 +7,7 @@ use YWatchman\LaravelEPP\Support\Xml\Commands\Command;
 
 class LogoutCommand extends Command
 {
-    /** @var DOMElement */
-    protected $node;
+    protected DOMElement $node;
 
     /**
      * LogoutCommand constructor.

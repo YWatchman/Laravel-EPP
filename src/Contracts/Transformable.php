@@ -2,6 +2,4 @@
 
 namespace YWatchman\LaravelEPP\Contracts;
 
-interface Transformable
-{
-}
+interface Transformable {}

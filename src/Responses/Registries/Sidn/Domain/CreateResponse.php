@@ -12,14 +12,12 @@ class CreateResponse extends CommonCreateResponse
 
     /**
      * CreateResponse constructor.
-     *
-     * @param string $rawXml
      */
     public function __construct(string $rawXml)
     {
         parent::__construct($rawXml);
 
-        if (!$this->isSucceeded()) {
+        if (! $this->isSucceeded()) {
             $this
                 ->response
                 ->filter('response > extension > ext > response > msg')

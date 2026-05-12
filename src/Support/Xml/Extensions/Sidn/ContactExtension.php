@@ -11,7 +11,6 @@ class ContactExtension extends SidnExtension
     /**
      * ContactExtension constructor.
      *
-     * @param IsContact $contact
      *
      * @throws EppException
      */
@@ -30,10 +29,6 @@ class ContactExtension extends SidnExtension
 
     /**
      * Return the fields array as a DOM node.
-     *
-     * @param array $fields
-     *
-     * @return DOMElement
      */
     private function getContactData(array $fields): DOMElement
     {

@@ -33,18 +33,16 @@ abstract class Extension
         if ($this->prefix === null) {
             throw new EppException('Extension prefix cannot be null.');
         }
-        $this->helper = new XmlHelper();
+        $this->helper = new XmlHelper;
         $this->extension = $this->helper->createElement($this->prefix.':ext');
     }
 
     /**
      * Return new ContactExtension instance.
      *
-     * @param string $registrar
+     * @param  string  $registrar
      *
      * @throws EppException
-     *
-     * @return string
      */
     public static function contactInstance($registrar = Registrar::REGISTRAR_SIDN): string
     {
@@ -61,8 +59,6 @@ abstract class Extension
 
     /**
      * Retrieve extension.
-     *
-     * @return DOMElement
      */
     public function getExtension(): DOMElement
     {
@@ -71,10 +67,6 @@ abstract class Extension
 
     /**
      * Get prefixed name.
-     *
-     * @param string $name
-     *
-     * @return string
      */
     public function prefixedName(string $name): string
     {

@@ -4,27 +4,23 @@ namespace YWatchman\LaravelEPP\Support\Traits\Commands;
 
 use DOMAttr;
 use DOMElement;
+use DOMException;
 
 trait ProvidesCheckCommand
 {
     /**
      * Generate check node.
      *
-     * @param string $type
-     *
-     * @return DOMElement
+     * @throws DOMException
      */
     private function generateCheck(string $type): DOMElement
     {
         /** @var DOMElement $node */
         $node = $this->createElement(self::NODE);
         $node->setAttributeNodeNS(new DOMAttr(sprintf('xmlns:%s', self::NODE_BASE), self::NAMESPACE));
-        $node->setAttributeNodeNS(
-            new DOMAttr('xmlns:'.self::NODE_BASE, self::NAMESPACE)
-        );
 
         foreach ($this->iterable as $iterable) {
-            list($key, $value) = $this->checkKey($type);
+            [$key, $value] = $this->checkKey($type);
             $node->appendChild(
                 $this->createElement(
                     self::NODE_BASE.':'.$key,
@@ -39,20 +35,15 @@ trait ProvidesCheckCommand
     /**
      * Get key for generateCheck(string).
      *
-     * @param string $type
      *
      * @return string[]
      */
     private function checkKey(string $type): array
     {
         // format: ['external_key', 'local_key']
-        switch ($type) {
-            case 'domain':
-                return ['name', 'domainname'];
-            case 'host':
-                return ['name', 'name'];
-            default:
-                return ['id', 'handle'];
-        }
+        return match ($type) {
+            'domain', 'host' => ['name', 'name'],
+            default => ['id', 'handle'],
+        };
     }
 }

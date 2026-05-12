@@ -14,6 +14,7 @@ class CreateCommand extends Command
     use HasDnssec;
 
     public const NODE = 'domain:create';
+
     public const NAMESPACE = 'urn:ietf:params:xml:ns:domain-1.0';
 
     /**
@@ -54,20 +55,11 @@ class CreateCommand extends Command
     protected $extensions = [];
 
     /**
-     * @var string|null
-     */
-    protected $transactionId;
-
-    /**
      * CreateCommand constructor.
      *
-     * @param Domain      $domain
-     * @param Contact     $admin         admin-c handle
-     * @param Contact     $tech          tech-c handle
-     * @param Contact     $registrant    registrant handle
-     * @param array       $nameservers
-     * @param array       $extensions
-     * @param string|null $transactionId
+     * @param  Contact  $admin  admin-c handle
+     * @param  Contact  $tech  tech-c handle
+     * @param  Contact  $registrant  registrant handle
      */
     public function __construct(
         Domain $domain,
@@ -76,7 +68,7 @@ class CreateCommand extends Command
         Contact $registrant,
         array $nameservers,
         array $extensions = [],
-        string $transactionId = null
+        ?string $transactionId = null
     ) {
         parent::__construct();
 
@@ -86,7 +78,9 @@ class CreateCommand extends Command
         $this->registrant = $registrant;
         $this->nameservers = $nameservers;
         $this->extensions = $extensions;
-        $this->transactionId = $transactionId;
+        if ($transactionId !== null) {
+            $this->clientTransactionId = $transactionId;
+        }
 
         if (array_key_exists('dnssec', $this->extensions)) {
             $this->enableDNSSEC();
@@ -108,18 +102,11 @@ class CreateCommand extends Command
             $n->appendChild($this->getExtensionNode());
         }
 
-        // Todo: move $n to $this->node or something and move this code below to the Command class.
-        if ($this->transactionId !== null && is_string($this->transactionId)) {
-            $n->appendChild($this->createElement('clTRID', $this->transactionId));
-        }
-
         return parent::__toString();
     }
 
     /**
      * Fill command.
-     *
-     * @return DOMElement
      */
     protected function getCreateNode(): DOMElement
     {
@@ -157,8 +144,6 @@ class CreateCommand extends Command
 
     /**
      * Get contact nodes.
-     *
-     * @return array
      */
     protected function getContactNodes(): array
     {
@@ -186,9 +171,6 @@ class CreateCommand extends Command
         return $nodes;
     }
 
-    /**
-     * @return DOMElement
-     */
     protected function getExtensionNode(): DOMElement
     {
         $extNode = $this->createElement('extension');

@@ -32,9 +32,7 @@ class XmlHelper
     /**
      * Add DOM node to current XML Document.
      *
-     * @param string       $name
-     * @param DOMNode|null $node if should be layered
-     *
+     * @param  DOMNode|null  $node  if should be layered
      * @return DOMNode
      */
     public function addNode(string $name, $node = null)
@@ -51,10 +49,7 @@ class XmlHelper
     /**
      * Alias for DOMDocument::createElement().
      *
-     * @param $name
-     * @param string|null $value
-     *
-     * @return DOMElement
+     * @param  string|null  $value
      */
     public function createElement($name, $value = null): DOMElement
     {

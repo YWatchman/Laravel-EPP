@@ -12,8 +12,6 @@ abstract class Model
 
     /**
      * Model constructor.
-     *
-     * @param array $attributes
      */
     public function __construct(array $attributes = [])
     {
@@ -27,8 +25,6 @@ abstract class Model
     }
 
     /**
-     * @param string $name
-     *
      * @return mixed
      */
     public function __get(string $name)
@@ -40,10 +36,6 @@ abstract class Model
         return $this->{$name};
     }
 
-    /**
-     * @param string $name
-     * @param $value
-     */
     public function __set(string $name, $value)
     {
         $this->attributes[$name] = $value;

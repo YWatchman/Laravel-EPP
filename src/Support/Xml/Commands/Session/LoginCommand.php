@@ -7,14 +7,13 @@ use YWatchman\LaravelEPP\Support\Xml\Commands\Command;
 
 class LoginCommand extends Command
 {
-    /** @var DOMElement */
-    protected $node;
+    protected DOMElement $node;
 
     /**
      * LoginCommand constructor.
      *
-     * @param string $username EPP Username
-     * @param string $password EPP Password
+     * @param  string  $username  EPP Username
+     * @param  string  $password  EPP Password
      */
     public function __construct(string $username, string $password)
     {
@@ -38,9 +37,9 @@ class LoginCommand extends Command
         $svcNode->appendChild($this->createElement('objURI', 'urn:ietf:params:xml:ns:domain-1.0'));
 
         $svcExt = $svcNode->appendChild($this->createElement('svcExtension'));
-        $svcExt->appendChild($this->createElement('extURI', 'http://rxsd.domain-registry.nl/sidn-ext-epp-1.0'));
-        $svcExt->appendChild($this->createElement('extURI', 'http://rxsd.domain-registry.nl/sidn-ext-epp-registry-contacts-delete-1.0'));
-        $svcExt->appendChild($this->createElement('extURI', 'http://rxsd.domain-registry.nl/sidn-ext-epp-scheduled-delete-1.0'));
+        $svcExt->appendChild($this->createElement('extURI', 'https://rxsd.domain-registry.nl/sidn-ext-epp-1.0'));
+        $svcExt->appendChild($this->createElement('extURI', 'https://rxsd.domain-registry.nl/sidn-ext-epp-registry-contacts-delete-1.0'));
+        $svcExt->appendChild($this->createElement('extURI', 'https://rxsd.domain-registry.nl/sidn-ext-epp-scheduled-delete-1.0'));
         $svcExt->appendChild($this->createElement('extURI', 'urn:ietf:params:xml:ns:secDNS-1.1'));
         $svcExt->appendChild($this->createElement('extURI', 'urn:ietf:params:xml:ns:keyrelay-1.0'));
     }

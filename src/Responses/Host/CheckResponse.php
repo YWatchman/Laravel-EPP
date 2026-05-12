@@ -15,8 +15,6 @@ class CheckResponse extends Response
 
     /**
      * CheckResponse constructor.
-     *
-     * @param string $rawXml
      */
     public function __construct(string $rawXml)
     {
@@ -33,17 +31,11 @@ class CheckResponse extends Response
         });
     }
 
-    /**
-     * @return array
-     */
     public function getAvailableNameservers(): array
     {
         return $this->availableNameservers;
     }
 
-    /**
-     * @return array
-     */
     public function getOccupiedNameservers(): array
     {
         return $this->occupiedNameservers;
@@ -51,8 +43,6 @@ class CheckResponse extends Response
 
     /**
      * Add nameserver to available list.
-     *
-     * @param string $nameserver
      */
     private function addAvailableNameserver(string $nameserver): void
     {
@@ -61,8 +51,6 @@ class CheckResponse extends Response
 
     /**
      * Add domain to occupied list.
-     *
-     * @param string $nameserver
      */
     private function addOccupiedNameserver(string $nameserver): void
     {

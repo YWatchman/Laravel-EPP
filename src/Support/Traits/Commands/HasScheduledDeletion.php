@@ -6,23 +6,21 @@ use YWatchman\LaravelEPP\Exceptions\EppException;
 
 trait HasScheduledDeletion
 {
-    /** @var string */
-    protected $scheduledDate;
+    protected string $scheduledDate;
 
-    /** @var string */
-    protected $scheduledOperation;
+    protected string $scheduledOperation;
 
     /**
      * Cancellation enabled status.
-     *
-     * @var bool
      */
-    protected $planned_cancellation = false;
+    protected bool $planned_cancellation = false;
 
     /**
      * Enable scheduled deletion for request.
+     *
+     * @throws EppException
      */
-    public function enabledScheduledDeletion()
+    public function enabledScheduledDeletion(): void
     {
         $this->planned_cancellation = true;
         $this->setScheduledOperation($this->extensions['scheduledDelete']['operation']);
@@ -31,36 +29,27 @@ trait HasScheduledDeletion
         }
     }
 
-    /**
-     * @return string
-     */
     public function getScheduledDate(): string
     {
         return $this->scheduledDate;
     }
 
-    /**
-     * @param string $scheduledDate
-     */
     public function setScheduledDate(string $scheduledDate): void
     {
         $this->scheduledDate = $scheduledDate;
     }
 
-    /**
-     * @return string
-     */
     public function getScheduledOperation(): string
     {
         return $this->scheduledOperation;
     }
 
     /**
-     * @param string $scheduledOperation
+     * @throws EppException
      */
     public function setScheduledOperation(string $scheduledOperation): void
     {
-        if (!in_array(
+        if (! in_array(
             $scheduledOperation,
             [
                 'setDate',
@@ -79,10 +68,8 @@ trait HasScheduledDeletion
      * - setDate # Set a cancellation date
      * - setDateToEndOfSubscriptionPeriod # Cancel domain at the end of the subscription.
      * - cancel # Cancel the planned cancellation.
-     *
-     * @return mixed
      */
-    private function scheduledCancellationNode()
+    private function scheduledCancellationNode(): mixed
     {
         $node = $this->createElement('scheduledDelete:update');
         $node->setAttribute('xmlns:scheduledDelete', 'http://rxsd.domain-registry.nl/sidn-ext-epp-scheduled-delete-1.0');

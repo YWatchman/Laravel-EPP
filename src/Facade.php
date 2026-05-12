@@ -4,7 +4,7 @@ namespace YWatchman\LaravelEPP;
 
 class Facade extends \Illuminate\Support\Facades\Facade
 {
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
         return 'Epp';
     }

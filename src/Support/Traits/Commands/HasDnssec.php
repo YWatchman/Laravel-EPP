@@ -6,26 +6,17 @@ trait HasDnssec
 {
     /**
      * DNSSEC status.
-     *
-     * @var bool
      */
-    protected $dnssec = false;
+    protected bool $dnssec = false;
 
-    /** @var string */
-    protected $pubKey;
+    protected string $pubKey;
 
-    /** @var int */
-    protected $protocol = 3;
+    protected int $protocol = 3;
 
-    /** @var int */
-    protected $flag = 257;
+    protected int $flag = 257;
 
-    /** @var int */
-    protected $algorithm = 13;
+    protected int $algorithm = 13;
 
-    /**
-     * @return string|null
-     */
     public function getPublicKey(): ?string
     {
         return $this->pubKey;
@@ -34,57 +25,47 @@ trait HasDnssec
     /**
      * Enable DNSSEC for request.
      */
-    public function enableDNSSEC()
+    public function enableDNSSEC(): void
     {
         $this->dnssec = true;
     }
 
     /**
      * Set public dnskey.
-     *
-     * @param string|null $pubKey
      */
-    public function setPublicKey(?string $pubKey)
+    public function setPublicKey(?string $pubKey): void
     {
         $this->pubKey = $pubKey;
     }
 
     /**
      * Set DNSSEC algorithm.
-     *
-     * @param int $algorithm
      */
-    public function setAlgorithm(int $algorithm)
+    public function setAlgorithm(int $algorithm): void
     {
         $this->algorithm = $algorithm;
     }
 
     /**
      * Set DNSSEC RR flag.
-     *
-     * @param int $flag
      */
-    public function setFlag(int $flag)
+    public function setFlag(int $flag): void
     {
         $this->flag = $flag;
     }
 
     /**
      * Set signing protocol.
-     *
-     * @param int $protocol
      */
-    public function setProtocol(int $protocol)
+    public function setProtocol(int $protocol): void
     {
         $this->protocol = $protocol;
     }
 
     /**
      * DNSSEC node for extensions.
-     *
-     * @return mixed
      */
-    private function dnssecNode()
+    private function dnssecNode(): mixed
     {
         $keyNode = $this->createElement('secDNS:keyData');
         $keyOptNode = [];
@@ -102,7 +83,7 @@ trait HasDnssec
 
     private function createDnssecExtension(bool $update = false)
     {
-        $pubKey = isset($this->extensions['dnssec']['pubKey']) ? $this->extensions['dnssec']['pubKey'] : null;
+        $pubKey = $this->extensions['dnssec']['pubKey'] ?? null;
         $this->setPublicKey($pubKey);
 
         if ($update) {

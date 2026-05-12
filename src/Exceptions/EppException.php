@@ -7,10 +7,16 @@ use Exception;
 class EppException extends Exception
 {
     public const SERVER_CLOSED_CONNECTION = 100;
+
     public const AUTHENTICATION_FAILED = 101;
+
     public const MISSING_REGISTRAR_CONFIG = 102;
+
     public const MISSING_CREDENTIALS = 103;
+
     public const INVALID_OPERATION = 104;
+
+    public const BAD_FRAME = 105;
 
     public const CONTACT_TYPE_DOES_NOT_EXIST = 200;
 
@@ -81,6 +87,14 @@ class EppException extends Exception
         return new self(
             sprintf('AuthInfo type %s does not exist.', $type),
             self::AUTH_TYPE_DOES_NOT_EXIST
+        );
+    }
+
+    public static function badFrame(int $length): self
+    {
+        return new self(
+            sprintf('Got bad frame header, length of %d. Length should be higher than 5.', $length),
+            self::BAD_FRAME
         );
     }
 }

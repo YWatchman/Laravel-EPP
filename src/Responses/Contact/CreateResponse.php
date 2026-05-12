@@ -14,8 +14,6 @@ class CreateResponse extends Response
 
     /**
      * CreateResponse constructor.
-     *
-     * @param string $rawXml
      */
     public function __construct(string $rawXml)
     {
@@ -30,20 +28,16 @@ class CreateResponse extends Response
 
     /**
      * Get creation date.
-     *
-     * @return string
      */
-    public function getDate(): string
+    public function getDate(): ?string
     {
         return $this->date;
     }
 
     /**
      * Get domain name.
-     *
-     * @return string
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }

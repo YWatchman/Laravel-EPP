@@ -18,8 +18,6 @@ class SidnEppExtension extends Extension
 
     /**
      * SidnEppExtension constructor.
-     *
-     * @param Crawler $crawler
      */
     public function __construct(Crawler $crawler)
     {
@@ -28,25 +26,16 @@ class SidnEppExtension extends Extension
         $this->message = $crawler->text();
     }
 
-    /**
-     * @return string
-     */
     public function getCode(): string
     {
         return $this->code;
     }
 
-    /**
-     * @return string
-     */
     public function getField(): string
     {
         return $this->field;
     }
 
-    /**
-     * @return string
-     */
     public function getMessage(): string
     {
         return $this->message;

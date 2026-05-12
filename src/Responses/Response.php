@@ -36,8 +36,6 @@ class Response
 
     /**
      * Response constructor.
-     *
-     * @param string $rawXml
      */
     public function __construct(string $rawXml)
     {
@@ -50,8 +48,8 @@ class Response
 
         $msg = $result->filter('result > msg');
         // Todo: implement RFC 5730 sec. 3
-        $this->code = $result->attr('code');
-        $this->succeeded = ($msg->count() === 1 && $this->code === '1000');
+        $this->code = (int) $result->attr('code');
+        $this->succeeded = ($msg->count() === 1 && $this->code === 1000);
         $this->message = $msg->text();
 
         $this->serverTransaction = $this->response->filter('response > trID > svTRID')->text();
@@ -62,57 +60,36 @@ class Response
         }
     }
 
-    /**
-     * @return string
-     */
     public function getServerTransaction(): string
     {
         return $this->serverTransaction;
     }
 
-    /**
-     * @return null|string
-     */
     public function getClientTransaction(): ?string
     {
         return $this->clientTransaction;
     }
 
-    /**
-     * @return Crawler
-     */
     public function getCrawler(): Crawler
     {
         return $this->crawler;
     }
 
-    /**
-     * @return int
-     */
     public function getCode(): int
     {
         return $this->code;
     }
 
-    /**
-     * @return string
-     */
     public function getRawXml(): string
     {
         return $this->rawXml;
     }
 
-    /**
-     * @return bool
-     */
     public function isSucceeded(): bool
     {
         return $this->succeeded;
     }
 
-    /**
-     * @return string|null
-     */
     public function getMessage(): ?string
     {
         return $this->message;

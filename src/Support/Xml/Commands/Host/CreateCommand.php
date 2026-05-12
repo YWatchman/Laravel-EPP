@@ -11,7 +11,9 @@ use YWatchman\LaravelEPP\Support\Xml\Commands\Command;
 class CreateCommand extends Command
 {
     public const NODE_BASE = 'host';
+
     public const NODE = 'host:create';
+
     public const NAMESPACE = 'urn:ietf:params:xml:ns:host-1.0';
 
     /**
@@ -42,9 +44,6 @@ class CreateCommand extends Command
             ->appendChild($this->getCreateNode());
     }
 
-    /**
-     * @return DOMElement
-     */
     protected function getCreateNode(): DOMElement
     {
         $node = $this->createElement('create');
@@ -65,7 +64,7 @@ class CreateCommand extends Command
         $addresses = $nameserver->getAddresses();
         foreach ($addresses as $address) {
             $address = explode('-', $address, 2);
-            if (!empty($address[0])) {
+            if (! empty($address[0])) {
                 $ipNode = $this->createElement('host:addr', $address[0]);
 
                 if (count($address) > 1) {

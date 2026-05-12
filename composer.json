@@ -39,21 +39,25 @@
         "ext-simplexml": "*",
         "php": "^8.2",
         "illuminate/support": "^11.40",
-        "illuminate/database": "^11.40",
-        "guzzlehttp/guzzle": "^7.9",
-        "jeremykendall/php-domain-parser": "^6.3",
-        "symfony/dom-crawler": "^7.2",
-        "symfony/css-selector": "^7.2"
+        "jeremykendall/php-domain-parser": "^6.4",
+        "symfony/dom-crawler": "^7.4.8",
+        "symfony/css-selector": "^7.4.9"
     },
     "type": "library",
     "require-dev": {
-        "laravel/pint": "^1.20",
-        "pestphp/pest": "^3.7",
-        "orchestra/testbench": "^9.9"
+        "laravel/pint": "^1.29.1",
+        "pestphp/pest": "^3.8.6",
+        "orchestra/testbench": "^9.17",
+        "phpstan/phpstan": "^2.1"
     },
     "config": {
         "allow-plugins": {
             "pestphp/pest-plugin": true
         }
+    },
+    "scripts": {
+        "post-install-cmd": "@fix:pdo-constant",
+        "post-update-cmd": "@fix:pdo-constant",
+        "fix:pdo-constant": "@php scripts/fix-pdo-constant.php"
     }
 }
